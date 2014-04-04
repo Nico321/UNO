@@ -1,49 +1,71 @@
 package de.uno.client;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Iterator;
+
+import de.uno.gameconnection.*;
+
 import java.util.LinkedList;
 
 import javax.naming.InitialContext;
+import javax.xml.ws.WebServiceRef;
 
+import biz.source_code.base64Coder.Base64Coder;
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
 import de.uno.card.DrawCard;
 import de.uno.common.CardNotValidException;
-import de.uno.common.GameRemote;
+import de.uno.common.GameConnectionRemote;
 import de.uno.player.Player;
 
 public class UnoClient {
 
-	private static GameRemote uno;
+
+	//private static GameConnectionRemote uno;
+	private static GameConnectionManager uno;
 	private static Player nico,daniel;
 	private static boolean drawedMarker = false;
 	
 	public static void main(String[] args) {
 		try {
-			InitialContext context = new InitialContext();
+			GameConnectionManagerService service = new GameConnectionManagerService();
+			uno = service.getGameConnectionManagerPort();
+			//InitialContext context = new InitialContext();
 		       
 			//Lookup-String für eine EJB besteht aus: Name_EA/Name_EJB-Modul/Name_EJB-Klasse!Name_RemoteInterface
-			String lookupString = "ejb:UnoEAR/UnoGame/Game!de.uno.common.GameRemote?stateful";
-			uno = (GameRemote) context.lookup(lookupString);
+			//String lookupString = "ejb:UnoEAR/UnoGameConnectionManager/GameConnectionManager!de.uno.common.GameConnectionRemote?stateful";
+			//uno = (GameConnectionRemote) context.lookup(lookupString);
 			   
 			//Zeige, welche Referenz auf das Server-Objekt der Client erhalten hast:
 			System.out.println("Client hat folgendes Server-Objekt nach dem Lookup erhalten:");
 			System.out.println(uno.toString());
 			System.out.println();
+			
 			nico = new Player("Nico");
 			daniel = new Player("Daniel");
-			uno.addPlayer(nico);
-			uno.addPlayer(daniel);
-			uno.startGame();
-			nico.getHand().addCard(uno.getHand(nico).getCards());
-			daniel.getHand().addCard(uno.getHand(daniel).getCards());
+			uno.createNewGame(serialize(nico));
+			uno.addPlayer(serialize(nico), serialize(daniel));
+			uno.startGame(serialize(nico));
+			nico.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(nico)))).getCards());
+			daniel.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(daniel)))).getCards());
 			
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
 			
 			while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
 				placeCard();
+				if(nico.getHand().getCards().size() == 0){
+					break;
+				}
+				if(daniel.getHand().getCards().size() == 0){
+					break;
+				}
 			}
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
@@ -55,38 +77,76 @@ public class UnoClient {
 
 	}
 	
+    private static String serialize(Serializable o){
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
+		try {
+			oos = new ObjectOutputStream( baos );
+			oos.writeObject( o );
+			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        return new String( Base64Coder.encode( baos.toByteArray() ) );
+    }
+	private static Object deserialize(String s){
+		byte [] data = Base64Coder.decode( s );
+        ObjectInputStream ois;
+        Object o = null;
+		try {
+			ois = new ObjectInputStream( 
+			                                new ByteArrayInputStream(  data ) );
+	        try {
+				o  = ois.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        ois.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return o;
+	}
 	private static void placeCard(){
 		Player turnPlayer = null;
-		if(uno.getNextPlayer().equals(nico))
+		if(((Player)deserialize(uno.getNextPlayer(serialize(nico)))).equals(nico))
 			turnPlayer = nico;
-		else if (uno.getNextPlayer().equals(daniel))
+		else if (((Player)deserialize(uno.getNextPlayer(serialize(nico)))).equals(daniel))
 			turnPlayer = daniel;
-		
-		if(uno.getStackCard().getClass() == DrawCard.class && drawedMarker){
-			LinkedList<Card> drawCard = uno.drawCard(((DrawCard) uno.getStackCard()).getQuantity());
+		if(((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))).getClass() == DrawCard.class && drawedMarker){
+			LinkedList<Card> drawCard = (LinkedList<Card>) deserialize(uno.drawCard(serialize(turnPlayer), ((DrawCard) deserialize(uno.getStackCard(serialize(turnPlayer)))).getQuantity()));
 			turnPlayer.getHand().addCard(drawCard);
 			drawedMarker = false;
 		}
 		else {
 			for(Iterator<Card> it = turnPlayer.getHand().getCards().iterator(); it.hasNext();){
 				Card card = it.next();
-				try{
-					uno.putCard(card);
-					drawedMarker = true;
-					if(card.getColor() == CardColor.BLACK)
-						uno.setWishedColor(CardColor.BLUE);
-					System.out.println(turnPlayer.getUsername() + " played " + card);
-					it.remove();
-					break;
-				}
-				catch (CardNotValidException ex){
-					System.out.println(turnPlayer.getUsername() +" Card not Valid: " + uno.getStackCard() + " --- " + card);
-					if(!it.hasNext()){
-						LinkedList<Card> drawCard = uno.drawCard(1);
-						turnPlayer.getHand().addCard(drawCard);
-						System.out.println(turnPlayer.getUsername() + " drawed: " +drawCard.getFirst());
+					if(uno.putCard(serialize(turnPlayer), serialize(card))) {
+						if (turnPlayer.getHand().getCards().size() > 1){
+						drawedMarker = true;
+						if(card.getColor() == CardColor.BLACK)
+							uno.setWishedColor(serialize(turnPlayer), serialize(CardColor.BLUE));
+						System.out.println(turnPlayer.getUsername() + " played " + card + " --- cards left:" + (turnPlayer.getHand().getCards().size() - 1));
+						turnPlayer.getHand().removeCard(card);
 						break;
+						}
+						else {
+							turnPlayer.getHand().removeCard(card);
+							System.out.println(turnPlayer.getUsername() + " hat gewonnen :) !");
+							break;
+						}
 					}
+					else {
+						System.out.println(turnPlayer.getUsername() +" Card not Valid: " + ((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))) + " --- " + card);
+						if(!it.hasNext()){
+							LinkedList<Card> drawCard = (LinkedList<Card>) deserialize(uno.drawCard(serialize(turnPlayer), 1));
+							turnPlayer.getHand().addCard(drawCard);
+							System.out.println(turnPlayer.getUsername() + " drawed: " +drawCard.getFirst());
+							break;
+						}					
 				}
 			}
 		}

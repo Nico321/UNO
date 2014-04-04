@@ -8,5 +8,8 @@
         <dependent-module archiveName="UnoGameOnlineService.jar" deploy-path="/lib" handle="module:/resource/UnoGameOnlineService/UnoGameOnlineService">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="UnoLocalOnlineService.jar" deploy-path="/lib" handle="module:/resource/UnoLocalOnlineService/UnoLocalOnlineService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

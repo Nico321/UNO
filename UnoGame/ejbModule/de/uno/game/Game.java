@@ -4,24 +4,26 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Remote;
+import javax.annotation.PreDestroy;
+import javax.ejb.Local;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
 import de.uno.card.NormalCard;
 import de.uno.common.CardNotValidException;
-import de.uno.common.GameRemote;
 import de.uno.deck.Deck;
+import de.uno.gamemanager.GameManagerLocal;
 import de.uno.player.Player;
 
 /**
  * Session Bean implementation class UnoGame
  */
-@Stateful
-@Remote(GameRemote.class)
-public class Game implements GameRemote{
+public class Game implements GameLocal{
 
 	private HashMap<Integer, Player> players;
 	private int playerStep = 1, currentPlayer = 1;
@@ -38,9 +40,7 @@ public class Game implements GameRemote{
 		this.wishedColor = wishedColor;
 	}
 
-	@PostConstruct
-    public void GamePrep() {
-		
+    public Game(Player player) {
 		
         deck = new Deck();
         deck.initializeCompleteDeck();
@@ -49,6 +49,8 @@ public class Game implements GameRemote{
         stack = new Deck();
         
         players = new HashMap<Integer, Player>();
+        players.put(1,player);
+        
     }
 
 	@Override
@@ -67,7 +69,7 @@ public class Game implements GameRemote{
 	}
 	
 	@Override
-	public void putCard(Card card) throws CardNotValidException{
+	public boolean putCard(Card card){
 		if(cardIsValid(card)){
 			stack.addCard(card);
 			if (card.getClass().getName().equals("SkipCard")){
@@ -82,10 +84,27 @@ public class Game implements GameRemote{
 			}
 			
 			this.getNextPlayer().getHand().removeCard(card);
+			if (this.getNextPlayer().getHand().getCards().size()==0)
+				closeGame();
 			updateCurrentPlayerID();
+			return true;
 		}
 		else
-			throw new CardNotValidException("Card not valid.");
+			return false;
+	}
+	
+	private void closeGame(){
+		GameManagerLocal gameManager = null;
+        InitialContext context;
+		try {
+			context = new InitialContext();
+			//String lookupString = "ejb:UnoEAR/UnoGame/GameManager!de.uno.commonLocal.GameManagerLocal";
+			String lookupString = "java:module/GameManager!de.uno.gamemanager.GameManagerLocal";
+			gameManager = (GameManagerLocal) context.lookup(lookupString);
+			gameManager.removeGame(this);
+		} catch (NamingException e) {
+			System.out.println(e.getMessage());
+		} 
 	}
 	
 	private boolean cardIsValid(Card card){
@@ -177,4 +196,12 @@ public class Game implements GameRemote{
 		return null;
 	}
 
+	@Override
+	public boolean playerAssignedToGame(Player player) {
+		for(Player p : players.values()){
+			if(p.equals(player))
+				return true;
+		}
+		return false;
+	}
 }
