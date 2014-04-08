@@ -8,44 +8,35 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import de.highscore.HighScore;
+import de.highscore.HighScoreService;
 import de.uno.gameconnection.*;
 
 import java.util.LinkedList;
-
-import javax.naming.InitialContext;
-import javax.xml.ws.WebServiceRef;
 
 import biz.source_code.base64Coder.Base64Coder;
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
 import de.uno.card.DrawCard;
-import de.uno.common.CardNotValidException;
-import de.uno.common.GameConnectionRemote;
 import de.uno.player.Player;
 
 public class UnoClient {
 
 
-	//private static GameConnectionRemote uno;
 	private static GameConnectionManager uno;
+	private static HighScore highscore;
 	private static Player nico,daniel;
 	private static boolean drawedMarker = false;
+	//private static HighScoreRemote highscore;
 	
 	public static void main(String[] args) {
 		try {
 			GameConnectionManagerService service = new GameConnectionManagerService();
 			uno = service.getGameConnectionManagerPort();
-			//InitialContext context = new InitialContext();
-		       
-			//Lookup-String für eine EJB besteht aus: Name_EA/Name_EJB-Modul/Name_EJB-Klasse!Name_RemoteInterface
-			//String lookupString = "ejb:UnoEAR/UnoGameConnectionManager/GameConnectionManager!de.uno.common.GameConnectionRemote?stateful";
-			//uno = (GameConnectionRemote) context.lookup(lookupString);
-			   
-			//Zeige, welche Referenz auf das Server-Objekt der Client erhalten hast:
-			System.out.println("Client hat folgendes Server-Objekt nach dem Lookup erhalten:");
-			System.out.println(uno.toString());
-			System.out.println();
+			
+			HighScoreService highscoreService = new HighScoreService();
+			highscore = highscoreService.getHighScorePort();
 			
 			nico = new Player("Nico");
 			daniel = new Player("Daniel");
@@ -69,6 +60,9 @@ public class UnoClient {
 			}
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
+			
+			System.out.println("============HighScore==============");
+			System.out.println(deserialize(highscore.getHighscore()));
 			
 		}
 		catch (Exception e) {
@@ -100,12 +94,10 @@ public class UnoClient {
 	        try {
 				o  = ois.readObject();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        ois.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return o;

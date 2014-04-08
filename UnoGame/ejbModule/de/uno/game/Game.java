@@ -1,21 +1,20 @@
 package de.uno.game;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Local;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
+import de.uno.card.ChangeDirectionCard;
+import de.uno.card.DrawCard;
 import de.uno.card.NormalCard;
-import de.uno.common.CardNotValidException;
+import de.uno.card.SkipCard;
 import de.uno.deck.Deck;
 import de.uno.gamemanager.GameManagerLocal;
 import de.uno.player.Player;
@@ -26,10 +25,16 @@ import de.uno.player.Player;
 public class Game implements GameLocal{
 
 	private HashMap<Integer, Player> players;
+	private LinkedList<Player> winners;
 	private int playerStep = 1, currentPlayer = 1;
 	private Deck deck, stack;
 	private CardColor wishedColor;
-
+	
+	@Resource
+	private SessionContext session;
+	
+	private GameManagerLocal gameManager;
+	
 	@Override
 	public CardColor getWishedColor() {
 		return wishedColor;
@@ -94,17 +99,55 @@ public class Game implements GameLocal{
 	}
 	
 	private void closeGame(){
-		GameManagerLocal gameManager = null;
-        InitialContext context;
+		InitialContext context;
 		try {
 			context = new InitialContext();
-			//String lookupString = "ejb:UnoEAR/UnoGame/GameManager!de.uno.commonLocal.GameManagerLocal";
 			String lookupString = "java:module/GameManager!de.uno.gamemanager.GameManagerLocal";
 			gameManager = (GameManagerLocal) context.lookup(lookupString);
+			
+			HashMap<Player, Integer> playerPoints = sortPlayers();
+			
+			while(winners.size()>1){
+				for (Iterator<Player> it = winners.iterator(); it.hasNext();) {
+				    Player p = it.next();
+				    
+				    while(it.hasNext()){			    
+				    	playerPoints.put(p, playerPoints.get(p) + it.next().getPoints());
+				    }
+				    winners.removeFirst();
+				}
+			}
+			gameManager.updateHighScore(playerPoints);
 			gameManager.removeGame(this);
-		} catch (NamingException e) {
+			} catch (NamingException e) {
 			System.out.println(e.getMessage());
-		} 
+		}
+	}
+	
+	private HashMap<Player, Integer> sortPlayers(){
+		winners = new LinkedList<Player>();
+		int bonus = 100, count = 0;
+		
+		HashMap<Player, Integer> sortedPlayers = new HashMap<Player, Integer>();
+		
+		while(sortedPlayers.size() != players.size()){
+			int puffer = 999;
+			Player playerPuff = null;
+			for(Player p : players.values()){
+				if(!sortedPlayers.containsKey(p)){
+					if(p.getHand().getCards().size() < puffer){
+						puffer = p.getHand().getCards().size();
+						playerPuff = p;
+					}
+				}
+			}
+			sortedPlayers.put(playerPuff, bonus - count);
+			count +=30;
+			winners.addLast(playerPuff);
+		}
+		
+		return sortedPlayers;
+		
 	}
 	
 	private boolean cardIsValid(Card card){
@@ -183,7 +226,10 @@ public class Game implements GameLocal{
 		for(int i = 1; i<=players.size();i++){
 			players.get(i).getHand().addCard(deck.removeCard(5));
 		}
-		stack.addCard(deck.removeCard());
+		do{
+			stack.addCard(deck.removeCard());
+		}
+		while(stack.getFirstCard().getClass() == DrawCard.class || stack.getFirstCard().getColor() == CardColor.BLACK || stack.getFirstCard().getClass() == SkipCard.class || stack.getFirstCard().getClass() == ChangeDirectionCard.class);
 	}
 
 	@Override

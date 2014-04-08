@@ -9,24 +9,10 @@ package de.uno.card;
 
 public class DrawCard extends Card
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+	private final int cardValue = 20;
 	private int quantity;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
 	public DrawCard(){
 		super();
 	}
@@ -56,6 +42,14 @@ public class DrawCard extends Card
 		else
 			return false;
 		
+	}
+	
+	@Override
+	public int getCardvalue() {
+		if(this.getColor() == CardColor.BLACK)
+			return 50;
+		else
+			return cardValue;
 	}
 }
 

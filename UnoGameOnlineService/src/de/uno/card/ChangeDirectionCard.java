@@ -9,9 +9,7 @@ package de.uno.card;
 
 public class ChangeDirectionCard extends Card
 {
-	/**
-	 * 
-	 */
+	private final int cardValue = 20;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -22,6 +20,10 @@ public class ChangeDirectionCard extends Card
 	public ChangeDirectionCard(){
 		super();
 	}
-
+	
+	@Override
+	public int getCardvalue() {
+		return cardValue;
+	}
 }
 

@@ -3,6 +3,7 @@ package de.uno.player;
 import java.io.Serializable;
 
 import de.uno.Hand.Hand;
+import de.uno.card.Card;
 
 /**
  * Session Bean implementation class UnoPlayer
@@ -28,6 +29,14 @@ public class Player implements Serializable {
 
 	public Hand getHand() {
 		return hand;
+	}
+	
+	public int getPoints(){
+		int points = 0;
+		for (Card c : this.getHand().getCards()){
+			points += c.getCardvalue();
+		}
+		return points;
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package de.uno.gamemanager;
 
+import java.util.HashMap;
+
 import de.uno.game.GameLocal;
 import de.uno.player.Player;
 
@@ -9,4 +11,5 @@ public interface GameManagerLocal {
 	public void removeGame(GameLocal game);
 	public GameLocal getPlayersGame(Player player);
 	public void createGame(Player player);
+	public void updateHighScore( HashMap<Player, Integer> pointList);
 }

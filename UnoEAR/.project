@@ -6,6 +6,7 @@
 		<project>UnoGame</project>
 		<project>UnoGameOnlineService</project>
 		<project>UnoLocalOnlineService</project>
+		<project>HighScoreLocalService</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

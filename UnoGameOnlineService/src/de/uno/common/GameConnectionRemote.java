@@ -1,15 +1,6 @@
 package de.uno.common;
 
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import de.uno.Hand.Hand;
-import de.uno.card.Card;
-import de.uno.card.CardColor;
-import de.uno.player.Player;
-
-
 public interface GameConnectionRemote {
 
 	

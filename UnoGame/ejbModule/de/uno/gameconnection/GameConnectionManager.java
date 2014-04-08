@@ -6,22 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import javax.ejb.LocalBean;
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
 import biz.source_code.base64Coder.Base64Coder;
-import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
-import de.uno.common.CardNotValidException;
 import de.uno.common.GameConnectionRemote;
 import de.uno.game.GameLocal;
 import de.uno.gamemanager.GameManagerLocal;
@@ -35,12 +27,9 @@ import de.uno.player.Player;
 @WebService
 public class GameConnectionManager implements GameConnectionRemote {
 	
-    /**
-     * Default constructor. 
-     */
-    public GameConnectionManager() {
-        // TODO Auto-generated constructor stub
-    }
+	@EJB
+	private GameManagerLocal gameManager;
+
     private String serialize(Serializable o){
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos;
@@ -54,6 +43,7 @@ public class GameConnectionManager implements GameConnectionRemote {
 
         return new String( Base64Coder.encode( baos.toByteArray() ) );
     }
+    
 	private static Object deserialize(String s){
 		byte [] data = Base64Coder.decode( s );
         ObjectInputStream ois;
@@ -64,28 +54,16 @@ public class GameConnectionManager implements GameConnectionRemote {
 	        try {
 				o  = ois.readObject();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        ois.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return o;
 	}
     
 	private GameLocal getGame(Player player){
-    	GameManagerLocal gameManager = null;
-        InitialContext context;
-		try {
-			context = new InitialContext();
-			//String lookupString = "ejb:UnoEAR/UnoGame/GameManager!de.uno.commonLocal.GameManagerLocal";
-			String lookupString = "java:module/GameManager!de.uno.gamemanager.GameManagerLocal";
-			gameManager = (GameManagerLocal) context.lookup(lookupString);
-		} catch (NamingException e) {
-			System.out.println(e.getMessage());
-		} 
 		return gameManager.getPlayersGame(player);
     }
 
@@ -148,17 +126,7 @@ public class GameConnectionManager implements GameConnectionRemote {
 	}
 	@Override
 	public void createNewGame(String player) {
-		GameManagerLocal gameManager = null;
-        InitialContext context;
-		try {
-			context = new InitialContext();
-			//String lookupString = "ejb:UnoEAR/UnoGame/GameManager!de.uno.commonLocal.GameManagerLocal";
-			String lookupString = "java:module/GameManager!de.uno.gamemanager.GameManagerLocal";
-			gameManager = (GameManagerLocal) context.lookup(lookupString);
-			gameManager.createGame((Player)deserialize(player));
-		} catch (NamingException e) {
-			System.out.println(e.getMessage());
-		} 
+		gameManager.createGame((Player)deserialize(player));
 	}
 	@Override
 	public void addPlayer(String creator, String member) {

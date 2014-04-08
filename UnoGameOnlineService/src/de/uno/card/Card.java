@@ -12,20 +12,8 @@ import java.io.Serializable;
 public abstract class Card implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private CardColor color;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
 	public Card(){
 		super();
 	}
@@ -56,5 +44,7 @@ public abstract class Card implements Serializable {
 	public String toString(){
 		return this.getClass().getName() + " " + this.color.toString();
 	}
+	
+	public int getCardvalue(){return 0;};
 }
 

@@ -9,9 +9,7 @@ package de.uno.card;
 
 public class NormalCard extends Card
 {
-	/**
-	 * 
-	 */
+	private final int cardValue = 0;
 	private static final long serialVersionUID = 1L;
 	/**
 	 * <!-- begin-user-doc -->
@@ -56,6 +54,14 @@ public class NormalCard extends Card
 		else
 			return false;
 		
+	}
+	
+	@Override
+	public int getCardvalue() {
+		if(this.getColor() == CardColor.BLACK)
+			return 50;
+		else
+			return cardValue;
 	}
 }
 
