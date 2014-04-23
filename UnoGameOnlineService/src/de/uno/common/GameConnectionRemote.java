@@ -1,6 +1,10 @@
 package de.uno.common;
 
-
+/**
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
+ */
 public interface GameConnectionRemote {
 
 	

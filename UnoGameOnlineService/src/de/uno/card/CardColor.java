@@ -1,9 +1,9 @@
 package de.uno.card;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 public enum CardColor
 {

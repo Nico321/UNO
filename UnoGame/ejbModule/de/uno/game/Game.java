@@ -22,6 +22,9 @@ import de.uno.player.Player;
 
 /**
  * Session Bean implementation class UnoGame
+ * 
+ * @author Nico Lindmeyer 737045
+ * 
  */
 public class Game implements GameLocal{
 
@@ -209,11 +212,13 @@ public class Game implements GameLocal{
 		}
 		LinkedList<Card> returnCard = deck.removeCard(quantity);
 		this.getNextPlayer().getHand().addCard(returnCard);
-		if(playerStep < 0)
-			playerStep = -1;
-		else
-			playerStep = 1;
-		updateCurrentPlayerID();
+		if(quantity == 1){
+			if(playerStep < 0)
+				playerStep = -1;
+			else
+				playerStep = 1;
+			updateCurrentPlayerID();
+		}
 		return returnCard;
 	}
 

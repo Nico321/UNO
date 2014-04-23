@@ -4,7 +4,11 @@ import java.util.HashMap;
 
 import de.uno.game.GameLocal;
 import de.uno.player.Player;
-
+/**
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
+ */
 public interface GameManagerLocal {
 	
 	public void addGame(GameLocal game);

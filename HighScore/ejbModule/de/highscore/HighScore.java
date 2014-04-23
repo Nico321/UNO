@@ -21,6 +21,9 @@ import de.highscoredao.UserDAOLocal;
 
 /**
  * Session Bean implementation class HighScore
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 @Stateless
 @Remote

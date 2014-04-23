@@ -21,6 +21,9 @@ import de.uno.player.Player;
 
 /**
  * Session Bean implementation class GameManager
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 @Startup
 @Singleton

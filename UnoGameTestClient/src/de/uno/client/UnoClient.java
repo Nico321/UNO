@@ -20,7 +20,11 @@ import de.uno.card.Card;
 import de.uno.card.CardColor;
 import de.uno.card.DrawCard;
 import de.uno.player.Player;
-
+/**
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
+ */
 public class UnoClient {
 
 
@@ -28,7 +32,6 @@ public class UnoClient {
 	private static HighScore highscore;
 	private static Player nico,daniel;
 	private static boolean drawedMarker = false;
-	//private static HighScoreRemote highscore;
 	
 	public static void main(String[] args) {
 		try {
@@ -84,7 +87,8 @@ public class UnoClient {
 
         return new String( Base64Coder.encode( baos.toByteArray() ) );
     }
-	private static Object deserialize(String s){
+	
+    private static Object deserialize(String s){
 		byte [] data = Base64Coder.decode( s );
         ObjectInputStream ois;
         Object o = null;
@@ -102,7 +106,8 @@ public class UnoClient {
 		}
         return o;
 	}
-	private static void placeCard(){
+	
+    private static void placeCard(){
 		Player turnPlayer = null;
 		if(((Player)deserialize(uno.getNextPlayer(serialize(nico)))).equals(nico))
 			turnPlayer = nico;

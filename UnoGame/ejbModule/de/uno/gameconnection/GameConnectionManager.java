@@ -21,6 +21,9 @@ import de.uno.player.Player;
 
 /**
  * Session Bean implementation class GameConnectionManager
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 @Stateless
 @Remote

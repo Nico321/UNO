@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 
 public abstract class Card implements Serializable {
