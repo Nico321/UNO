@@ -14,5 +14,9 @@
         <dependent-module archiveName="HighScoreLocalService.jar" deploy-path="/lib" handle="module:/resource/HighScoreLocalService/HighScoreLocalService">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="Management.jar" deploy-path="/" handle="module:/resource/Management/Management">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

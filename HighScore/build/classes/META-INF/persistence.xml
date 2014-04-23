@@ -7,4 +7,6 @@
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>
    </persistence-unit>
-</persistence> 
+</persistence>
+<!-- Server: server server -->
+<!-- HighScore: uno uno -->

@@ -3,6 +3,7 @@ package de.uno.game;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.naming.InitialContext;

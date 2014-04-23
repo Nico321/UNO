@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/UnoGameOnlineService"/>
-	<classpathentry kind="lib" path="/home/user/Programme/wildfly-8.0.0.Final/bin/client/jboss-client.jar"/>
+	<classpathentry kind="lib" path="D:/Programme/WildFly/wildfly-8.0.0.Final/bin/client/jboss-client.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HighScoreOnlineService"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
