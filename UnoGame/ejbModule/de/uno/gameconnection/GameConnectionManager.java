@@ -73,11 +73,7 @@ public class GameConnectionManager implements GameConnectionRemote {
 	@Override
 	@WebMethod
 	public String getNextPlayer(String player) {
-		try {
 		return serialize(getGame((Player)deserialize(player)).getNextPlayer());
-		}catch(Exception e){
-			return serialize(getGame((Player)deserialize(player)).getNextPlayer());
-		}
 	}
 
 	@Override

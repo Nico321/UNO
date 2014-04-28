@@ -3,9 +3,7 @@ package de.uno.game;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
+import java.util.Timer;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -27,15 +25,16 @@ import de.uno.player.Player;
  * 
  */
 public class Game implements GameLocal{
-
+	
 	private HashMap<Integer, Player> players;
 	private LinkedList<Player> winners;
 	private int playerStep = 1, currentPlayer = 1;
 	private Deck deck, stack;
 	private CardColor wishedColor;
 	
-	@Resource
-	private SessionContext session;
+	private final long TIMEOUT = 30000;
+	Timer timer = new Timer();
+	MyTimerTask task = new MyTimerTask(this);
 	
 	private GameManagerLocal gameManager;
 	
@@ -67,6 +66,23 @@ public class Game implements GameLocal{
 		return players.get(currentPlayer);
 	}
 
+	public boolean checkGameState(){
+		if(getNumberOfPlayers() == 1)
+		{
+			closeGame();
+			return true;
+		}
+		else{
+			for(Player p:players.values()){
+				if(p.getHand().getCards().size() == 0){
+					closeGame();
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	private void updateCurrentPlayerID(){
 		currentPlayer += playerStep;
 		if (currentPlayer > players.size()){
@@ -75,6 +91,23 @@ public class Game implements GameLocal{
 		if (currentPlayer < 1){
 			currentPlayer = players.size();
 		}
+		if(players.get(currentPlayer).getDisconnected() != null){
+			if(playerStep > 1)
+				playerStep = 1;
+			if(playerStep < -1)
+				playerStep = -1;
+			
+			updateCurrentPlayerID();
+		}
+	}
+	
+	private int getNumberOfPlayers(){
+		int puffer = 0;
+		for(Player p : players.values()){
+			if(p.getDisconnected() == null)
+				puffer++;
+		}
+		return puffer;
 	}
 	
 	@Override
@@ -93,9 +126,12 @@ public class Game implements GameLocal{
 			}
 			
 			this.getNextPlayer().getHand().removeCard(card);
-			if (this.getNextPlayer().getHand().getCards().size()==0)
-				closeGame();
-			updateCurrentPlayerID();
+			if (!checkGameState()){
+				updateCurrentPlayerID();
+				task.cancel();
+				task = new MyTimerTask(this);
+				timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
+			}
 			return true;
 		}
 		else
@@ -106,26 +142,40 @@ public class Game implements GameLocal{
 		InitialContext context;
 		try {
 			context = new InitialContext();
-			String lookupString = "java:module/GameManager!de.uno.gamemanager.GameManagerLocal";
+			String lookupString = "java:global/UnoEAR/UnoGame/GameManager!de.uno.gamemanager.GameManagerLocal";
 			gameManager = (GameManagerLocal) context.lookup(lookupString);
-			
-			HashMap<Player, Integer> playerPoints = sortPlayers();
-			
-			while(winners.size()>1){
-				for (Iterator<Player> it = winners.iterator(); it.hasNext();) {
-				    Player p = it.next();
-				    
-				    while(it.hasNext()){			    
-				    	playerPoints.put(p, playerPoints.get(p) + it.next().getPoints());
-				    }
-				    winners.removeFirst();
-				}
-			}
-			gameManager.updateHighScore(playerPoints);
-			gameManager.removeGame(this);
-			} catch (NamingException e) {
-			System.out.println(e.getMessage());
 		}
+		catch (NamingException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+		
+		HashMap<Player, Integer> playerPoints = sortPlayers();
+		
+		while(winners.size()>1){
+			for (Iterator<Player> it = winners.iterator(); it.hasNext();) {
+			    Player p = it.next();
+			    
+			    while(it.hasNext()){			    
+			    	playerPoints.put(p, playerPoints.get(p) + it.next().getPoints());
+			    }
+			    winners.removeFirst();
+			}
+		}
+		for(Player p : playerPoints.keySet()){
+			if(p.getDisconnected() != null)
+			{
+				playerPoints.put(p, 0);
+			}
+		}
+		
+		gameManager.updateHighScore(playerPoints);
+		gameManager.removeGame(this);
+			
+			
+		
+		System.out.println("Timer canceled");
+		task.cancel();
+		timer.cancel();
 	}
 	
 	private HashMap<Player, Integer> sortPlayers(){
@@ -236,8 +286,11 @@ public class Game implements GameLocal{
 			stack.addCard(deck.removeCard());
 		}
 		while(stack.getFirstCard().getClass() == DrawCard.class || stack.getFirstCard().getColor() == CardColor.BLACK || stack.getFirstCard().getClass() == SkipCard.class || stack.getFirstCard().getClass() == ChangeDirectionCard.class);
+		
+		
+		timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
 	}
-
+	
 	@Override
 	public Hand getHand(Player player) {
 		for(int i = 1; i<=players.size();i++){
