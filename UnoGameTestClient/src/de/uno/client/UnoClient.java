@@ -120,6 +120,7 @@ public class UnoClient {
 		else if (((Player)deserialize(uno.getNextPlayer(serialize(nico)))).equals(daniel))
 			turnPlayer = daniel;
 		if(((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))).getClass() == DrawCard.class && drawedMarker){
+			@SuppressWarnings("unchecked")
 			LinkedList<Card> drawCard = (LinkedList<Card>) deserialize(uno.drawCard(serialize(turnPlayer), ((DrawCard) deserialize(uno.getStackCard(serialize(turnPlayer)))).getQuantity()));
 			turnPlayer.getHand().addCard(drawCard);
 			drawedMarker = false;

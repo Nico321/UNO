@@ -1,0 +1,9 @@
+package com.android.uno;
+
+import android.app.Activity;
+
+public class JoinServer extends Activity{
+
+	
+	
+}
