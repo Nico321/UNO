@@ -18,6 +18,7 @@ public class MainMenu extends Activity implements OnClickListener{
 	private Button joinServer;
 	private Button settings;
 	private Button quit;
+	
 
 
 	@Override
@@ -37,6 +38,7 @@ public class MainMenu extends Activity implements OnClickListener{
 		
 		quit = (Button) findViewById(R.id.quitbtn);
 		quit.setOnClickListener(this);
+		System.out.println("blaaa");
 		
 	}
 
@@ -54,7 +56,9 @@ public class MainMenu extends Activity implements OnClickListener{
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.settings) {
+			Intent intent = new Intent(MainMenu.this, Settings.class);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -97,6 +101,7 @@ public class MainMenu extends Activity implements OnClickListener{
 		if(ce == R.id.quitbtn){
 			finish();
 			System.exit(0);
+			
 		}
 	}
 

@@ -15,7 +15,7 @@ private Button connectbtn;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.createserver_view);
 		
-		connectbtn = (Button) findViewById(R.id.connectbtn);
+		connectbtn = (Button) findViewById(R.id.createServerConnectbtn);
 		connectbtn.setOnClickListener(this);
 		
 	}
@@ -23,7 +23,7 @@ private Button connectbtn;
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(v.getId() == R.id.JoinServerprevbtn){
+		if(v.getId() == R.id.createServerConnectbtn){
 			finish();
 		}
 	}

@@ -1,0 +1,39 @@
+package com.android.uno;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import de.highscore.HighScore;
+
+public class Login extends Activity implements OnClickListener{
+
+	private Button loginBtn;
+	
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login_view);
+		
+		loginBtn = (Button) findViewById(R.id.registerBtn);
+		loginBtn.setOnClickListener(this);
+	}
+	
+	
+	@Override
+	public void onClick(View v) {
+		// TODO prüfe emial/passwort
+		
+		if(v.getId() == R.id.registerBtn){
+			
+		}
+		
+		if(v.getId() == R.id.loginRegisterTextView){
+			
+		}
+		
+	}
+
+	
+	
+}

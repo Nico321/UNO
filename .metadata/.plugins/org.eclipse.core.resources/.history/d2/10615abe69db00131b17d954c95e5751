@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">UnoAndroid</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome_TextView">Willkommen bei UNO</string>
+    <string name="createServer_btn">Spiel erstellen</string>
+    <string name="joinServer_btn">Spiel beitreten</string>
+    <string name="settings_btn">Einstellungen</string>
+    <string name="quitGame_btn">Spiel beenden</string>
+    <string name="joinServer_welcomeTextview">Hier kannst du einem Spiel betireten</string>
+    <string name="JoinServer_prevbtn">Zurück</string>
+    <string name="login_Email">E-Mail:</string>
+    <string name="login_Pass">Passwort:</string>
+    <string name="login_Register">Registrieren</string>
+    <string name="login_Btn">Login</string>
+    <string name="register_Btn">Registrieren</string>
+    <string name="pass_confirm">Passwort wiederholen:</string>
+    
+
+</resources>

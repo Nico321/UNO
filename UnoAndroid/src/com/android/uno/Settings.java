@@ -10,7 +10,7 @@ public class Settings extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.createserver_view);
+		setContentView(R.layout.settings_view);
 		
 
 		
@@ -19,7 +19,7 @@ public class Settings extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(v.getId() == R.id.JoinServerprevbtn){
+		if(v.getId() == R.id.JoinServerjoinbtn){
 			finish();
 		}
 	}

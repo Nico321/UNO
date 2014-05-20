@@ -1,0 +1,9 @@
+1400570153805	Rename field 'username'
+1400570299292	Extracts string 'null' into R.string.createServer_serverName
+1400570339596	Change Layout
+1400570484349	Extracts string 'null' into R.string.createServer_startServer
+1400570611924	Rename field 'JoinServerprevbtn'
+1400570740436	Rename field 'ServerName'
+1400570761777	Rename field 'createServerServername'
+1400570788266	Rename field 'createServer'
+1400570928035	Rename field 'connectbtn'

@@ -15,7 +15,7 @@ public class JoinServer extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.joinserver_view);
 		
-		prevbtn = (Button) findViewById(R.id.JoinServerprevbtn);
+		prevbtn = (Button) findViewById(R.id.JoinServerjoinbtn);
 		prevbtn.setOnClickListener(this);
 		
 	}
@@ -23,7 +23,7 @@ public class JoinServer extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(v.getId() == R.id.JoinServerprevbtn){
+		if(v.getId() == R.id.JoinServerjoinbtn){
 			finish();
 		}
 	}

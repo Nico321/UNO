@@ -11,5 +11,15 @@
     <string name="quitGame_btn">Spiel beenden</string>
     <string name="joinServer_welcomeTextview">Hier kannst du einem Spiel betireten</string>
     <string name="JoinServer_prevbtn">Zurück</string>
+    <string name="login_Pass">Passwort:</string>
+    <string name="login_Register">Registrieren</string>
+    <string name="login_Btn">Login</string>
+    <string name="register_Btn">Registrieren</string>
+    <string name="pass_confirm">Passwort wiederholen:</string>
+    <string name="login_username">Username:</string>
+    <string name="createServer_serverName">Servername:</string>
+    <string name="createServer_startServer">Server starten</string>
+    <string name="about">Über</string>
+    
 
 </resources>

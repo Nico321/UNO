@@ -1,3 +1,6 @@
 com.android.ide.eclipse.adt.fixLegacyEditors=1
+com.android.ide.eclipse.adt.refactorIds=always
 com.android.ide.eclipse.adt.sdk=/home/user/Programme/android-sdk
+com.android.ide.eclipse.adt.xmlEditor=true
+design.structure.flyout.width=228
 eclipse.preferences.version=1
