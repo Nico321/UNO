@@ -5,4 +5,6 @@
 <fullyQualifiedTypeName name="java.lang.Package"/>
 <fullyQualifiedTypeName name="com.android.uno.R.id"/>
 <fullyQualifiedTypeName name="com.android.uno.MainMenu"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="java.net.InetAddress"/>
 </qualifiedTypeNameHistroy>
