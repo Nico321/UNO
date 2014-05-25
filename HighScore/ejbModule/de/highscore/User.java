@@ -3,6 +3,9 @@ package de.highscore;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**  
+* @author Nico Lindmeyer 737045
+*/ 
 @Entity
 public class User {
 	

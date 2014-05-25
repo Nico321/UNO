@@ -8,6 +8,9 @@ import de.uno.card.Card;
 
 /**
  * Session Bean implementation class UnoHand
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 
 public class Hand implements Serializable {

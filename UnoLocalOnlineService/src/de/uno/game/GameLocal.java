@@ -9,7 +9,11 @@ import de.uno.card.Card;
 import de.uno.card.CardColor;
 import de.uno.player.Player;
 
-
+/**
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
+ */
 public interface GameLocal {
 
 	

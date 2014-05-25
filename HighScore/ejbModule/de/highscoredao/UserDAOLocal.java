@@ -6,6 +6,11 @@ import javax.ejb.Local;
 
 import de.highscore.User;
 
+/**
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
+ */
 @Local
 public interface UserDAOLocal {
 	

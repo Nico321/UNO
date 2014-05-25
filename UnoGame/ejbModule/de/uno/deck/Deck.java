@@ -13,6 +13,9 @@ import de.uno.card.SkipCard;
 
 /**
  * Session Bean implementation class UnoDeck
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 
 public class Deck{

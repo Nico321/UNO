@@ -11,6 +11,9 @@ import de.highscore.User;
 
 /**
  * Session Bean implementation class UserDAO
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 @Stateless
 public class UserDAO implements UserDAOLocal {

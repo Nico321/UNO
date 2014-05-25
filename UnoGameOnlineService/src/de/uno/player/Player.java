@@ -7,6 +7,9 @@ import de.uno.card.Card;
 
 /**
  * Session Bean implementation class UnoPlayer
+ *  
+ * @author Nico Lindmeyer 737045
+ * 
  */
 
 public class Player implements Serializable {
