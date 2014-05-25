@@ -53,6 +53,11 @@ public class UnoClient {
 			showCards(daniel.getHand(), "Daniel");
 			
 			while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
+				//-------------- Test zum TimeOut --------------------
+				//Thread.sleep(31000);
+				//break;
+				
+				//------------- normales Game -----------------------
 				placeCard();
 				if(nico.getHand().getCards().size() == 0){
 					break;
@@ -64,6 +69,7 @@ public class UnoClient {
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
 			
+			Thread.sleep(1000); // Wait for asynchronous method
 			System.out.println("============HighScore==============");
 			System.out.println(deserialize(highscore.getHighscore()));
 			

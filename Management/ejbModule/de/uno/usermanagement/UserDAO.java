@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 import java.util.*;
 
-//Beinhaltet alle Datenbankabfragen/Verbindungen für die Userklasse
+//Beinhaltet alle Datenbankabfragen/Verbindungen fï¿½r die Userklasse
 @Stateless
 public class UserDAO implements UserDAOLocal{
 	
@@ -25,7 +25,7 @@ public class UserDAO implements UserDAOLocal{
 		return em.find(User.class, username);
 	}
 	
-	//Methode mir Datenbankabfrage zur Freundlöschung
+	//Methode mir Datenbankabfrage zur Freundlï¿½schung
 	@Override
 	public void RemoveFriend(User actualUser, String OldFriendUsername){
 		User oldFriend = em.find(User.class, OldFriendUsername);

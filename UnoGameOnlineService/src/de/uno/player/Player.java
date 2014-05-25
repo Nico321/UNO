@@ -1,6 +1,7 @@
 package de.uno.player;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
@@ -18,6 +19,7 @@ public class Player implements Serializable {
 
 	private Hand hand;
 	private String username;
+	private Date disconnected;
     public String getUsername() {
 		return username;
 	}
@@ -49,6 +51,14 @@ public class Player implements Serializable {
 		}
 		else
 			return false;
+	}
+
+	public Date getDisconnected() {
+		return disconnected;
+	}
+
+	public void setDisconnected(Date disconnected) {
+		this.disconnected = disconnected;
 	}
 
 }
