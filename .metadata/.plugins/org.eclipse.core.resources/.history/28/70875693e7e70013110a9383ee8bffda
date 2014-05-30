@@ -68,9 +68,9 @@ public class Register extends Activity implements OnClickListener{
 	        progDailog.setIndeterminate(false);
 	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progDailog.setCancelable(false);
-	        //progDailog.show();
-				runner.execute(this,username, password);
-				
+	        progDailog.show();
+				response = runner.execute(this,username, password).toString();
+				System.out.println(response);
 			
 			
 			
@@ -79,7 +79,7 @@ public class Register extends Activity implements OnClickListener{
 		}
 	
 	public void registartionCompleted(){
-		//progDailog.cancel();
+		progDailog.cancel();
 		Intent intent = new Intent(Register.this, Login.class);
 		startActivity(intent);
 	}

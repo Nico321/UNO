@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{Register.java[Register" modifiers="1" timestamp="1400700153000"/>
-<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{Login.java[Login" modifiers="1" timestamp="1400568709000"/>
-<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{CreateServer.java[CreateServer" modifiers="1" timestamp="1400570943000"/>
-<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{JoinServer.java[JoinServer" modifiers="1" timestamp="1400570611000"/>
-<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{Settings.java[Settings" modifiers="1" timestamp="1400572363000"/>
-<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{MainMenu.java[MainMenu" modifiers="1" timestamp="1400571572000"/>
+<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{Register.java[Register" modifiers="1" timestamp="1401433990000"/>
+<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{Login.java[Login" modifiers="1" timestamp="1401433988000"/>
+<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{CreateServer.java[CreateServer" modifiers="1" timestamp="1401433986000"/>
+<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{JoinServer.java[JoinServer" modifiers="1" timestamp="1401433986000"/>
+<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{Settings.java[Settings" modifiers="1" timestamp="1401433992000"/>
+<typeInfo handle="=UnoAndroid/src&lt;com.android.uno{MainMenu.java[MainMenu" modifiers="1" timestamp="1401433990000"/>
 </typeInfoHistroy>

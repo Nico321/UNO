@@ -1,17 +1,20 @@
 package com.android.uno;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import de.uno.usermanagement.*;
 
 public class Login extends Activity implements OnClickListener{
 
 	private Button loginBtn;
+	private static final String NAMESPACE = "http://usermanagement.uno.de/";
+	private static final String URL = "http://10.0.2.2:8080/Management/UserManagement";	 
+	private static final String METHOD_NAME = "Login";
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,21 +22,32 @@ public class Login extends Activity implements OnClickListener{
 		
 		loginBtn = (Button) findViewById(R.id.loginBtn);
 		loginBtn.setOnClickListener(this);
+		
 	}
 	
 	
 	@Override
 	public void onClick(View v) {
-		// TODO prüfe emial/passwort
 		
 		if(v.getId() == R.id.loginBtn){
 			EditText etUsername = (EditText)findViewById(R.id.loginUsernameEdittext);
 			String username = etUsername.getText().toString();
 			EditText etPass = (EditText)findViewById(R.id.loginpassEdittext);
 			String pass = etPass.getText().toString();
+			AsynchronTask runner = new AsynchronTask();
 			
-			UserDAO udao = new UserDAO();
-			if(udao.UserLogin(username,pass) == true) {
+			
+			if(pass.length()>=6) {
+				runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+				ProgressDialog progDailog = new ProgressDialog(Login.this);
+		        progDailog.setMessage("einloggen...Bitte warten");
+		        progDailog.setIndeterminate(false);
+		        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		        progDailog.setCancelable(true);
+		        progDailog.show();
+				String s = runner.execute(username, pass).toString();
+				if(!s.isEmpty()){ progDailog.cancel(); }
+				System.out.println(s);
 				Intent intent = new Intent(Login.this, MainMenu.class);
 				startActivity(intent);
 			}
