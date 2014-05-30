@@ -28,6 +28,20 @@ public class User implements Serializable {
 	 inverseJoinColumns=@JoinColumn(name="personId")
 	)
 	private List<User> friendOf;
+
+	@ManyToMany
+	@JoinTable(name="add_friends",
+	 joinColumns=@JoinColumn(name="personId"),
+	 inverseJoinColumns=@JoinColumn(name="addableUser")
+	)
+	private List<User> wannabeFriends;
+
+	@ManyToMany
+	@JoinTable(name="add_friends",
+	 joinColumns=@JoinColumn(name="addableUser"),
+	 inverseJoinColumns=@JoinColumn(name="personId")
+	)
+	private List<User> wannabeFriendsOf;
 	
 	
 	public User(String username, String password){
@@ -40,15 +54,25 @@ public class User implements Serializable {
 	public List<User> getFriends(){
 		return friends;
 	}
-
-	public void setFriend(User newFriend){
-		
+	
+	public void setFriend(User actualUser, User newFriend){
+		friendOf.add(actualUser);
+		friends.add(newFriend);
 	}
-
+	
 	public String getUsername(){
 		return username;
 	}
 	public List<User> getFriendOf(){
 		return friendOf;
+	}
+	
+	public List<User> getWannabeFriends(){
+		return wannabeFriends;
+	}
+	
+	public void setNewWannabeeFriend(User wannabe){
+		wannabeFriends.add(wannabe);
+		wannabeFriendsOf.add(this);
 	}
 }

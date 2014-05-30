@@ -4,9 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>HighScoreLocalService</project>
-		<project>UnoGame</project>
-		<project>UnoGameOnlineService</project>
-		<project>UnoLocalOnlineService</project>
 		<project>Management</project>
 	</projects>
 	<buildSpec>
