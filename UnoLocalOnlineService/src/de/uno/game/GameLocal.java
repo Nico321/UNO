@@ -20,7 +20,7 @@ public interface GameLocal {
 	public Player getNextPlayer();
 	public LinkedList<Card> drawCard(int quantity);
 	public boolean putCard(Card card);
-	public HashMap<String, Integer> getPlayerStatus();
+	public HashMap<String, Integer> getGameStatus();
 	public Card getStackCard();
 	public void addPlayer(Player player);
 	public void startGame();

@@ -242,12 +242,12 @@ public class Game implements GameLocal{
 	}
 	
 	@Override
-	public HashMap<String, Integer> getPlayerStatus() {
-		HashMap<String, Integer> playerStatus = new HashMap<String, Integer>();
+	public HashMap<String, Integer> getGameStatus() {
+		HashMap<String, Integer> gameStatus = new HashMap<String, Integer>();
 		for(int i = 1; i <= players.size(); i++){
-			playerStatus.put(players.get(i).getUsername(),players.get(i).getHand().getCards().size());
+			gameStatus.put(players.get(i).getUsername(),players.get(i).getHand().getCards().size());
 		}
-		return playerStatus;
+		return gameStatus;
 	}
 
 	@Override

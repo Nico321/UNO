@@ -6,12 +6,18 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.Asynchronous;
 import javax.ejb.Local;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.Queue;
+import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 
 import de.highscore.common.HighScoreLocal;
@@ -31,6 +37,12 @@ import de.uno.player.Player;
 public class GameManager implements GameManagerLocal {
 
 	public LinkedList<GameLocal> games;
+	
+	  @Resource(mappedName="java:/JmsXA")
+	  private ConnectionFactory jmsFactory;
+	  
+	  @Resource(mappedName="java:/queue/HighscoreJMS")
+	  private Queue outputQueue;
     
     @PostConstruct
     public void init() {
@@ -68,19 +80,19 @@ public class GameManager implements GameManagerLocal {
 	@Override
 	@Asynchronous
 	public void updateHighScore(HashMap<Player, Integer> pointList) {
-		InitialContext context;
-		HighScoreLocal highscore = null;
-		try {
-			context = new InitialContext();
-			String lookupString = "ejb:HighScoreEAR/HighScore/HighScore!de.highscore.common.HighScoreLocal";
-			highscore = (HighScoreLocal) context.lookup(lookupString);
-		}catch (Exception e){
-			e.printStackTrace();
+		for (Entry<Player, Integer> entry : pointList.entrySet()) {
+			try (JMSContext context = jmsFactory.createContext(JMSContext.AUTO_ACKNOWLEDGE)){
+				TextMessage message = context.createTextMessage();
+				message.setStringProperty("DocType", "Letter");
+				message.setText(entry.getKey().getUsername()+":"+entry.getValue().toString());
+				context.createProducer().send(outputQueue, message);
+			}
+			catch (JMSException e) {
+				// TODO replace with output to logging framework			
+				e.printStackTrace();
+			} 
 		}
 		
-		for (Entry<Player, Integer> entry : pointList.entrySet()) {
-			highscore.addPointsToUser(entry.getKey().getUsername(), entry.getValue());
-		}
 	}
     
 
