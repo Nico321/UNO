@@ -23,10 +23,7 @@ import biz.source_code.base64Coder.Base64Coder;
 public class UserManagement {
 	@EJB
 	UserDAOLocal userdao;
-	
-	//Neuer User wird mit PW und Usernamen in der Datenbank persistiert
-	//Password muss verschlüsselt übergeben werden
-	
+		
 	private String serialize(Serializable o){
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos;
@@ -60,6 +57,8 @@ public class UserManagement {
         return o;
 	}
 	
+	//Neuer User wird mit PW und Usernamen in der Datenbank persistiert
+	//Password muss verschlüsselt übergeben werden
 	@WebMethod
 	public String AddUser(String username, String password){
 		if(userdao.FindUserByName(username) == null)
@@ -76,13 +75,35 @@ public class UserManagement {
 	
 	//User zur Freundesliste hinzufügen
 	@WebMethod
-	public void AddUserToFriendlist(String actualUser, String newFriendsUsername){
-		((User)deserialize(actualUser)).setFriend(userdao.FindUserByName(newFriendsUsername));
+	public void AddUserToFriendlist(User actualUser, String newFriendsUsername){
+		((User)deserialize(actualUser.getUsername())).setFriend(actualUser, userdao.FindUserByName(newFriendsUsername));
 	}
 	
 	//User von der Freundesliste entfernen
 	@WebMethod
 	public void RemoveUserFromFriendlist(String actualUser, String OldFriendUsername){
 		userdao.RemoveFriend((User)deserialize(actualUser), OldFriendUsername);
+	}
+
+	//Login-Funktion
+	@WebMethod
+	public boolean Login(String username, String password){
+		return userdao.UserLogin(username, password);
+	}
+	
+	//Freundesliste anzeigen
+	@WebMethod
+	public String ShowFriendList(String username){
+		return serialize((Serializable) userdao.ShowFriends(username));
+	}
+	
+	//Nächsten möglichen Freunde anzeigen
+	public String ShowWannabeFriends(User actualUser){
+		return serialize((Serializable) userdao.ShowWannabeFriends(actualUser));
+	}
+	
+	//User zur Freundesliste hinzufügen
+	public void AddNewWannabeFriend(User actualUser, User wantToBe){
+		userdao.AddNewWannabeFriend(actualUser, wantToBe);
 	}
 }

@@ -39,12 +39,19 @@ public class UserDAO implements UserDAOLocal{
 	@Override
 	public void AddUserToFriendlist(User actualUser, String newFriendsUsername){
 		User newFriend = em.find(User.class, newFriendsUsername);
-		actualUser.getFriends().add(newFriend);
-		newFriend.getFriendOf().add(actualUser);
-		em.refresh(actualUser);
-		em.refresh(newFriend);
+		for( User wannabe : actualUser.getWannabeFriends()){
+			if(wannabe.getUsername() == newFriendsUsername){
+				actualUser.getFriends().add(newFriend);
+				newFriend.getFriendOf().add(actualUser);
+			}
+			else{
+				newFriend.setNewWannabeeFriend(actualUser);
+			}
+		}
+
 	}
 	
+	@Override
 	public boolean UserLogin(String username, String password){
 		//Direkte DB-Abfrage um das Password nicht in dem Objekt zu haben
 		List<String> dbpw = em.createQuery("SELECT password from User where username like ?0").
@@ -54,7 +61,21 @@ public class UserDAO implements UserDAOLocal{
 			return true;
 		else
 			return false;	
-		
-		
+	}
+	
+	@Override
+	public List<User> ShowFriends(String username){
+		return em.find(User.class, username).getFriends();
+	}
+	
+	@Override
+	public List<User> ShowWannabeFriends(User actualUser){
+		User user = em.find(User.class, actualUser.getUsername());
+		return user.getWannabeFriends();
+	}
+	
+	@Override
+	public void AddNewWannabeFriend(User actualUser, User wantToBe){
+		wantToBe.setNewWannabeeFriend(wantToBe);
 	}
 }

@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/UnoGameOnlineService"/>
 	<classpathentry kind="lib" path="/home/user/Programme/wildfly-8.0.0.Final/bin/client/jboss-client.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HighScoreOnlineService"/>
+	<classpathentry kind="src" path="/Management"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
