@@ -1,0 +1,26 @@
+!SESSION 2014-06-01 18:27:35.996 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.7.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.standard.product -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os linux -ws gtk -arch x86 -product org.eclipse.epp.package.standard.product -data /home/user/unoB -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842760 2014-06-01 18:31:10.822
+!MESSAGE Server Starting
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842769 2014-06-01 18:31:48.750
+!MESSAGE Server Startup Succeeded
+!SESSION 2014-06-02 08:27:15.306 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.7.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os linux -ws gtk -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842760 2014-06-02 08:31:30.806
+!MESSAGE Server Starting
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842769 2014-06-02 08:33:00.061
+!MESSAGE Server Startup Succeeded

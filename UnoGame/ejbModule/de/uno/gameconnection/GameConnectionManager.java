@@ -90,8 +90,8 @@ public class GameConnectionManager implements GameConnectionRemote {
 
 	@Override
 	@WebMethod
-	public String getPlayerStatus(String player) {
-		return serialize(getGame((Player)deserialize(player)).getPlayerStatus());
+	public String getGameStatus(String player) {
+		return serialize(getGame((Player)deserialize(player)).getGameStatus());
 	}
 
 	@Override

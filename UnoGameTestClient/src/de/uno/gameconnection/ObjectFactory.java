@@ -25,16 +25,15 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _SetWishedColorResponse_QNAME = new QName("http://gameconnection.uno.de/", "setWishedColorResponse");
-    private final static QName _GetPlayerStatus_QNAME = new QName("http://gameconnection.uno.de/", "getPlayerStatus");
     private final static QName _GetWishedColorResponse_QNAME = new QName("http://gameconnection.uno.de/", "getWishedColorResponse");
     private final static QName _GetStackCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "getStackCardResponse");
     private final static QName _CreateNewGame_QNAME = new QName("http://gameconnection.uno.de/", "createNewGame");
-    private final static QName _GetPlayerStatusResponse_QNAME = new QName("http://gameconnection.uno.de/", "getPlayerStatusResponse");
     private final static QName _PutCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "putCardResponse");
     private final static QName _AddPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "addPlayerResponse");
     private final static QName _SetWishedColor_QNAME = new QName("http://gameconnection.uno.de/", "setWishedColor");
     private final static QName _DrawCard_QNAME = new QName("http://gameconnection.uno.de/", "drawCard");
     private final static QName _StartGameResponse_QNAME = new QName("http://gameconnection.uno.de/", "startGameResponse");
+    private final static QName _GetGameStatusResponse_QNAME = new QName("http://gameconnection.uno.de/", "getGameStatusResponse");
     private final static QName _AddPlayer_QNAME = new QName("http://gameconnection.uno.de/", "addPlayer");
     private final static QName _GetNextPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayerResponse");
     private final static QName _GetStackCard_QNAME = new QName("http://gameconnection.uno.de/", "getStackCard");
@@ -44,22 +43,15 @@ public class ObjectFactory {
     private final static QName _PutCard_QNAME = new QName("http://gameconnection.uno.de/", "putCard");
     private final static QName _StartGame_QNAME = new QName("http://gameconnection.uno.de/", "startGame");
     private final static QName _CreateNewGameResponse_QNAME = new QName("http://gameconnection.uno.de/", "createNewGameResponse");
-    private final static QName _GetHandResponse_QNAME = new QName("http://gameconnection.uno.de/", "getHandResponse");
     private final static QName _DrawCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "drawCardResponse");
+    private final static QName _GetHandResponse_QNAME = new QName("http://gameconnection.uno.de/", "getHandResponse");
+    private final static QName _GetGameStatus_QNAME = new QName("http://gameconnection.uno.de/", "getGameStatus");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.uno.gameconnection
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link GetPlayerStatusResponse }
-     * 
-     */
-    public GetPlayerStatusResponse createGetPlayerStatusResponse() {
-        return new GetPlayerStatusResponse();
     }
 
     /**
@@ -87,14 +79,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetPlayerStatus }
-     * 
-     */
-    public GetPlayerStatus createGetPlayerStatus() {
-        return new GetPlayerStatus();
-    }
-
-    /**
      * Create an instance of {@link SetWishedColorResponse }
      * 
      */
@@ -108,6 +92,14 @@ public class ObjectFactory {
      */
     public StartGameResponse createStartGameResponse() {
         return new StartGameResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetGameStatusResponse }
+     * 
+     */
+    public GetGameStatusResponse createGetGameStatusResponse() {
+        return new GetGameStatusResponse();
     }
 
     /**
@@ -231,21 +223,20 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetGameStatus }
+     * 
+     */
+    public GetGameStatus createGetGameStatus() {
+        return new GetGameStatus();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SetWishedColorResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "setWishedColorResponse")
     public JAXBElement<SetWishedColorResponse> createSetWishedColorResponse(SetWishedColorResponse value) {
         return new JAXBElement<SetWishedColorResponse>(_SetWishedColorResponse_QNAME, SetWishedColorResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetPlayerStatus }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getPlayerStatus")
-    public JAXBElement<GetPlayerStatus> createGetPlayerStatus(GetPlayerStatus value) {
-        return new JAXBElement<GetPlayerStatus>(_GetPlayerStatus_QNAME, GetPlayerStatus.class, null, value);
     }
 
     /**
@@ -273,15 +264,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "createNewGame")
     public JAXBElement<CreateNewGame> createCreateNewGame(CreateNewGame value) {
         return new JAXBElement<CreateNewGame>(_CreateNewGame_QNAME, CreateNewGame.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetPlayerStatusResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getPlayerStatusResponse")
-    public JAXBElement<GetPlayerStatusResponse> createGetPlayerStatusResponse(GetPlayerStatusResponse value) {
-        return new JAXBElement<GetPlayerStatusResponse>(_GetPlayerStatusResponse_QNAME, GetPlayerStatusResponse.class, null, value);
     }
 
     /**
@@ -327,6 +309,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "startGameResponse")
     public JAXBElement<StartGameResponse> createStartGameResponse(StartGameResponse value) {
         return new JAXBElement<StartGameResponse>(_StartGameResponse_QNAME, StartGameResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameStatusResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getGameStatusResponse")
+    public JAXBElement<GetGameStatusResponse> createGetGameStatusResponse(GetGameStatusResponse value) {
+        return new JAXBElement<GetGameStatusResponse>(_GetGameStatusResponse_QNAME, GetGameStatusResponse.class, null, value);
     }
 
     /**
@@ -411,6 +402,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DrawCardResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "drawCardResponse")
+    public JAXBElement<DrawCardResponse> createDrawCardResponse(DrawCardResponse value) {
+        return new JAXBElement<DrawCardResponse>(_DrawCardResponse_QNAME, DrawCardResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetHandResponse }{@code >}}
      * 
      */
@@ -420,12 +420,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DrawCardResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameStatus }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "drawCardResponse")
-    public JAXBElement<DrawCardResponse> createDrawCardResponse(DrawCardResponse value) {
-        return new JAXBElement<DrawCardResponse>(_DrawCardResponse_QNAME, DrawCardResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getGameStatus")
+    public JAXBElement<GetGameStatus> createGetGameStatus(GetGameStatus value) {
+        return new JAXBElement<GetGameStatus>(_GetGameStatus_QNAME, GetGameStatus.class, null, value);
     }
 
 }
