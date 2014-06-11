@@ -1,0 +1,117 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wooden_table_background_1"
+    tools:context="de.uno.android.GameActivity"
+    tools:ignore="MergeRootFrame">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/layoutPlayerThree"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/centerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:orientation="horizontal" 
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:id="@+id/layoutPlayerTwo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/layoutTableCenter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:columnCount="1"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/cardStackView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="center"
+                    android:layout_row="3"/>
+
+                <ImageButton
+                    android:id="@+id/cardStackButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="left|top"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_row="3"
+                    android:background="@null"
+                    android:onClick="drawCard"
+                    android:src="@drawable/cardstackselector"
+                    tools:ignore="ContentDescription" />
+
+            </GridLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPlayerFour"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPlayerOne"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:orientation="horizontal" 
+            android:baselineAligned="false">
+
+            <HorizontalScrollView
+                android:id="@+id/cardScrollView"
+                android:layout_width="0dp"
+                android:layout_height="135dp"
+                android:layout_weight="0.8" >
+
+                <LinearLayout
+                    android:id="@+id/cardScollViewLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="135dp"
+                    android:orientation="horizontal"
+                    android:gravity="bottom" >
+                   
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <ImageButton
+                android:id="@+id/unoButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:contentDescription="@string/uno_button"
+                android:src="@android:drawable/btn_star"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
