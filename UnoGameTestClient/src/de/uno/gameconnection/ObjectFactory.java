@@ -25,6 +25,8 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _SetWishedColorResponse_QNAME = new QName("http://gameconnection.uno.de/", "setWishedColorResponse");
+    private final static QName _CallUno_QNAME = new QName("http://gameconnection.uno.de/", "callUno");
+    private final static QName _CallUnoResponse_QNAME = new QName("http://gameconnection.uno.de/", "callUnoResponse");
     private final static QName _GetWishedColorResponse_QNAME = new QName("http://gameconnection.uno.de/", "getWishedColorResponse");
     private final static QName _GetStackCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "getStackCardResponse");
     private final static QName _CreateNewGame_QNAME = new QName("http://gameconnection.uno.de/", "createNewGame");
@@ -38,13 +40,13 @@ public class ObjectFactory {
     private final static QName _GetNextPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayerResponse");
     private final static QName _GetStackCard_QNAME = new QName("http://gameconnection.uno.de/", "getStackCard");
     private final static QName _GetWishedColor_QNAME = new QName("http://gameconnection.uno.de/", "getWishedColor");
-    private final static QName _GetNextPlayer_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayer");
     private final static QName _GetHand_QNAME = new QName("http://gameconnection.uno.de/", "getHand");
+    private final static QName _GetNextPlayer_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayer");
     private final static QName _PutCard_QNAME = new QName("http://gameconnection.uno.de/", "putCard");
     private final static QName _StartGame_QNAME = new QName("http://gameconnection.uno.de/", "startGame");
     private final static QName _CreateNewGameResponse_QNAME = new QName("http://gameconnection.uno.de/", "createNewGameResponse");
-    private final static QName _DrawCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "drawCardResponse");
     private final static QName _GetHandResponse_QNAME = new QName("http://gameconnection.uno.de/", "getHandResponse");
+    private final static QName _DrawCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "drawCardResponse");
     private final static QName _GetGameStatus_QNAME = new QName("http://gameconnection.uno.de/", "getGameStatus");
 
     /**
@@ -76,6 +78,22 @@ public class ObjectFactory {
      */
     public GetStackCardResponse createGetStackCardResponse() {
         return new GetStackCardResponse();
+    }
+
+    /**
+     * Create an instance of {@link CallUnoResponse }
+     * 
+     */
+    public CallUnoResponse createCallUnoResponse() {
+        return new CallUnoResponse();
+    }
+
+    /**
+     * Create an instance of {@link CallUno }
+     * 
+     */
+    public CallUno createCallUno() {
+        return new CallUno();
     }
 
     /**
@@ -175,19 +193,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetHand }
-     * 
-     */
-    public GetHand createGetHand() {
-        return new GetHand();
-    }
-
-    /**
      * Create an instance of {@link GetNextPlayer }
      * 
      */
     public GetNextPlayer createGetNextPlayer() {
         return new GetNextPlayer();
+    }
+
+    /**
+     * Create an instance of {@link GetHand }
+     * 
+     */
+    public GetHand createGetHand() {
+        return new GetHand();
     }
 
     /**
@@ -237,6 +255,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "setWishedColorResponse")
     public JAXBElement<SetWishedColorResponse> createSetWishedColorResponse(SetWishedColorResponse value) {
         return new JAXBElement<SetWishedColorResponse>(_SetWishedColorResponse_QNAME, SetWishedColorResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CallUno }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "callUno")
+    public JAXBElement<CallUno> createCallUno(CallUno value) {
+        return new JAXBElement<CallUno>(_CallUno_QNAME, CallUno.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CallUnoResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "callUnoResponse")
+    public JAXBElement<CallUnoResponse> createCallUnoResponse(CallUnoResponse value) {
+        return new JAXBElement<CallUnoResponse>(_CallUnoResponse_QNAME, CallUnoResponse.class, null, value);
     }
 
     /**
@@ -357,21 +393,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetNextPlayer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getNextPlayer")
-    public JAXBElement<GetNextPlayer> createGetNextPlayer(GetNextPlayer value) {
-        return new JAXBElement<GetNextPlayer>(_GetNextPlayer_QNAME, GetNextPlayer.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetHand }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getHand")
     public JAXBElement<GetHand> createGetHand(GetHand value) {
         return new JAXBElement<GetHand>(_GetHand_QNAME, GetHand.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetNextPlayer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getNextPlayer")
+    public JAXBElement<GetNextPlayer> createGetNextPlayer(GetNextPlayer value) {
+        return new JAXBElement<GetNextPlayer>(_GetNextPlayer_QNAME, GetNextPlayer.class, null, value);
     }
 
     /**
@@ -402,21 +438,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DrawCardResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "drawCardResponse")
-    public JAXBElement<DrawCardResponse> createDrawCardResponse(DrawCardResponse value) {
-        return new JAXBElement<DrawCardResponse>(_DrawCardResponse_QNAME, DrawCardResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetHandResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getHandResponse")
     public JAXBElement<GetHandResponse> createGetHandResponse(GetHandResponse value) {
         return new JAXBElement<GetHandResponse>(_GetHandResponse_QNAME, GetHandResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DrawCardResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "drawCardResponse")
+    public JAXBElement<DrawCardResponse> createDrawCardResponse(DrawCardResponse value) {
+        return new JAXBElement<DrawCardResponse>(_DrawCardResponse_QNAME, DrawCardResponse.class, null, value);
     }
 
     /**

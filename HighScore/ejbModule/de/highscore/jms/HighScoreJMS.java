@@ -43,7 +43,7 @@ public class HighScoreJMS implements MessageListener {
 	  		
 	  	  String[] userpoints = msg.getText().split(":");
 	  	  highscore.addPointsToUser(userpoints[0], Integer.parseInt(userpoints[1]));
-          System.out.println("Received message from queue/BankingOutput: " + msg.getText());
+          System.out.println("Received message from queue/HighscoreJMS: " + msg.getText());
        }
        catch (JMSException e) {
             throw new EJBException(e);

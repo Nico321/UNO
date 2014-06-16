@@ -20,6 +20,7 @@ public class Player implements Serializable {
 	private Hand hand;
 	private String username;
 	private Date disconnected;
+	private boolean calledUno;
     public String getUsername() {
 		return username;
 	}
@@ -59,6 +60,14 @@ public class Player implements Serializable {
 
 	public void setDisconnected(Date disconnected) {
 		this.disconnected = disconnected;
+	}
+
+	public boolean calledUno() {
+		return calledUno;
+	}
+
+	public void callUno(boolean calledUno) {
+		this.calledUno = calledUno;
 	}
 
 }

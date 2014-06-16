@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Timer;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -75,8 +76,15 @@ public class Game implements GameLocal{
 		else{
 			for(Player p:players.values()){
 				if(p.getHand().getCards().size() == 0){
-					closeGame();
-					return true;
+					System.out.println(p.getUsername() +  " 0 cards -  "+p.calledUno());
+					if(p.calledUno()){
+						closeGame();
+						return true;	
+					}
+					else{
+						this.drawCard(p, 1);
+						return false;
+					}					
 				}
 			}
 		}
@@ -111,31 +119,36 @@ public class Game implements GameLocal{
 	}
 	
 	@Override
-	public boolean putCard(Card card){
-		if(cardIsValid(card)){
-			stack.addCard(card);
-			if (card.getClass().getName().equals("SkipCard")){
-				if (playerStep <2 && playerStep > -2)
-					playerStep *= 2;
+	public boolean putCard(Player player, Card card){
+		if(player.equals(this.getNextPlayer())){
+			if(cardIsValid(card)){
+				stack.addCard(card);
+				if (card.getClass().getName().equals("SkipCard")){
+					if (playerStep <2 && playerStep > -2)
+						playerStep *= 2;
+				}
+				else if (card.getClass().getName().equals("ChangeDirectionCard")){
+					playerStep *= -1;
+				}
+				else{
+					playerStep = 1;
+				}
+				
+				this.getNextPlayer().getHand().removeCard(card);
+				if (!checkGameState()){
+					updateCurrentPlayerID();
+					task.cancel();
+					task = new MyTimerTask(this);
+					timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
+				}
+				return true;
 			}
-			else if (card.getClass().getName().equals("ChangeDirectionCard")){
-				playerStep *= -1;
-			}
-			else{
-				playerStep = 1;
-			}
-			
-			this.getNextPlayer().getHand().removeCard(card);
-			if (!checkGameState()){
-				updateCurrentPlayerID();
-				task.cancel();
-				task = new MyTimerTask(this);
-				timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
-			}
-			return true;
+			else
+				return false;	
 		}
 		else
 			return false;
+		
 	}
 	
 	private void closeGame(){
@@ -171,9 +184,6 @@ public class Game implements GameLocal{
 		gameManager.updateHighScore(playerPoints);
 		gameManager.removeGame(this);
 			
-			
-		
-		System.out.println("Timer canceled");
 		task.cancel();
 		timer.cancel();
 	}
@@ -256,20 +266,27 @@ public class Game implements GameLocal{
 	}
 
 	@Override
-	public LinkedList<Card> drawCard(int quantity) {
-		if(deck.count() < quantity){
-			deck.addCard(stack.cleanDeck());
+	public LinkedList<Card> drawCard(Player player, int quantity) {
+		if(player.equals(this.getNextPlayer())){
+			if(deck.count() < quantity){
+				deck.addCard(stack.cleanDeck());
+			}
+			LinkedList<Card> returnCard = deck.removeCard(quantity);
+			this.getNextPlayer().getHand().addCard(returnCard);
+			if(quantity == 1){
+				if(playerStep < 0)
+					playerStep = -1;
+				else
+					playerStep = 1;
+				updateCurrentPlayerID();
+			}
+			if(player.calledUno())
+				this.callLocalUno(player, false);
+			return returnCard;
 		}
-		LinkedList<Card> returnCard = deck.removeCard(quantity);
-		this.getNextPlayer().getHand().addCard(returnCard);
-		if(quantity == 1){
-			if(playerStep < 0)
-				playerStep = -1;
-			else
-				playerStep = 1;
-			updateCurrentPlayerID();
-		}
-		return returnCard;
+		else
+			return null;
+		
 	}
 
 	@Override
@@ -308,5 +325,24 @@ public class Game implements GameLocal{
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean callUno(Player player) {
+		if (player.getHand().getCards().size() == 1){
+			callLocalUno(player, true);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	private void callLocalUno(Player remotePlayer, boolean value){
+		remotePlayer.callUno(value);
+		System.out.println(remotePlayer.getUsername() + " called Uno: " + remotePlayer.calledUno());
+		for(Player p : players.values()){
+			if (p.equals(remotePlayer))
+				p.callUno(value);
+		}
 	}
 }

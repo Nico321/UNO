@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für AddUserToFriendlist complex type.
+ * <p>Java-Klasse für Login complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
- * &lt;complexType name="AddUserToFriendlist">
+ * &lt;complexType name="Login">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://usermanagement.uno.de/}user" minOccurs="0"/>
+ *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AddUserToFriendlist", propOrder = {
+@XmlType(name = "Login", propOrder = {
     "arg0",
     "arg1"
 })
-public class AddUserToFriendlist {
+public class Login {
 
-    protected User arg0;
+    protected String arg0;
     protected String arg1;
 
     /**
@@ -41,10 +41,10 @@ public class AddUserToFriendlist {
      * 
      * @return
      *     possible object is
-     *     {@link User }
+     *     {@link String }
      *     
      */
-    public User getArg0() {
+    public String getArg0() {
         return arg0;
     }
 
@@ -53,10 +53,10 @@ public class AddUserToFriendlist {
      * 
      * @param value
      *     allowed object is
-     *     {@link User }
+     *     {@link String }
      *     
      */
-    public void setArg0(User value) {
+    public void setArg0(String value) {
         this.arg0 = value;
     }
 
