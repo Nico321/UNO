@@ -4,7 +4,7 @@
       <properties>
          <property name="hibernate.dialect" 
                   value="org.hibernate.dialect.HSQLDialect"/>
-         <property name="hibernate.hbm2ddl.auto" value="create-tables"/>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>
    </persistence-unit>
 </persistence>
