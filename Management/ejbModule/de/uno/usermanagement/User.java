@@ -1,10 +1,14 @@
 package de.uno.usermanagement;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-
+/**
+ * Session Bean implementation class User
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 @Entity
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -44,12 +48,7 @@ public class User implements Serializable {
 	private List<User> wannabeFriendsOf;
 	
 	
-	public User(String username, String password){
-		this.username = username;
-		this.password = password;
-		friends  = new ArrayList<User>();
-		friendOf = new ArrayList<User>();
-	}
+	
 	
 	public List<User> getFriends(){
 		return friends;
@@ -75,4 +74,14 @@ public class User implements Serializable {
 		wannabeFriends.add(wannabe);
 		wannabeFriendsOf.add(this);
 	}
+
+
+public User(String username, String password){
+		this.username = username;
+		this.password = password;
+		friends  = new ArrayList<User>();
+		friendOf = new ArrayList<User>();
+	}
+
+public User(){};
 }

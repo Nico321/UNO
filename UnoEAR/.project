@@ -3,8 +3,10 @@
 	<name>UnoEAR</name>
 	<comment></comment>
 	<projects>
-		<project>HighScoreLocalService</project>
 		<project>Management</project>
+		<project>UnoGameOnlineService</project>
+		<project>UnoLocalOnlineService</project>
+		<project>UnoGame</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

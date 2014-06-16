@@ -5,5 +5,11 @@
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="HighScoreOnlineService.jar" deploy-path="/lib" handle="module:/resource/HighScoreOnlineService/HighScoreOnlineService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="HighScoreLocalService.jar" deploy-path="/lib" handle="module:/resource/HighScoreLocalService/HighScoreLocalService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

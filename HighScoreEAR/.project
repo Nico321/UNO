@@ -4,6 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>HighScore</project>
+		<project>HighScoreOnlineService</project>
+		<project>HighScoreLocalService</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

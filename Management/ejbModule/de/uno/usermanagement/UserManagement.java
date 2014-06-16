@@ -81,8 +81,8 @@ public class UserManagement {
 	
 	//User von der Freundesliste entfernen
 	@WebMethod
-	public void RemoveUserFromFriendlist(String actualUser, String OldFriendUsername){
-		userdao.RemoveFriend((User)deserialize(actualUser), OldFriendUsername);
+	public void RemoveUserFromFriendlist(String actualUserName, String OldFriendUsername){
+		userdao.RemoveFriend(actualUserName, OldFriendUsername);
 	}
 
 	//Login-Funktion
@@ -98,12 +98,12 @@ public class UserManagement {
 	}
 	
 	//Nächsten möglichen Freunde anzeigen
-	public String ShowWannabeFriends(User actualUser){
-		return serialize((Serializable) userdao.ShowWannabeFriends(actualUser));
+	public String ShowWannabeFriends(String actualUserName){
+		return serialize((Serializable) userdao.ShowWannabeFriends(actualUserName));
 	}
 	
 	//User zur Freundesliste hinzufügen
-	public void AddNewWannabeFriend(User actualUser, User wantToBe){
-		userdao.AddNewWannabeFriend(actualUser, wantToBe);
+	public void AddNewWannabeFriend(String actualUserName, String wantToBeName){
+		userdao.AddNewWannabeFriend(actualUserName, wantToBeName);
 	}
 }

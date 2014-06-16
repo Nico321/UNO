@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="UnoEAR">
         <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
-        <dependent-module archiveName="HighScoreLocalService.jar" deploy-path="/lib" handle="module:/resource/HighScoreLocalService/HighScoreLocalService">
+        <dependent-module archiveName="Management.jar" deploy-path="/" handle="module:/resource/Management/Management">
+            <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Management.jar" deploy-path="/" handle="module:/resource/Management/Management">
+        <dependent-module archiveName="UnoGameOnlineService.jar" deploy-path="/lib" handle="module:/resource/UnoGameOnlineService/UnoGameOnlineService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="UnoLocalOnlineService.jar" deploy-path="/lib" handle="module:/resource/UnoLocalOnlineService/UnoLocalOnlineService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="UnoGame.jar" deploy-path="/" handle="module:/resource/UnoGame/UnoGame">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
