@@ -5,6 +5,11 @@
 <fullyQualifiedTypeName name="java.lang.Package"/>
 <fullyQualifiedTypeName name="com.android.uno.R.id"/>
 <fullyQualifiedTypeName name="com.android.uno.MainMenu"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="java.net.InetAddress"/>
+<fullyQualifiedTypeName name="java.net.SocketTimeoutException"/>
+<fullyQualifiedTypeName name="de.uno.android.usermanagement.User"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="de.uno.android.R.menu"/>
+<fullyQualifiedTypeName name="android.view.Menu"/>
+<fullyQualifiedTypeName name="de.uno.android.R.id"/>
 </qualifiedTypeNameHistroy>

@@ -22,45 +22,51 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int uno=0x7f020001;
+        public static final int ic_action_refresh=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int uno=0x7f020002;
     }
     public static final class id {
-        public static final int GridLayout1=0x7f080006;
-        public static final int JoinServerjoinbtn=0x7f08000b;
+        public static final int JoinServerjoinbtn=0x7f080010;
         public static final int LinearLayout1=0x7f080000;
-        public static final int RelativeLayout1=0x7f08000c;
-        public static final int about=0x7f08001a;
-        public static final int createServerCreatebtn=0x7f080009;
-        public static final int createServerServernameEditText=0x7f080008;
-        public static final int createServerServernameTextView=0x7f080007;
+        public static final int RelativeLayout1=0x7f080007;
+        public static final int Space1=0x7f080008;
+        public static final int action_refresh=0x7f08001e;
+        public static final int createServerCreatebtn=0x7f08000a;
+        public static final int createServerServernameTextView=0x7f080011;
+        public static final int createServerTextView=0x7f08000b;
         public static final int createServerbtn=0x7f080002;
-        public static final int joinServer_welcomeTextview=0x7f08000a;
+        public static final int friendListAddFriendbtn=0x7f08000e;
+        public static final int friendListRefreshbtn=0x7f08000d;
+        public static final int friendListView=0x7f08000c;
+        public static final int friendListbtn=0x7f080004;
+        public static final int joinServerListView=0x7f08000f;
         public static final int joinServerbtn=0x7f080003;
-        public static final int loginBtn=0x7f080010;
-        public static final int loginRegisterTextView=0x7f080011;
-        public static final int loginUsernameEdittext=0x7f08000d;
-        public static final int loginpassEdittext=0x7f08000f;
-        public static final int quitbtn=0x7f080005;
-        public static final int registerBtn=0x7f080017;
-        public static final int registerPassConfirmEdittext=0x7f080015;
-        public static final int registerUserPassConfirmEdittext=0x7f080016;
-        public static final int registerUserPassEdittext=0x7f080014;
-        public static final int registerUsernameEdittext=0x7f080013;
-        public static final int settings=0x7f080019;
-        public static final int settingsbtn=0x7f080004;
-        public static final int skipTextView=0x7f080012;
-        public static final int timePicker1=0x7f080018;
-        public static final int userPass=0x7f08000e;
+        public static final int loginBtn=0x7f080015;
+        public static final int loginRegisterTextView=0x7f080016;
+        public static final int loginUsernameEdittext=0x7f080012;
+        public static final int loginpassEdittext=0x7f080014;
+        public static final int quitbtn=0x7f080006;
+        public static final int registerBtn=0x7f08001c;
+        public static final int registerPassConfirmEdittext=0x7f08001a;
+        public static final int registerUserPassConfirmEdittext=0x7f08001b;
+        public static final int registerUserPassEdittext=0x7f080019;
+        public static final int registerUsernameEdittext=0x7f080018;
+        public static final int settingsbtn=0x7f080005;
+        public static final int skipTextView=0x7f080017;
+        public static final int timePicker1=0x7f08001d;
+        public static final int toggleButton1=0x7f080009;
+        public static final int userPass=0x7f080013;
         public static final int welcomeTextView=0x7f080001;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int createserver_view=0x7f030001;
-        public static final int joinserver_view=0x7f030002;
-        public static final int login_view=0x7f030003;
-        public static final int register_view=0x7f030004;
-        public static final int settings_view=0x7f030005;
+        public static final int friendlist_view=0x7f030002;
+        public static final int joinserver_view=0x7f030003;
+        public static final int login_view=0x7f030004;
+        public static final int register_view=0x7f030005;
+        public static final int settings_view=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f070000;
@@ -73,6 +79,9 @@ public final class R {
         public static final int createServer_btn=0x7f050004;
         public static final int createServer_serverName=0x7f050010;
         public static final int createServer_startServer=0x7f050011;
+        public static final int friendListAddFriend=0x7f050015;
+        public static final int friendListRefreshbtn=0x7f050014;
+        public static final int friendList_btn=0x7f050013;
         public static final int hello_world=0x7f050001;
         public static final int joinServer_btn=0x7f050005;
         public static final int joinServer_welcomeTextview=0x7f050008;

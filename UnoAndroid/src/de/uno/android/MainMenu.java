@@ -20,7 +20,7 @@ public class MainMenu extends Activity implements OnClickListener{
 	private Button joinServer;
 	private Button settings;
 	private Button quit;
-	
+	private Button friendList;
 
 
 	@Override
@@ -29,11 +29,15 @@ public class MainMenu extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_main);
 
 		
+		
 		createServer = (Button) findViewById(R.id.createServerbtn);
 		createServer.setOnClickListener(this);
 		
 		joinServer = (Button) findViewById(R.id.joinServerbtn);
 		joinServer.setOnClickListener(this);
+		
+		friendList = (Button) findViewById(R.id.friendListbtn);
+		friendList.setOnClickListener(this);
 		
 		settings = (Button) findViewById(R.id.settingsbtn);
 		settings.setOnClickListener(this);
@@ -44,27 +48,9 @@ public class MainMenu extends Activity implements OnClickListener{
 		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.settings) {
-			Intent intent = new Intent(MainMenu.this, Settings.class);
-			startActivity(intent);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+	
 
 	/**
 	 * A placeholder fragment containing a simple view.
@@ -87,7 +73,10 @@ public class MainMenu extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		int ce = v.getId();
 		
-		
+		if(ce == R.id.friendListbtn){
+			Intent intent = new Intent(MainMenu.this, FriendList.class);
+			startActivity(intent);
+		}
 		if(ce == R.id.createServerbtn){
 			Intent intent = new Intent(MainMenu.this, CreateServer.class);
 			startActivity(intent);

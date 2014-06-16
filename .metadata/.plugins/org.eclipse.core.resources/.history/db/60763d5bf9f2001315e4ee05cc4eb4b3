@@ -1,0 +1,66 @@
+package de.uno.android;
+
+import de.uno.android.R;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class JoinServer extends Activity implements OnClickListener{
+
+	private Button prevbtn;
+	private ProgressDialog progDailog;
+	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
+	private static final String URL = "http://192.168.2.104:8080/Management/Lobby";	 
+	private static final String METHOD_NAME = "showOpenGames";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.joinserver_view);
+		
+		prevbtn = (Button) findViewById(R.id.JoinServerjoinbtn);
+		prevbtn.setOnClickListener(this);
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(v.getId() == R.id.JoinServerjoinbtn){
+			
+			progDailog = new ProgressDialog(JoinServer.this);
+	        progDailog.setMessage("Serversuche...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(false);
+	        progDailog.show();
+			
+			AsynchronTask runner = new AsynchronTask();
+			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+			runner.execute(this);
+		}
+	}
+	public void showOpenGamesCompleted(boolean success){
+		if (success){
+		progDailog.cancel();
+		System.out.println("succes");
+		
+		
+		
+		//alertDialogBuilder
+		//.setMessage("Registrierung erfolgreich!")
+		//.setCancelable(true);
+		}
+		else{
+			progDailog.cancel();
+			System.out.println("failed");
+		//	alertDialogBuilder
+		//	.setMessage("Registrierung fehlgeschlagen!")
+		//	.setCancelable(true);
+		}
+	}
+	
+}

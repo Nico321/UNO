@@ -1,28 +1,28 @@
 package de.uno.android;
 
-import de.uno.android.R;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import de.uno.android.lobbymanagement.LobbyGame;
+import de.uno.android.usermanagement.User;
 
 public class CreateServer extends Activity implements OnClickListener{
 
 private Button createbtn;
 private static final String NAMESPACE = "http://usermanagement.uno.de/";
-private static final String URL = "http://10.0.2.2:8080/Management/UserManagement";	 
-private static final String METHOD_NAME = "AddUser";
+private static final String URL = "http://192.168.2.104:8080/Management/UserManagement";	 
+private static final String METHOD_NAME = "createNewGame";
+private static final String TAG = CreateServer.class.getName();
 private String CLASSNAME = this.getClass().getSimpleName();
-private String response;
-	
+private ProgressDialog progDailog = null;
 
-	private String getResponse(){
-		return response;
-	}
+	
 
 
 	@Override
@@ -32,55 +32,41 @@ private String response;
 		
 		createbtn = (Button) findViewById(R.id.createServerCreatebtn);
 		createbtn.setOnClickListener(this);
-		System.out.println(CLASSNAME);
-		
-
-		
-		createbtn.setEnabled(false);
-		AsynchronTask runner = new AsynchronTask();
-		runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-		final ProgressDialog progDailog = new ProgressDialog(CreateServer.this);
-        progDailog.setMessage("registriere...Bitte warten");
-        progDailog.setIndeterminate(false);
-        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDailog.setCancelable(false);
-        progDailog.show();
-		//	response = runner.execute(username, password);
-		//	System.out.println(response);
-		 //TODO
-		
-		new Thread(new Runnable() {
-			int timer = 0;
-	        public void run() {
-	        	while(timer < 20){
-					 if(!getResponse().isEmpty()){ 
-						 progDailog.cancel(); 
-						 Intent intent = new Intent(CreateServer.this, Login.class);
-						 startActivity(intent);
-						 break;
-					 }
-					 else{
-						 timer++;
-						 try {
-							Thread.currentThread().wait(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					 }
-				
-				 }
-	        return;		        
-	        }
-	    }).start();
-		 
-		
 		
 	}
 
 	@Override
 	public void onClick(View v) {
 		if(v.getId() == R.id.createServerCreatebtn){
-			finish();
+			createbtn.setEnabled(false);
+			final ProgressDialog progDailog = new ProgressDialog(CreateServer.this);
+			progDailog.setMessage("Server wird gestartet...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(false);
+	        progDailog.show();
+	        AsynchronTask runner = new AsynchronTask();
+			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+			 
+			runner.execute(this);
+		}
+	}
+	
+	public void createServerCompleted(boolean success){
+		progDailog = new ProgressDialog(CreateServer.this);
+		if (success){
+			Log.d(TAG, "createServer_success");
+			progDailog.cancel();
+			}
+			
+		
+		
+		else{
+			Log.d(TAG, "createServer_failed");
+			progDailog.cancel();
+		//	alertDialogBuilder
+		//	.setMessage("Registrierung fehlgeschlagen!")
+		//	.setCancelable(true);
 		}
 	}
 	

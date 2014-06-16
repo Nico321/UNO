@@ -12,25 +12,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/UnoGameOnlineService">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/UnoLocalOnlineService">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/HighScoreLocalService">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/user/Programme/wildfly-8.0.0.Final/bin/client/jboss-client.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/UnoGameOnlineService"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UnoLocalOnlineService"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/HighScoreLocalService"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -1,0 +1,184 @@
+package de.uno.android;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.net.SocketTimeoutException;
+import java.util.HashMap;
+import java.util.List;
+
+import org.ksoap2.HeaderProperty;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.SoapFault;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import de.uno.android.lobbymanagement.LobbyGame;
+import de.uno.android.usermanagement.User;
+import android.os.AsyncTask;
+import android.util.Log;
+import biz.source_code.base64Coder.Base64Coder;
+
+
+public class AsynchronTask extends AsyncTask<Object, Object, Object> {
+
+	private String NAMESPACE;
+	private String URL;	 
+	private String METHOD_NAME;
+	private static final String TAG = AsynchronTask.class.getName();
+
+	
+	@Override
+	protected String doInBackground(Object... params) {
+		String result = null;
+	try{
+		if (params[0] instanceof Register | params[0] instanceof Login){
+			executeSoapAction(params[0], params[1], params[2]);
+		}
+		if (params[0] instanceof JoinServer){
+			executeSoapAction(params[0]);
+		}
+		return result;
+	}
+	catch(Exception e) {
+	    e.printStackTrace();
+	    return result = e.getMessage();
+	   }
+	
+	}
+	public boolean setKsoapAttributes(String NAMESPACE,String URL, String METHOD_NAME){
+		this.NAMESPACE = NAMESPACE;
+		this.URL = URL;
+		this.METHOD_NAME = METHOD_NAME;
+		
+		return true;
+	}
+	private SoapPrimitive executeSoapAction(Object... params) throws SoapFault, SocketTimeoutException {
+		SoapPrimitive result = null;
+	    SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+	    boolean success = false;
+	    HashMap<User, LobbyGame> possibleGames = null;
+	   
+	    
+
+	    if (params[0] instanceof Register){
+	    	request.addProperty("arg0", params[1].toString());
+	    	request.addProperty("arg1", params[2].toString());
+	    }
+	    if (params[0] instanceof Login){
+	    	request.addProperty("arg0", params[1].toString());
+	    	request.addProperty("arg1", params[2].toString());
+	    }
+	    
+	    Log.d(TAG, "requestPropertys added");
+
+	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+	    Log.d(TAG, "envelope erzeugt");
+	    envelope.setOutputSoapObject(request);
+	    Log.d(TAG, "request hinzugefügt");;
+	    HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+	    Log.d(TAG, "HttpTransport erstellt");
+        try {	        
+		    List<HeaderProperty> reqHeaders = null;
+		    @SuppressWarnings({"unused", "unchecked"})			
+	    	List<HeaderProperty> respHeaders = androidHttpTransport.call("", envelope, reqHeaders);
+		    Log.d(TAG, "Serveraufruf getätigt");
+		    
+		    if(params[0] instanceof JoinServer){		    	
+
+		    	Log.d(TAG, "JoinServer-response PRE");
+		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    	Log.d(TAG, "JoinServer-response Post");		    	
+		    	possibleGames = (HashMap<User, LobbyGame>) deserialize(response.toString());
+		    	Log.d(TAG, "possibleGames deserialized");
+		    }
+		    
+		    if (params[0] instanceof Login){
+		    	Log.d(TAG, "Login-Method-response PRE");
+		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    	Log.d(TAG, "Login-Method-response POST");
+	            success = Boolean.valueOf(response.toString());		    	
+		    }	
+		    if (params[0] instanceof Register){
+		    System.out.println(envelope.bodyIn.toString());
+		    SoapPrimitive response =  (SoapPrimitive) (envelope.getResponse());
+            Log.d("GetPointsByUser - Response", response.toString());
+            Object o = deserialize(response.toString());
+            User u = (User) o;
+            System.out.println(u.getUsername());
+            Log.d("User", "User");
+
+           
+		    success = true;
+		    }
+		    
+	    }
+	    catch(SocketTimeoutException e){
+	    	success = false;
+	    	e.printStackTrace();	    	
+	    }
+	    catch (SoapFault e) {
+	    	e.printStackTrace();
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }	    
+	    //String s = getResult(result);
+	    //System.out.println(s);
+	    if(params[0] instanceof Register){
+	    	Register r = (Register) params[0];
+	    	r.registartionCompleted(success);
+	    	
+	    }
+	    if(params[0] instanceof Login){
+	    	Login l = (Login) params[0];
+	    	l.loginCompleted();
+	    }
+	    if(params[0] instanceof JoinServer){
+	    	JoinServer j = (JoinServer) params[0];
+	    	j.showOpenGamesCompleted(success, possibleGames);
+	    }
+	    return result;
+	}
+	private String serialize(Serializable o){
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
+		try {
+			oos = new ObjectOutputStream( baos );
+			oos.writeObject( o );
+			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        return new String( Base64Coder.encode( baos.toByteArray() ) );
+    }
+    
+	private static Object deserialize(String s){
+		byte [] data = Base64Coder.decode( s );
+        ObjectInputStream ois;
+        Object o = null;
+		try {
+			Log.d(TAG, "Deserialisiere...");
+			ois = new ObjectInputStream( 
+			                                new ByteArrayInputStream(  data ) );
+	        try {
+				o  = ois.readObject();
+			} catch (ClassNotFoundException e) {
+				Log.d(TAG, "Fehler beim Deserialisieren");
+				e.printStackTrace();
+			}
+	        ois.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Log.d(TAG, "Deserialisiere...fertig!");
+        return o;
+	}
+	
+}

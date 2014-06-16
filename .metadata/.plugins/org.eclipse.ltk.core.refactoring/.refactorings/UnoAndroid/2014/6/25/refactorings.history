@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Change Layout" description="Change Layout" file="/UnoAndroid/res/layout/createserver_view.xml" flags="6" flatten="true" id="com.android.ide.eclipse.adt.refactoring.convert" proj="/UnoAndroid" sel-end="676" sel-start="39" stamp="1402942730160" type="android.widget.RelativeLayout"/>
+</session>

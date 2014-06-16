@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.android.uno.MainActivity" >
+
+    <item
+        android:id="@+id/settings"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/settings_btn"/>
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="2"
+        android:showAsAction="never"
+        android:title="@string/about"/>
+    
+    <item 
+          android:id="@+id/action_refresh"
+          android:icon="@drawable/ic_action_refresh"
+          android:title="@string/action_refresh"
+          android:showAsAction="ifRoom" />
+
+</menu>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_search"
+          android:icon="@drawable/ic_action_search"
+          android:title="@string/action_search"
+          android:showAsAction="ifRoom" />
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_settings"
+          android:title="@string/action_settings"
+          android:showAsAction="never" />
+</menu>

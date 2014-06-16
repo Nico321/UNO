@@ -1,0 +1,85 @@
+package de.uno.android;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import de.uno.android.R;
+import de.uno.android.lobbymanagement.LobbyGame;
+import de.uno.android.usermanagement.User;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+public class CreateServer extends Activity implements OnClickListener{
+
+private Button createbtn;
+private static final String NAMESPACE = "http://usermanagement.uno.de/";
+private static final String URL = "http://10.0.2.2:8080/Management/UserManagement";	 
+private static final String METHOD_NAME = "AddUser";
+private static final String TAG = CreateServer.class.getName();
+final ProgressDialog progDailog = null;
+private String CLASSNAME = this.getClass().getSimpleName();
+	
+
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.createserver_view);
+		
+		createbtn = (Button) findViewById(R.id.createServerCreatebtn);
+		createbtn.setOnClickListener(this);
+		System.out.println(CLASSNAME);
+		
+
+		
+		createbtn.setEnabled(false);
+		final ProgressDialog progDailog = new ProgressDialog(CreateServer.this);
+		progDailog.setMessage("registriere...Bitte warten");
+        progDailog.setIndeterminate(false);
+        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDailog.setCancelable(false);
+        progDailog.show();
+        AsynchronTask runner = new AsynchronTask();
+		runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+		 
+		runner.execute();
+		//	System.out.println(response);		
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(v.getId() == R.id.createServerCreatebtn){
+			finish();
+		}
+	}
+	
+	public void showOpenGamesCompleted(boolean success, HashMap<User, LobbyGame> possibleGames){
+		progDailog = new ProgressDialog(CreateServer.this);
+		if (success){
+			Log.d(TAG, "showOpenGames_success");
+			progDailog.cancel();
+			}
+			
+		
+		
+		else{
+			progDailog.cancel();
+			Log.d("ServerLoaded", "failed");
+		
+		//	alertDialogBuilder
+		//	.setMessage("Registrierung fehlgeschlagen!")
+		//	.setCancelable(true);
+		}
+	}
+	
+	
+}

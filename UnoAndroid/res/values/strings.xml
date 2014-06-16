@@ -20,6 +20,9 @@
     <string name="createServer_serverName">Servername:</string>
     <string name="createServer_startServer">Server starten</string>
     <string name="about">Über</string>
+    <string name="friendList_btn">Freundesliste</string>
+    <string name="friendListRefreshbtn">Aktualisieren</string>
+    <string name="friendListAddFriend">Freund hinzufügen</string>
     
 
 </resources>

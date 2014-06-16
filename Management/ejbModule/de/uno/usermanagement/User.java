@@ -3,14 +3,18 @@ package de.uno.usermanagement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	protected User(){}
-	
 	@Id
 	private String username;
 	

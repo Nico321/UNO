@@ -17,10 +17,10 @@ public class Register extends Activity implements OnClickListener{
 
 	private Button registerBtn;
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
-	private static final String URL = "http://10.0.2.2:8080/Management/UserManagement";	 
+	private static final String URL = "http://192.168.2.104:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "AddUser";
-	ProgressDialog progDailog;
-	String response;
+	private ProgressDialog progDailog;
+	private AlertDialog.Builder alertDialogBuilder;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,10 +43,10 @@ public class Register extends Activity implements OnClickListener{
 		String passwordC = etPasswordC.getText().toString();
 		
 		
-		if(!password.equals(passwordC) | password.length() < 6 | username.isEmpty()){
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-	 
-				alertDialogBuilder.setTitle("Registrierung");	 
+		if(!password.equals(passwordC) | password.length() < 6 | username.isEmpty()){	 
+			 alertDialogBuilder = new AlertDialog.Builder(this);
+	
+			 	alertDialogBuilder.setTitle("Registrierung");	 
 				alertDialogBuilder
 					.setMessage("Username zu kurz, Passwort zu kurz oder nicht übereinstimmend!")
 					.setCancelable(false)
@@ -70,7 +70,7 @@ public class Register extends Activity implements OnClickListener{
 	        progDailog.setIndeterminate(false);
 	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progDailog.setCancelable(false);
-	        //progDailog.show();
+	        progDailog.show();
 				runner.execute(this,username, password);
 				
 			
@@ -80,9 +80,32 @@ public class Register extends Activity implements OnClickListener{
 			}
 		}
 	
-	public void registartionCompleted(){
-		//progDailog.cancel();
+	public void registartionCompleted(boolean success){
+		if (success){			
+		progDailog.cancel();
 		Intent intent = new Intent(Register.this, Login.class);
 		startActivity(intent);
+		//alertDialogBuilder
+		//.setMessage("Registrierung erfolgreich!")
+		//.setCancelable(true);
+		}
+		else{
+			progDailog.cancel();
+			
+			alertDialogBuilder = new AlertDialog.Builder(this);
+			alertDialogBuilder.setTitle("Registrierung");	 
+			alertDialogBuilder
+				.setMessage("Registrierung fehlgeschlagen")
+				.setCancelable(true)
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						
+						dialog.cancel();
+					}
+				  });
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+		
+		}
 	}
 }

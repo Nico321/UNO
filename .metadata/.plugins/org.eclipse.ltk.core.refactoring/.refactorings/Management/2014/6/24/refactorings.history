@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;UnoAndroid/src/de.uno.android.lobbymanagement&apos;&#x0A;- Original project: &apos;Management&apos;&#x0A;- Destination element: &apos;UnoAndroid/src/de.uno.android.lobbymanagement&apos;&#x0A;- Original elements:&#x0A;     de.uno.lobbymanagement.Lobby.java&#x0A;     de.uno.lobbymanagement.LobbyGame.java" description="Copy compilation units" destination="=UnoAndroid/src&lt;de.uno.android.lobbymanagement" element1="/ejbModule&lt;de.uno.lobbymanagement{Lobby.java" element2="/ejbModule&lt;de.uno.lobbymanagement{LobbyGame.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1402661454391" units="2" version="1.0"/>
+</session>

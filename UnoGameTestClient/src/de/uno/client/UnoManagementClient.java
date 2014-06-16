@@ -6,10 +6,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+
+
+
+import java.util.LinkedList;
 
 import biz.source_code.base64Coder.Base64Coder;
+import de.uno.lobbymanagement.*;
+import de.uno.usermanagement.*;
+import de.uno.gameconnection.*;
 import de.uno.usermanagement.User;
-import de.uno.usermanagement.UserManagement;
 
 public class UnoManagementClient {
 	private static UserManagement userManagement;

@@ -30,6 +30,12 @@
         android:text="@string/joinServer_btn" />
 
     <Button
+        android:id="@+id/friendListbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/friendList_btn" />
+
+    <Button
         android:id="@+id/settingsbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
