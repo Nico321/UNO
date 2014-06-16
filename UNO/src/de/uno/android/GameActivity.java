@@ -11,10 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import de.android.uno.R;
+import de.uno.Hand.Hand;
 import de.uno.android.common.GameStub;
+import de.uno.android.tasks.BitmapDecodeTask;
 import de.uno.android.tasks.DrawCardTask;
 import de.uno.android.tasks.InitGameTask;
 import de.uno.android.tasks.PutCardTask;
@@ -26,13 +29,14 @@ import de.uno.player.Player;
 public class GameActivity extends Activity implements OnClickListener{
 	private static final String TAG =  GameActivity.class.getName();
 	private static GameApplication gameApp;
-	private static boolean isGameLoading;
+	private static LinearLayout cardScrollViewLayout;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_game);
+		cardScrollViewLayout = (LinearLayout) this.findViewById(R.id.cardScollViewLayout);
 		CardMapper.init(this);
 		
 		this. gameApp = (GameApplication) this.getApplication();
@@ -45,13 +49,6 @@ public class GameActivity extends Activity implements OnClickListener{
 		
 		initGame();
 		
-		/*
-		GetHandTask getHandTask = new GetHandTask(GetHandTask.class.toString(), this);
-		getHandTask.execute(gameApp.getLocalPlayer());
-		
-		GetStackCardTask getStackCardTask = new GetStackCardTask(GetStackCardTask.class.toString(), this);
-		getStackCardTask.execute(gameApp.getLocalPlayer());
-		*/
 		
 		
 	}
@@ -76,6 +73,8 @@ public class GameActivity extends Activity implements OnClickListener{
 		return super.onOptionsItemSelected(item);
 	}
 	
+	//TODO! view sperren wenn eine Karte angeklickt wurde damit ein klicken mehrerer Karten nicht möglich
+	//ist!
 	@Override
 	public void onClick(View v) {
 		//wird aufgerufen sobald der Spieler eine seiner Karten anklickt
@@ -83,20 +82,31 @@ public class GameActivity extends Activity implements OnClickListener{
 			CardImageButton tmpV = (CardImageButton) v;
 			Log.d(tmpV.getClass().getName(), "image button clicked!!" + " isClicked:" + tmpV.isClicked());
 			if(!tmpV.isClicked()){
-				
 				tmpV.setClicked(true);
+				
+				//Grafisches Verschieben der angeklickten Karten
 				if(isOuterRightCard(tmpV)){
 					tmpV.alterMargin(0,0,0,25);
 				}else{
 					tmpV.alterMargin(0,0,-80,25);
 				}
 			}else{
-				tmpV.setClicked(false);
-				if(isOuterRightCard(tmpV)){
-					tmpV.alterMargin(0,0,0,0);
+				int cardPosition = (int)v.getTag();
+				Hand hand = gameApp.getLocalPlayerHand();
+				Card card = gameApp.getLocalPlayerHand().getCards().get(cardPosition);
+				
+				if(gameApp.isCardValid(card)){
+					PutCardTask putCardTask = new PutCardTask(this);
+					putCardTask.execute(gameApp.getLocalPlayer(),card,Integer.valueOf(cardPosition),v);
 				}else{
-					tmpV.alterMargin(0,0,-80,0);
+					tmpV.setClicked(false);
+					if(isOuterRightCard(tmpV)){
+						tmpV.alterMargin(0,0,0,0);
+					}else{
+						tmpV.alterMargin(0,0,-80,0);
+					}
 				}
+				
 			}
 		}
 		
@@ -128,7 +138,7 @@ public class GameActivity extends Activity implements OnClickListener{
 	}
 	
 	/**
-	 * Methode die aufgerufen wird sobal der User den KartenStapel anklicked
+	 * Methode die aufgerufen wird sobald der User den KartenStapel anclicked
 	 */
 	public void drawCard(View view){
 		//überprüfe ob lokaler Spieler überhaupt spielberechtigt ist
@@ -136,12 +146,13 @@ public class GameActivity extends Activity implements OnClickListener{
 			DrawCardTask drawCardTask =  new DrawCardTask(this);
 			drawCardTask.execute(gameApp.getLocalPlayer());
 		}
+		
 	}
 	
 	//TODO Check Connectivity
 	private void initGame(){
 		ProgressDialog mDialog = new ProgressDialog(this);
-		InitGameTask initGameTask = new InitGameTask(InitGameTask.class.toString(), this, mDialog);
+		InitGameTask initGameTask = new InitGameTask(this, mDialog);
 		initGameTask.execute();
 	}
 	
@@ -152,6 +163,6 @@ public class GameActivity extends Activity implements OnClickListener{
 		}
 	}
 	
-	
+
 	
 }

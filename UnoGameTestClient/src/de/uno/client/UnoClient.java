@@ -29,10 +29,13 @@ public class UnoClient {
 
 	private static GameConnectionManager uno;
 	private static HighScore highscore;
-	private static Player dave,nico;
+	private static Player dave,nico,sven,schlonz;
 	private static boolean drawedMarker = false;
 	private static Hand daveCards;
 	private static Hand nicoCards;
+	private static Hand svenCards;
+	private static Hand schlonzCards;
+	
 	
 	public static void main(String[] args) {
 		try {
@@ -44,17 +47,28 @@ public class UnoClient {
 			
 			dave = new Player("Dave");
 			nico = new Player("Nico");
+			sven = new Player("Sven");
+			schlonz = new Player("Schlonz");
+			
 			uno.createNewGame(serialize(dave));
 			uno.addPlayer(serialize(dave), serialize(nico));
+			uno.addPlayer(serialize(dave), serialize(sven));
+			uno.addPlayer(serialize(dave), serialize(schlonz));
 			uno.startGame(serialize(dave));
 			dave.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(dave)))).getCards());
 			nico.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(nico)))).getCards());
+			sven.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(sven)))).getCards());
+			schlonz.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(schlonz)))).getCards());
 			
 			daveCards = dave.getHand();
 			nicoCards = nico.getHand();
+			svenCards = sven.getHand();
+			schlonzCards = schlonz.getHand();
 			
-			showCards(dave.getHand(),"Nico");
-			showCards(nico.getHand(), "Daniel");
+			showCards(dave.getHand(),"Dave");
+			showCards(nico.getHand(), "Nico");
+			showCards(sven.getHand(),"Sven");
+			showCards(schlonz.getHand(), "Schlonz");
 			
 			while(dave.getHand().getCards().size() != 0 && nico.getHand().getCards().size() != 0){
 				

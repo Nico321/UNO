@@ -36,11 +36,6 @@ public class GetHandTask extends GetDataFromServerTask<Player, String, Hand> {
 			//der zu übergebende Player nach dem der Server sucht
 			String playerString = objectSerializer.serialize(player[0]);
 			Hand hand = (Hand) objectSerializer.deserialize(gameApp.getGameStub().getHand(playerString).toString());
-			
-			if(hand != null){
-				gameApp.getLocalPlayer().getHand().addCard(hand.getCards());
-			}
-			
 			return hand;
 		} catch (Exception e) {
 			Log.d(TAG, e.getMessage());
@@ -58,12 +53,14 @@ public class GetHandTask extends GetDataFromServerTask<Player, String, Hand> {
 		super.onPostExecute(result);
 		if(result != null){
 			LinearLayout cardScrollViewLayout = (LinearLayout) gameActivity.findViewById(R.id.cardScollViewLayout);
-
-			for (Card c : gameApp.getLocalPlayer().getHand().getCards()) {
+			gameApp.setLocalPlayerHand(result);
+			Hand localPlayerHand = gameApp.getLocalPlayerHand();
+			for (int i= 0; i < localPlayerHand.getCards().size(); i++) {
 				CardImageButton imgb = new CardImageButton(gameActivity);
+				imgb.setTag(i);
 				imgb.setOnClickListener(gameActivity);
 				imgb.setBackgroundDrawable(null);
-				gameActivity.loadBitmap(CardMapper.mapCardToResource(c),gameActivity,imgb,60,90);
+				gameActivity.loadBitmap(CardMapper.mapCardToResource(localPlayerHand.getCards().get(i)),gameActivity,imgb,60,90);
 				cardScrollViewLayout.addView(imgb);
 			}
 			

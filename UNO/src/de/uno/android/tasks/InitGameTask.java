@@ -1,16 +1,19 @@
 package de.uno.android.tasks;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import android.app.ProgressDialog;
-import android.widget.ImageView;
+import android.os.AsyncTask;
 import de.uno.android.GameActivity;
 
 public class InitGameTask extends GetDataFromServerTask<Void, Void, Void> {
 	
 	private final WeakReference<ProgressDialog> progressDialogReferences;
 
-	public InitGameTask(String Tag, GameActivity gameActivity,ProgressDialog mDialog) {
+	public InitGameTask(GameActivity gameActivity,ProgressDialog mDialog) {
 		super(gameActivity);
 		progressDialogReferences = new WeakReference<ProgressDialog>(mDialog);
 	}

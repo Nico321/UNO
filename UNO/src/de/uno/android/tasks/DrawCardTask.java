@@ -3,7 +3,9 @@ package de.uno.android.tasks;
 import java.util.LinkedList;
 
 import android.util.Log;
+import android.webkit.WebView.FindListener;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.android.uno.R;
 import de.uno.android.GameActivity;
 import de.uno.android.util.CardMapper;
@@ -20,6 +22,12 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 		super(gameActivity);
 	}
 	
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		gameActivity.findViewById(R.id.cardScollViewLayout).setClickable(false);
+		//gameActivity.findViewById(R.id.cardStackButton).setClickable(false);
+	}
 	@Override
 	protected LinkedList<Card> doInBackground(Player... player) {
 		try{
@@ -48,6 +56,7 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 		//Die gezogenen Karten der View hinzufügen
 		for (Card c:result){
 			CardImageButton newCard = new CardImageButton(gameApp.getApplicationContext());
+			newCard.setTag(cardScrollViewLayout.getChildCount() -1);
 			newCard.setOnClickListener(gameActivity);
 			newCard.setBackgroundDrawable(null);
 			gameActivity.loadBitmap(CardMapper.mapCardToResource(c),gameActivity,newCard,60,90);
@@ -56,6 +65,13 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 		CardImageButton lastCard = (CardImageButton) cardScrollViewLayout.getChildAt(cardScrollViewLayout.getChildCount()-1);
 		lastCard.alterMargin(0, 0, 0, 0);
 		
+		String toastText = "card";
+		if(result.size() > 1){
+			toastText = "cards";
+		}
+		//Ausgabe dass eine Karte gezogen wurde damit der User ein Feedback erhält
+		Toast.makeText(gameActivity, "You drawed " + result.size() + toastText , Toast.LENGTH_LONG).show();
+		gameActivity.findViewById(R.id.cardScrollView).setClickable(true);
 	}
 
 	/**
@@ -66,6 +82,5 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 	private int checkQuantity(){
 		return 1;
 	}
-	
 
 }

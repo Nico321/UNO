@@ -30,7 +30,7 @@ public class GetStackCardTask extends GetDataFromServerTask<Player, String, Card
 		Card card = (Card) objectSerializer.deserialize(gameApp.getGameStub().getStackCard(playerString).toString());
 
 		if(card != null){
-			gameApp.getPlayedCards().push(card);
+			gameApp.addPlayedCard(card);
 		}
 		return card;
 		
@@ -43,8 +43,10 @@ public class GetStackCardTask extends GetDataFromServerTask<Player, String, Card
 	@Override
 	protected void onPostExecute(Card result) {
 		super.onPostExecute(result);
-		ImageView newCard = (ImageView) gameActivity.findViewById(R.id.cardStackView);
-		gameActivity.loadBitmap(CardMapper.mapCardToResource(result),gameActivity,newCard,40,75);
+		if(result != null){
+			ImageView newCard = (ImageView) gameActivity.findViewById(R.id.cardStackView);
+			gameActivity.loadBitmap(CardMapper.mapCardToResource(result),gameActivity,newCard,40,75);
+		}
 
 	}
 	

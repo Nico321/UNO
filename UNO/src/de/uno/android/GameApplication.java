@@ -31,12 +31,16 @@ public class GameApplication extends Application{
 	//singleton instanz der Spielapplikation
 	private static GameApplication instance;
 	
-	public Stack<Card> getPlayedCards() {
-		return playedCards;
+	public Card getLastPlayedCard() {
+		return this.playedCards.pop();
+	}
+	
+	public Card readLastPlayedCard(){
+		return this.playedCards.peek();
 	}
 
-	public void setPlayedCards(Stack<Card> playedCards) {
-		this.playedCards = playedCards;
+	public void addPlayedCard(Card card) {
+		this.playedCards.push(card);
 	}
 
 	public HashMap<String, Integer> getGameStatus() {

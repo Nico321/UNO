@@ -19,7 +19,7 @@ public class GameStub implements GameConnectionRemote {
 	 
 	private static final String NAMESPACE = "http://gameconnection.uno.de/";
 	
-	private static final String URL = "http://192.168.2.107:8080/UnoGame/GameConnectionManager";
+	private static final String URL = "http://192.168.2.106:8080/UnoGame/GameConnectionManager";
 	
 	private static final String TAG = GameStub.class.getName();
 

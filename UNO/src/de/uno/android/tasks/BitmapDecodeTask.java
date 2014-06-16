@@ -1,4 +1,4 @@
-package de.uno.android;
+package de.uno.android.tasks;
 
 import java.lang.ref.WeakReference;
 
