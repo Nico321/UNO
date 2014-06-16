@@ -1,10 +1,14 @@
 package de.uno.usermanagement;
-
 import javax.ejb.Stateless;
 import javax.persistence.*;
 
 import java.util.*;
-
+/**
+ * UserDAO
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 //Beinhaltet alle Datenbankabfragen/Verbindungen f�r die Userklasse
 @Stateless
 public class UserDAO implements UserDAOLocal{
@@ -13,10 +17,15 @@ public class UserDAO implements UserDAOLocal{
 	
 	//Methode zur Persistierung des Users durch EntityManager
 	@Override
-	public User AddUser(String username, String password){
+	public boolean AddUser(String username, String password){
+		if(FindUserByName(username) != null){
 		User user = new User(username, password);
 		em.persist(user);
-		return user;
+		return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	//Methode mit Datenbankabfrage zur Usersuche
@@ -27,17 +36,19 @@ public class UserDAO implements UserDAOLocal{
 	
 	//Methode mir Datenbankabfrage zur Freundl�schung
 	@Override
-	public void RemoveFriend(User actualUser, String OldFriendUsername){
+	public void RemoveFriend(String username, String OldFriendUsername){
+		
 		User oldFriend = em.find(User.class, OldFriendUsername);
-		User actualuser = em.find(User.class, actualUser.getUsername());
-		oldFriend.getFriends().remove(actualuser);
-		FindUserByName(actualUser.getUsername()).getFriendOf().remove(actualuser);
+		User actualUser = em.find(User.class, username);
+		oldFriend.getFriends().remove(actualUser);
+		actualUser.getFriendOf().remove(oldFriend);
 		em.refresh(User.class);
 	}
 	
 	//Methode mit Datenbankabfrage zum Freund adden
 	@Override
-	public void AddUserToFriendlist(User actualUser, String newFriendsUsername){
+	public void AddUserToFriendlist(String username, String newFriendsUsername){
+		User actualUser = em.find(User.class, username);
 		User newFriend = em.find(User.class, newFriendsUsername);
 		for( User wannabe : actualUser.getWannabeFriends()){
 			if(wannabe.getUsername() == newFriendsUsername){
@@ -69,13 +80,14 @@ public class UserDAO implements UserDAOLocal{
 	}
 	
 	@Override
-	public List<User> ShowWannabeFriends(User actualUser){
-		User user = em.find(User.class, actualUser.getUsername());
+	public List<User> ShowWannabeFriends(String username){
+		User user = em.find(User.class, username);
 		return user.getWannabeFriends();
 	}
 	
 	@Override
-	public void AddNewWannabeFriend(User actualUser, User wantToBe){
-		wantToBe.setNewWannabeeFriend(wantToBe);
+	public void AddNewWannabeFriend(String username, String wantToBeUsername){
+		User wantToBe = em.find(User.class, wantToBeUsername);
+		wantToBe.setNewWannabeeFriend(FindUserByName(username));
 	}
 }

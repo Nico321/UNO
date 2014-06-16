@@ -2,6 +2,16 @@ package de.uno.usermanagement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+=======
 import javax.persistence.*;
 /**
  * Session Bean implementation class User
@@ -9,6 +19,7 @@ import javax.persistence.*;
  * @author Daniel Reider 734544
  * 
  */
+>>>>>>> 3a26e94b5996d1bbca2dbe988c279d5b64206842
 @Entity
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;

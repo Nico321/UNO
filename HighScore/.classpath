@@ -12,7 +12,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/HighScoreOnlineService"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/HighScoreLocalService"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/HighScoreOnlineService"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

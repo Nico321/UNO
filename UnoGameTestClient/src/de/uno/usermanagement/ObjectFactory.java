@@ -24,13 +24,21 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _AddUserToFriendlistResponse_QNAME = new QName("http://usermanagement.uno.de/", "AddUserToFriendlistResponse");
     private final static QName _RemoveUserFromFriendlistResponse_QNAME = new QName("http://usermanagement.uno.de/", "RemoveUserFromFriendlistResponse");
+    private final static QName _ShowWannabeFriendsResponse_QNAME = new QName("http://usermanagement.uno.de/", "ShowWannabeFriendsResponse");
     private final static QName _AddUserResponse_QNAME = new QName("http://usermanagement.uno.de/", "AddUserResponse");
-    private final static QName _AddUserToFriendlist_QNAME = new QName("http://usermanagement.uno.de/", "AddUserToFriendlist");
+    private final static QName _AddNewWannabeFriend_QNAME = new QName("http://usermanagement.uno.de/", "AddNewWannabeFriend");
     private final static QName _AddUser_QNAME = new QName("http://usermanagement.uno.de/", "AddUser");
-    private final static QName _FindUserByName_QNAME = new QName("http://usermanagement.uno.de/", "FindUserByName");
+    private final static QName _ShowFriendListResponse_QNAME = new QName("http://usermanagement.uno.de/", "ShowFriendListResponse");
     private final static QName _RemoveUserFromFriendlist_QNAME = new QName("http://usermanagement.uno.de/", "RemoveUserFromFriendlist");
+    private final static QName _AddNewWannabeFriendResponse_QNAME = new QName("http://usermanagement.uno.de/", "AddNewWannabeFriendResponse");
+    private final static QName _Login_QNAME = new QName("http://usermanagement.uno.de/", "Login");
+    private final static QName _ShowWannabeFriends_QNAME = new QName("http://usermanagement.uno.de/", "ShowWannabeFriends");
+    private final static QName _LoginResponse_QNAME = new QName("http://usermanagement.uno.de/", "LoginResponse");
+    private final static QName _AddUserToFriendlistResponse_QNAME = new QName("http://usermanagement.uno.de/", "AddUserToFriendlistResponse");
+    private final static QName _AddUserToFriendlist_QNAME = new QName("http://usermanagement.uno.de/", "AddUserToFriendlist");
+    private final static QName _ShowFriendList_QNAME = new QName("http://usermanagement.uno.de/", "ShowFriendList");
+    private final static QName _FindUserByName_QNAME = new QName("http://usermanagement.uno.de/", "FindUserByName");
     private final static QName _FindUserByNameResponse_QNAME = new QName("http://usermanagement.uno.de/", "FindUserByNameResponse");
 
     /**
@@ -41,11 +49,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FindUserByNameResponse }
+     * Create an instance of {@link AddNewWannabeFriendResponse }
      * 
      */
-    public FindUserByNameResponse createFindUserByNameResponse() {
-        return new FindUserByNameResponse();
+    public AddNewWannabeFriendResponse createAddNewWannabeFriendResponse() {
+        return new AddNewWannabeFriendResponse();
+    }
+
+    /**
+     * Create an instance of {@link Login }
+     * 
+     */
+    public Login createLogin() {
+        return new Login();
+    }
+
+    /**
+     * Create an instance of {@link ShowWannabeFriends }
+     * 
+     */
+    public ShowWannabeFriends createShowWannabeFriends() {
+        return new ShowWannabeFriends();
     }
 
     /**
@@ -57,11 +81,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FindUserByName }
+     * Create an instance of {@link ShowFriendListResponse }
      * 
      */
-    public FindUserByName createFindUserByName() {
-        return new FindUserByName();
+    public ShowFriendListResponse createShowFriendListResponse() {
+        return new ShowFriendListResponse();
     }
 
     /**
@@ -81,6 +105,54 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AddNewWannabeFriend }
+     * 
+     */
+    public AddNewWannabeFriend createAddNewWannabeFriend() {
+        return new AddNewWannabeFriend();
+    }
+
+    /**
+     * Create an instance of {@link RemoveUserFromFriendlistResponse }
+     * 
+     */
+    public RemoveUserFromFriendlistResponse createRemoveUserFromFriendlistResponse() {
+        return new RemoveUserFromFriendlistResponse();
+    }
+
+    /**
+     * Create an instance of {@link ShowWannabeFriendsResponse }
+     * 
+     */
+    public ShowWannabeFriendsResponse createShowWannabeFriendsResponse() {
+        return new ShowWannabeFriendsResponse();
+    }
+
+    /**
+     * Create an instance of {@link FindUserByNameResponse }
+     * 
+     */
+    public FindUserByNameResponse createFindUserByNameResponse() {
+        return new FindUserByNameResponse();
+    }
+
+    /**
+     * Create an instance of {@link FindUserByName }
+     * 
+     */
+    public FindUserByName createFindUserByName() {
+        return new FindUserByName();
+    }
+
+    /**
+     * Create an instance of {@link ShowFriendList }
+     * 
+     */
+    public ShowFriendList createShowFriendList() {
+        return new ShowFriendList();
+    }
+
+    /**
      * Create an instance of {@link AddUserToFriendlist }
      * 
      */
@@ -97,20 +169,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RemoveUserFromFriendlistResponse }
+     * Create an instance of {@link LoginResponse }
      * 
      */
-    public RemoveUserFromFriendlistResponse createRemoveUserFromFriendlistResponse() {
-        return new RemoveUserFromFriendlistResponse();
+    public LoginResponse createLoginResponse() {
+        return new LoginResponse();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddUserToFriendlistResponse }{@code >}}
+     * Create an instance of {@link User }
      * 
      */
-    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddUserToFriendlistResponse")
-    public JAXBElement<AddUserToFriendlistResponse> createAddUserToFriendlistResponse(AddUserToFriendlistResponse value) {
-        return new JAXBElement<AddUserToFriendlistResponse>(_AddUserToFriendlistResponse_QNAME, AddUserToFriendlistResponse.class, null, value);
+    public User createUser() {
+        return new User();
     }
 
     /**
@@ -123,6 +194,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowWannabeFriendsResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "ShowWannabeFriendsResponse")
+    public JAXBElement<ShowWannabeFriendsResponse> createShowWannabeFriendsResponse(ShowWannabeFriendsResponse value) {
+        return new JAXBElement<ShowWannabeFriendsResponse>(_ShowWannabeFriendsResponse_QNAME, ShowWannabeFriendsResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AddUserResponse }{@code >}}
      * 
      */
@@ -132,12 +212,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddUserToFriendlist }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddNewWannabeFriend }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddUserToFriendlist")
-    public JAXBElement<AddUserToFriendlist> createAddUserToFriendlist(AddUserToFriendlist value) {
-        return new JAXBElement<AddUserToFriendlist>(_AddUserToFriendlist_QNAME, AddUserToFriendlist.class, null, value);
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddNewWannabeFriend")
+    public JAXBElement<AddNewWannabeFriend> createAddNewWannabeFriend(AddNewWannabeFriend value) {
+        return new JAXBElement<AddNewWannabeFriend>(_AddNewWannabeFriend_QNAME, AddNewWannabeFriend.class, null, value);
     }
 
     /**
@@ -150,12 +230,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link FindUserByName }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowFriendListResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "FindUserByName")
-    public JAXBElement<FindUserByName> createFindUserByName(FindUserByName value) {
-        return new JAXBElement<FindUserByName>(_FindUserByName_QNAME, FindUserByName.class, null, value);
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "ShowFriendListResponse")
+    public JAXBElement<ShowFriendListResponse> createShowFriendListResponse(ShowFriendListResponse value) {
+        return new JAXBElement<ShowFriendListResponse>(_ShowFriendListResponse_QNAME, ShowFriendListResponse.class, null, value);
     }
 
     /**
@@ -165,6 +245,78 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "RemoveUserFromFriendlist")
     public JAXBElement<RemoveUserFromFriendlist> createRemoveUserFromFriendlist(RemoveUserFromFriendlist value) {
         return new JAXBElement<RemoveUserFromFriendlist>(_RemoveUserFromFriendlist_QNAME, RemoveUserFromFriendlist.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddNewWannabeFriendResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddNewWannabeFriendResponse")
+    public JAXBElement<AddNewWannabeFriendResponse> createAddNewWannabeFriendResponse(AddNewWannabeFriendResponse value) {
+        return new JAXBElement<AddNewWannabeFriendResponse>(_AddNewWannabeFriendResponse_QNAME, AddNewWannabeFriendResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Login }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "Login")
+    public JAXBElement<Login> createLogin(Login value) {
+        return new JAXBElement<Login>(_Login_QNAME, Login.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowWannabeFriends }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "ShowWannabeFriends")
+    public JAXBElement<ShowWannabeFriends> createShowWannabeFriends(ShowWannabeFriends value) {
+        return new JAXBElement<ShowWannabeFriends>(_ShowWannabeFriends_QNAME, ShowWannabeFriends.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LoginResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "LoginResponse")
+    public JAXBElement<LoginResponse> createLoginResponse(LoginResponse value) {
+        return new JAXBElement<LoginResponse>(_LoginResponse_QNAME, LoginResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddUserToFriendlistResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddUserToFriendlistResponse")
+    public JAXBElement<AddUserToFriendlistResponse> createAddUserToFriendlistResponse(AddUserToFriendlistResponse value) {
+        return new JAXBElement<AddUserToFriendlistResponse>(_AddUserToFriendlistResponse_QNAME, AddUserToFriendlistResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddUserToFriendlist }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddUserToFriendlist")
+    public JAXBElement<AddUserToFriendlist> createAddUserToFriendlist(AddUserToFriendlist value) {
+        return new JAXBElement<AddUserToFriendlist>(_AddUserToFriendlist_QNAME, AddUserToFriendlist.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowFriendList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "ShowFriendList")
+    public JAXBElement<ShowFriendList> createShowFriendList(ShowFriendList value) {
+        return new JAXBElement<ShowFriendList>(_ShowFriendList_QNAME, ShowFriendList.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindUserByName }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "FindUserByName")
+    public JAXBElement<FindUserByName> createFindUserByName(FindUserByName value) {
+        return new JAXBElement<FindUserByName>(_FindUserByName_QNAME, FindUserByName.class, null, value);
     }
 
     /**
