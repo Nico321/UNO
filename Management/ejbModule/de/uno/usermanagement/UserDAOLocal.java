@@ -12,7 +12,7 @@ public interface UserDAOLocal {
 	boolean AddUser(String username, String password);
 	void RemoveFriend(String username, String OldFriendUsername);
 	void AddUserToFriendlist(String username, String newFriendsUsername);
-	List<User> ShowFriends(String username);
-	List<User> ShowWannabeFriends(String username);
-	void AddNewWannabeFriend(String username, String wantToBeUsername);
+	List<String> ShowFriends(String username);
+	List<String> ShowWannabeFriends(String username);
+	boolean AddNewWannabeFriend(String username, String wantToBeUsername);
 }

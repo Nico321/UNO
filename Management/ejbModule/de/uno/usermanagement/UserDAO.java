@@ -18,7 +18,7 @@ public class UserDAO implements UserDAOLocal{
 	//Methode zur Persistierung des Users durch EntityManager
 	@Override
 	public boolean AddUser(String username, String password){
-		if(FindUserByName(username) != null){
+		if(FindUserByName(username) == null){
 		User user = new User(username, password);
 		em.persist(user);
 		return true;
@@ -37,7 +37,6 @@ public class UserDAO implements UserDAOLocal{
 	//Methode mir Datenbankabfrage zur Freundlï¿½schung
 	@Override
 	public void RemoveFriend(String username, String OldFriendUsername){
-		
 		User oldFriend = em.find(User.class, OldFriendUsername);
 		User actualUser = em.find(User.class, username);
 		oldFriend.getFriends().remove(actualUser);
@@ -74,20 +73,32 @@ public class UserDAO implements UserDAOLocal{
 			return false;	
 	}
 	
+	//Freunde eines Users werden mit Usernamen zurückgegeben
 	@Override
-	public List<User> ShowFriends(String username){
-		return em.find(User.class, username).getFriends();
+	public List<String> ShowFriends(String username){
+		List<User> users = em.find(User.class, username).getFriends();
+		List<String> userNames = new ArrayList<String>();
+		for (User user : users){
+			userNames.add(user.getUsername());
+		}
+		return userNames;
+	}
+	
+	//Leute ausgeben, die mit einem User befreundet sein möchten.
+	@Override
+	public List<String> ShowWannabeFriends(String username){
+		List<User> users = em.find(User.class, username).getWannabeFriends();
+		List<String> userNames = new ArrayList<String>();
+		for (User user : users){
+			userNames.add(user.getUsername());
+		}
+		return userNames;
 	}
 	
 	@Override
-	public List<User> ShowWannabeFriends(String username){
-		User user = em.find(User.class, username);
-		return user.getWannabeFriends();
-	}
-	
-	@Override
-	public void AddNewWannabeFriend(String username, String wantToBeUsername){
+	public boolean AddNewWannabeFriend(String username, String wantToBeUsername){
 		User wantToBe = em.find(User.class, wantToBeUsername);
 		wantToBe.setNewWannabeeFriend(FindUserByName(username));
+		return true;
 	}
 }

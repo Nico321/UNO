@@ -98,11 +98,13 @@ public class UserManagement {
 	}
 	
 	//Nächsten möglichen Freunde anzeigen
+	@WebMethod
 	public String ShowWannabeFriends(String actualUserName){
 		return serialize((Serializable) userdao.ShowWannabeFriends(actualUserName));
 	}
 	
 	//User zur Freundesliste hinzufügen
+	@WebMethod
 	public void AddNewWannabeFriend(String actualUserName, String wantToBeName){
 		userdao.AddNewWannabeFriend(actualUserName, wantToBeName);
 	}
