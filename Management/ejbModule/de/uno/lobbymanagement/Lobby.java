@@ -73,10 +73,16 @@ public class Lobby {
 	}
 	
 	@WebMethod
-	public void createNewGame(String creatorUsername, Boolean isPublic){
-		User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
-		LobbyGame newGame = new LobbyGame(creator, isPublic);
-		possibleGames.put(creator.getUsername(), newGame);
+	public boolean createNewGame(String creatorUsername, Boolean isPublic){
+		if( deserialize(userManagement.FindUserByName(creatorUsername)) != null ){
+			User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+			LobbyGame newGame = new LobbyGame(creator, isPublic);
+			possibleGames.put(creator.getUsername(), newGame);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@WebMethod
