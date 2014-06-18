@@ -18,15 +18,11 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import de.highscore.HighScore;
-import de.highscore.HighScoreService;
-import de.uno.android.lobbymanagement.LobbyGame;
-import de.uno.android.usermanagement.User;
-import de.uno.gameconnection.GameConnectionManager;
-import de.uno.gameconnection.GameConnectionManagerService;
 import android.os.AsyncTask;
 import android.util.Log;
 import biz.source_code.base64Coder.Base64Coder;
+import de.uno.android.lobbymanagement.LobbyGame;
+import de.uno.android.usermanagement.User;
 
 
 public class AsynchronTask extends AsyncTask<Object, Object, Object> {
@@ -72,23 +68,27 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		SoapPrimitive result = null;
 	    SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 	    boolean success = false;
-		GameConnectionManager uno;
-		HighScore highscore;
+		//GameConnectionManager uno;
+		//HighScore highscore;
 	    HashMap<User, LobbyGame> possibleGames = null;
 	    List<User> userFriendList = null;
-	    User activeUser = null;
+	    
 
 	    if (params[0] instanceof Register | params[0] instanceof Login){
 	    	request.addProperty("arg0", params[1].toString());
 	    	request.addProperty("arg1", params[2].toString());
 	    }
-	    
-	    if (params[0] instanceof FriendList | params[0] instanceof NewServer){
+	    if (params[0] instanceof FriendList){
 	    	request.addProperty("arg0", params[1].toString());
+	    }
+	    if (params[0] instanceof NewServer){
+	    	User u = (User) params[1];
+	    	request.addProperty("arg0", u.getUsername().toString());
 	    }
 	    if (params[0] instanceof CreateServer){
 	    	request.addProperty("arg0", params[1].toString());
-	    	request.addProperty("arg1", (boolean) params[2]);
+	    	Boolean b = (Boolean) params[2];
+	    	request.addProperty("arg1", b);
 	    }
 	    
 	    Log.d(TAG, "requestPropertys added");
@@ -119,21 +119,31 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    
 		    if(params[0] instanceof CreateServer){		    	
 		    	Log.d(TAG, "CreateServer - LOG");
-		    	success = true;
+		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    	success = Boolean.valueOf(response.toString());
 		    	
 		    }
 		    if(params[0] instanceof NewServer){		    	
 		    	Log.d(TAG, "NewGame - LOG");
-		    	activeUser = ((AppVariables) this.getApplication()).getUser();
+		    	
+		    	User activeUser = (User) params[1];
+		    	User testUser1 = new User("testUser1","test123");
+		    	Log.d(TAG, "testUser1 angelegt");
+		    	/*
 		    	GameConnectionManagerService service = new GameConnectionManagerService();
+		    	Log.d(TAG, "service angelegt");
 				uno = service.getGameConnectionManagerPort();
+				Log.d(TAG, "port zugewiesen");
 				uno.createNewGame(serialize(activeUser));
-				uno.addPlayer(serialize(nico), serialize(daniel));
-				uno.startGame(serialize(nico));
+				Log.d(TAG, "spiel mit activeUser erstellt");
+				uno.addPlayer(serialize(activeUser), serialize(testUser1));
+				Log.d(TAG, "testUSer1 hinzugefügt");
+				uno.startGame(serialize(testUser1));
+				Log.d(TAG, "Spiel gestartet");
 				
 				HighScoreService highscoreService = new HighScoreService();
 				highscore = highscoreService.getHighScorePort();
-				
+				*/
 		    	success = true;
 		    	
 		    	

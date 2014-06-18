@@ -9,11 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import de.highscore.HighScore;
-import de.highscore.HighScoreService;
 import de.uno.android.usermanagement.User;
-import de.uno.gameconnection.GameConnectionManager;
-import de.uno.gameconnection.GameConnectionManagerService;
 
 public class NewServer extends Activity implements OnClickListener{
 
@@ -21,14 +17,12 @@ public class NewServer extends Activity implements OnClickListener{
 	private static final String NAMESPACE = "http://gameconnection.uno.de/";
 	private static final String URL = "http://192.168.2.104:8080/UnoGame/GameConnectionManager";
 	private static final String METHOD_NAME = "createNewGame";
-	private static GameConnectionManager uno;
-	private static HighScore highscore;
+
 	private ProgressDialog progDailog;
 	private Button startbtn;
 	private ToggleButton togglebtn;
 	private Toast toast = null;
 	private User activeUser = null;
-	private GameConnectionManager gcm = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +35,7 @@ public class NewServer extends Activity implements OnClickListener{
 		startbtn.setOnClickListener(this);
 		togglebtn = (ToggleButton) findViewById(R.id.newServerRdybtn);
 		togglebtn.setOnClickListener(this);
-	
+
 		
 		
 	}
@@ -59,7 +53,7 @@ public class NewServer extends Activity implements OnClickListener{
 			
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			runner.execute(this, activeUser.getUsername());
+			runner.execute(this, activeUser);
 			
 			
 			
@@ -70,6 +64,7 @@ public class NewServer extends Activity implements OnClickListener{
 				this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
+
 						toast.setText("Bereit!");
 						toast.show();
 					}

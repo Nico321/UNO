@@ -96,26 +96,28 @@ public class JoinServer extends Activity implements OnClickListener{
 			    public void run(){
 			    	
 			valueList = new ArrayList<String>();
-			valueList.add("TestUser");
-			for (HashMap.Entry<User, LobbyGame> entry : possibleGames.entrySet()) {
-				  User user = entry.getKey();
-				  LobbyGame lobbyGame = entry.getValue();				  
+			if(possibleGames.isEmpty()){
+				valueList.add("TestUser");
+			}
+				for (HashMap.Entry<User, LobbyGame> entry : possibleGames.entrySet()) {
+					User user = entry.getKey();
+					LobbyGame lobbyGame = entry.getValue();				  
 				  	
 					valueList.add(user.getUsername());
 					}	
 			
-					adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);
+				adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);
 			 
-			    	if(adapter.isEmpty()){
-			    	Log.d(TAG, "ListView leer");
-			    	}
-			    	Log.d(TAG, "ListView gefüllt");
+			    if(possibleGames.isEmpty()){
+			    Log.d(TAG, "no possible Games");
+			    }
+			    Log.d(TAG, "ListView gefüllt");
 			    	
-					Log.d(TAG, "ListView 1");
-					ListView lv = (ListView)findViewById(R.id.joinServerListView);
-					Log.d(TAG, "ListView 2");
-					lv.setAdapter(adapter);;
-					Log.d(TAG, "ListView angezeigt");
+				Log.d(TAG, "ListView 1");
+				ListView lv = (ListView)findViewById(R.id.joinServerListView);
+				Log.d(TAG, "ListView 2");
+				lv.setAdapter(adapter);;
+				Log.d(TAG, "ListView angezeigt");
 			    	
 			    }
 			});

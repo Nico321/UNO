@@ -5,3 +5,7 @@
 1403027187206	Change Widget Type
 1403027311248	Extracts string 'null' into R.string.newServerStartGamebtn
 1403028687894	Delete element
+1403095582516	Rename type 'GameConnectionManagerService'
+1403095764279	Rename type 'TheGameConnectionManagerService'
+1403095817610	Move compilation unit
+1403118400177	Delete element
