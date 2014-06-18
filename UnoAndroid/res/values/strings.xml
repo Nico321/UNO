@@ -23,6 +23,9 @@
     <string name="friendList_btn">Freundesliste</string>
     <string name="friendListRefreshbtn">Aktualisieren</string>
     <string name="friendListAddFriend">Freund hinzufügen</string>
+    <string name="newServerHeadline">Dein Server</string>
+    <string name="newServerPlayerListView">Spieler in deinem Spiel:</string>
+    <string name="newServerStartGamebtn">Spiel starten!</string>
     
 
 </resources>

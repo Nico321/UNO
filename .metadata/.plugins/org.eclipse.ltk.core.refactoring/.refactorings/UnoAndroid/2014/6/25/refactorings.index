@@ -1,1 +1,7 @@
 1402942730160	Change Layout
+1402949993649	Rename field 'toggleButton1'
+1403026403859	Extracts string 'null' into R.string.newServerHeadline
+1403026993676	Extracts string 'null' into R.string.newServerPlayerListView
+1403027187206	Change Widget Type
+1403027311248	Extracts string 'null' into R.string.newServerStartGamebtn
+1403028687894	Delete element

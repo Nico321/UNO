@@ -17,7 +17,6 @@ import biz.source_code.base64Coder.Base64Coder;
 import de.uno.lobbymanagement.*;
 import de.uno.usermanagement.*;
 import de.uno.gameconnection.*;
-import de.uno.usermanagement.User;
 
 public class UnoManagementClient {
 	private static UserManagement userManagement;

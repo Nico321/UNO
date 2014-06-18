@@ -99,7 +99,7 @@ public class Lobby {
 		User mod = (User)deserialize(smod);
 		if(possibleGames.get(mod) != null){
 			if(possibleGames.get(mod).rdyToStart() == true){
-				//Mit Nico über die Anbindung an das Game reden!
+				//Mit Nico ï¿½ber die Anbindung an das Game reden!
 					Player creator = new Player(mod.getUsername());
 					gameManager.createGame(creator);
 					for(User u : possibleGames.get(mod).getPlayer().values()){

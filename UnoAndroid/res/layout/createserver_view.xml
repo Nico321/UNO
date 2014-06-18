@@ -14,15 +14,15 @@
         android:layout_gravity="fill_vertical" />
 
     <ToggleButton
-        android:id="@+id/toggleButton1"
+        android:id="@+id/publicSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/createServerCreatebtn"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
+        android:text="ToggleButton"
         android:textOff="Privat"
-		android:textOn="Öffentlich" 
-        android:text="ToggleButton" />
+        android:textOn="Öffentlich" />
 
     <Button
         android:id="@+id/createServerCreatebtn"

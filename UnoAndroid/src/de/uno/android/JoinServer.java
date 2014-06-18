@@ -22,31 +22,35 @@ import android.widget.ListView;
 
 public class JoinServer extends Activity implements OnClickListener{
 
+	private static final String TAG = JoinServer.class.getName();
+	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
+	private static final String URL = "http://192.168.2.104:8080/Management/Lobby";	 
+	private static final String METHOD_NAME = "showOpenGames";
 	private Button prevbtn;
 	private ProgressDialog progDailog;
 	private List<String> valueList;
 	HashMap<User, LobbyGame> possibleGames = null;
 	ListAdapter adapter = null;
 	MenuItem refresh = null;
-	private static final String TAG = JoinServer.class.getName();
-	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/Management/Lobby";	 
-	private static final String METHOD_NAME = "showOpenGames";
+	private User activeUser = null;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.joinserver_view);
 		
+		activeUser = ((AppVariables) this.getApplication()).getUser();
+		
 		prevbtn = (Button) findViewById(R.id.JoinServerjoinbtn);
 		prevbtn.setOnClickListener(this);
+		
 		
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		
 		
@@ -96,7 +100,6 @@ public class JoinServer extends Activity implements OnClickListener{
 			for (HashMap.Entry<User, LobbyGame> entry : possibleGames.entrySet()) {
 				  User user = entry.getKey();
 				  LobbyGame lobbyGame = entry.getValue();				  
-				  
 				  	
 					valueList.add(user.getUsername());
 					}	

@@ -18,8 +18,12 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import de.highscore.HighScore;
+import de.highscore.HighScoreService;
 import de.uno.android.lobbymanagement.LobbyGame;
 import de.uno.android.usermanagement.User;
+import de.uno.gameconnection.GameConnectionManager;
+import de.uno.gameconnection.GameConnectionManagerService;
 import android.os.AsyncTask;
 import android.util.Log;
 import biz.source_code.base64Coder.Base64Coder;
@@ -37,15 +41,15 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	protected String doInBackground(Object... params) {
 		String result = null;
 	try{
-		if (params[0] instanceof Register | params[0] instanceof Login){
+		if (params[0] instanceof Register | params[0] instanceof Login | params[0] instanceof CreateServer){
 			Log.d(TAG, "execute SoapAction-3Attr");
 			executeSoapAction(params[0], params[1], params[2]);
 		}
-		if (params[0] instanceof FriendList){
+		if (params[0] instanceof FriendList | params[0] instanceof NewServer){
 			Log.d(TAG, "execute SoapAction-2Attr");
 			executeSoapAction(params[0], params[1]);
 		}
-		if (params[0] instanceof JoinServer | params[0] instanceof CreateServer){
+		if (params[0] instanceof JoinServer ){
 			Log.d(TAG, "execute SoapAction-1Attr");
 			executeSoapAction(params[0]);
 		}
@@ -68,19 +72,23 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		SoapPrimitive result = null;
 	    SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 	    boolean success = false;
+		GameConnectionManager uno;
+		HighScore highscore;
 	    HashMap<User, LobbyGame> possibleGames = null;
 	    List<User> userFriendList = null;
+	    User activeUser = null;
 
-	    if (params[0] instanceof Register){
+	    if (params[0] instanceof Register | params[0] instanceof Login){
 	    	request.addProperty("arg0", params[1].toString());
 	    	request.addProperty("arg1", params[2].toString());
 	    }
-	    if (params[0] instanceof Login){
+	    
+	    if (params[0] instanceof FriendList | params[0] instanceof NewServer){
 	    	request.addProperty("arg0", params[1].toString());
-	    	request.addProperty("arg1", params[2].toString());
 	    }
-	    if (params[0] instanceof FriendList){
+	    if (params[0] instanceof CreateServer){
 	    	request.addProperty("arg0", params[1].toString());
+	    	request.addProperty("arg1", (boolean) params[2]);
 	    }
 	    
 	    Log.d(TAG, "requestPropertys added");
@@ -110,16 +118,26 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    
 		    
 		    if(params[0] instanceof CreateServer){		    	
-
-		    	Log.d(TAG, "CreateServer-response PRE");
-		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
-		    	Log.d(TAG, "CreateServer-response POST");
-		    	Log.d(TAG, response.toString());
+		    	Log.d(TAG, "CreateServer - LOG");
 		    	success = true;
 		    	
 		    }
-		    
-		    
+		    if(params[0] instanceof NewServer){		    	
+		    	Log.d(TAG, "NewGame - LOG");
+		    	activeUser = ((AppVariables) this.getApplication()).getUser();
+		    	GameConnectionManagerService service = new GameConnectionManagerService();
+				uno = service.getGameConnectionManagerPort();
+				uno.createNewGame(serialize(activeUser));
+				uno.addPlayer(serialize(nico), serialize(daniel));
+				uno.startGame(serialize(nico));
+				
+				HighScoreService highscoreService = new HighScoreService();
+				highscore = highscoreService.getHighScorePort();
+				
+		    	success = true;
+		    	
+		    	
+		    }    
 		    if (params[0] instanceof Login){
 		    	Log.d(TAG, "Login-Method-response PRE");
 		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
@@ -132,11 +150,8 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    	System.out.println(envelope.bodyIn.toString());
 		    	SoapPrimitive response =  (SoapPrimitive) (envelope.getResponse());
 		    	Log.d("GetPointsByUser - Response", response.toString());
-		    	Object o = deserialize(response.toString());
-		    	User u = (User) o;
-		    	System.out.println(u.getUsername());
-		    	Log.d("User", "User");           
-		    	success = true;
+		    	success = (boolean) deserialize(response.toString());
+		    	Log.d(TAG, "success-cast erfolgreich");
 		    	
 		    }
 		   
@@ -157,12 +172,12 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    	e.printStackTrace();	    	
 	    }
 	    catch (SoapFault e) {
+	    	success = false;
 	    	e.printStackTrace();
 	    }
 	    catch (Exception e) {
 	    	e.printStackTrace();
-	    }	    
-	    
+	    }	      
         
         if(params[0] instanceof JoinServer){
 	    	Log.d(TAG, "JoinServer Rückruf");
@@ -177,7 +192,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
         if (params[0] instanceof Login){
 	    	Log.d(TAG, "Login Rückruf");
 	    	Login l = (Login) params[0];
-	    	l.loginCompleted();
+	    	l.loginCompleted(success);
 	    }
         if (params[0] instanceof Register){
 	    	Log.d(TAG, "Register Rückruf");
@@ -189,9 +204,18 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    	FriendList f = (FriendList) params[0];
 	    	f.showFriendListCompleted(success, userFriendList);
 	    }
+        if (params[0] instanceof NewServer){
+	    	Log.d(TAG, "NewServer Rückruf");
+	    	NewServer n = (NewServer) params[0];
+	    	n.createNewGameCompleted(success);
+	    }
         
 	    return result;
 	}
+	
+	
+	
+	
 	private String serialize(Serializable o){
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos;

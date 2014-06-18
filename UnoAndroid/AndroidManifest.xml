@@ -28,6 +28,7 @@
         <activity android:name="de.uno.android.CreateServer" android:screenOrientation="portrait"></activity>
         <activity android:name="de.uno.android.Settings" android:screenOrientation="portrait"></activity>
         <activity android:name="de.uno.android.FriendList" android:screenOrientation="portrait"></activity>
+        <activity android:name="NewServer"></activity>
         
     </application>
 

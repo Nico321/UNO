@@ -12,4 +12,6 @@
 <fullyQualifiedTypeName name="de.uno.android.R.menu"/>
 <fullyQualifiedTypeName name="android.view.Menu"/>
 <fullyQualifiedTypeName name="de.uno.android.R.id"/>
+<fullyQualifiedTypeName name="android.os.Message"/>
+<fullyQualifiedTypeName name="android.os.Handler"/>
 </qualifiedTypeNameHistroy>
