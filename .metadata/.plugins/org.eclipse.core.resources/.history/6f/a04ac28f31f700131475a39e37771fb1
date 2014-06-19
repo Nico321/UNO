@@ -23,7 +23,6 @@ public class Register extends Activity implements OnClickListener{
 	private Button registerBtn;
 	private ProgressDialog progDailog;
 	private AlertDialog.Builder alertDialogBuilder;
-	private Toast toast = null;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,8 +30,7 @@ public class Register extends Activity implements OnClickListener{
 		
 		registerBtn = (Button) findViewById(R.id.registerBtn);
 		registerBtn.setOnClickListener(this);
-		toast = Toast.makeText(Register.this, "",
-				Toast.LENGTH_LONG);
+		
 	}
 
 
@@ -92,8 +90,8 @@ public class Register extends Activity implements OnClickListener{
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				toast.setText("Registrierung erfolgreich!");
-				toast.show();
+				Toast.makeText(Register.this, "Registrierung erfolgreich!",
+						Toast.LENGTH_LONG).show();
 			}
 			});
 		Intent intent = new Intent(Register.this, Login.class);
@@ -107,8 +105,8 @@ public class Register extends Activity implements OnClickListener{
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					toast.setText("Registrierung fehlgeschlagen!");
-					toast.show();
+					Toast.makeText(Register.this, "Registrieren fehlgeschlagen!",
+							Toast.LENGTH_LONG).show();
 				}
 				});
 		

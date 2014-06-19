@@ -14,14 +14,17 @@ public class LobbyGame {
 		this.isPublic = isPublic;
 	}
 	
-	public User getCreator(){
-		return player.get(1);
+	public String getCreator(){
+		return player.get(1).getUsername();
 	}
 	
-	public void addFriend(User friend){
-		if(countPlayer < 4)
+	public boolean addFriend(User friend){
+		if(countPlayer < 4){
 			player.put(countPlayer, friend);
-		countPlayer++;
+			countPlayer++;
+			return true;
+		}
+		return false;
 	}
 	
 	public Boolean rdyToStart(){

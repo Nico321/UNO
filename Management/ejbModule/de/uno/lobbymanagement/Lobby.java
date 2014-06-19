@@ -17,19 +17,22 @@ import javax.jws.WebService;
 import biz.source_code.base64Coder.Base64Coder;
 import de.uno.gamemanager.GameManagerLocal;
 import de.uno.player.Player;
-import de.uno.usermanagement.User;
+import de.uno.usermanagement.*;
 
 
 @Singleton
 @WebService
 public class Lobby {
-	HashMap<User, LobbyGame> possibleGames;
+	HashMap<String, LobbyGame> possibleGames;
 	@EJB
 	private GameManagerLocal gameManager;
 	
+	
+	private UserManagement userManagement;
+	
     @PostConstruct
     public void init() {
-    	possibleGames = new HashMap<User, LobbyGame>();
+    	possibleGames = new HashMap<String, LobbyGame>();
     }
     private String serialize(Serializable o){
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -70,10 +73,16 @@ public class Lobby {
 	}
 	
 	@WebMethod
-	public void createNewGame(String screator, Boolean isPublic){
-		User creator = (User)deserialize(screator);
-		LobbyGame newGame = new LobbyGame(creator, isPublic);
-		possibleGames.put(creator, newGame);
+	public boolean createNewGame(String creatorUsername, Boolean isPublic){
+		if( deserialize(userManagement.FindUserByName(creatorUsername)) != null ){
+			User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+			LobbyGame newGame = new LobbyGame(creator, isPublic);
+			possibleGames.put(creator.getUsername(), newGame);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@WebMethod
@@ -85,10 +94,10 @@ public class Lobby {
 	}
 	
 	@WebMethod
-	public void enterRandom(String suser){
-		User user = (User)deserialize(suser);
-		for(User u : possibleGames.keySet()){
-			LobbyGame game = (LobbyGame)possibleGames.get(u);
+	public void enterRandom(String username){
+		User user = (User) deserialize(userManagement.FindUserByName(username));
+		for(String u : possibleGames.keySet()){
+			LobbyGame game = (LobbyGame) possibleGames.get(u);
 				if(game.getFill() == true)
 					game.addFriend(user);		
 		}

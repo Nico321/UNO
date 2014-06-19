@@ -86,7 +86,8 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    	request.addProperty("arg0", u.getUsername().toString());
 	    }
 	    if (params[0] instanceof CreateServer){
-	    	request.addProperty("arg0", params[1].toString());
+	    	String u = serialize((Serializable)params[1]);
+	    	request.addProperty("arg0", u);
 	    	Boolean b = (Boolean) params[2];
 	    	request.addProperty("arg1", b);
 	    }

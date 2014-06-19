@@ -59,18 +59,6 @@ public class UnoClient {
 				
 				//------------- normales Game -----------------------
 				placeCard();
-				
-				if(nico.getHand().getCards().size() == 1){
-					uno.callUno(serialize(nico));
-					System.out.println("Nico called Uno");
-				}
-					
-				if(daniel.getHand().getCards().size() == 1){
-					uno.callUno(serialize(daniel));
-					System.out.println("Daniel called Uno");
-				}
-					
-				
 				if(nico.getHand().getCards().size() == 0){
 					break;
 				}

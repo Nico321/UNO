@@ -18,6 +18,9 @@ import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Queue;
 import javax.jms.TextMessage;
+import javax.naming.InitialContext;
+
+import de.highscore.common.HighScoreLocal;
 import de.uno.game.Game;
 import de.uno.game.GameLocal;
 import de.uno.player.Player;

@@ -119,8 +119,6 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    
 		    if(params[0] instanceof CreateServer){		    	
 		    	Log.d(TAG, "CreateServer - LOG");
-		    	User activeUser = (User) params[1];
-		    	Log.d(TAG, activeUser.getUsername());
 		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
 		    	success = Boolean.valueOf(response.toString());
 		    	

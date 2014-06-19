@@ -20,7 +20,7 @@ import de.uno.gameconnection.*;
 
 public class UnoManagementClient {
 	private static UserManagement userManagement;
-	//private static LobbyManagement lobbyManagement;
+	private static LobbyManagement lobbyManagement;
 	private static User nico, dave;
 	
 	private static String serialize(Serializable o){

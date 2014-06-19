@@ -101,7 +101,7 @@ public class Login extends Activity implements OnClickListener{
 		if(success){
 			Log.d(TAG, "Login success");
 			progDailog.cancel();
-			((AppVariables) this.getApplication()).setUser(activeUser);
+			((AppVariables) this.getApplication()).setUser(new User(,""));
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
