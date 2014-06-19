@@ -47,4 +47,13 @@ public class LobbyGame {
 	public HashMap<Integer, User> getPlayer() {
 		return player;
 	}
+	
+	public boolean addMeToGame(User me){
+		if(countPlayer < 4){
+			player.put(countPlayer, me);
+			countPlayer++;
+			return true;
+		}
+		return false;
+	}
 }
