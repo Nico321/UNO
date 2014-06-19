@@ -26,8 +26,6 @@ public class Lobby {
 	HashMap<String, LobbyGame> possibleGames;
 	@EJB
 	private GameManagerLocal gameManager;
-	
-	
 	private UserManagement userManagement;
 	
     @PostConstruct
@@ -118,6 +116,12 @@ public class Lobby {
 					gameManager.getPlayersGame(creator).startGame();
 			}
 		}
+	}
+	
+	@WebMethod
+	public void joinLobbyGame(String creatorUsername){
+		User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+		possibleGames.get(creatorUsername).addMeToGame(creator);
 	}
 
 }
