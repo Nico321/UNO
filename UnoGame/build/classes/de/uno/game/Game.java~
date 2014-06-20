@@ -121,6 +121,7 @@ public class Game implements GameLocal{
 	}
 	
 	@Override
+<<<<<<< HEAD
 	public boolean putCard(Player player, Card card){
 		if(player.equals(this.getNextPlayer())){
 			if(cardIsValid(card)){
@@ -145,6 +146,14 @@ public class Game implements GameLocal{
 				}
 				log.info(player.getUsername() + " played " + card);
 				return true;
+=======
+	public boolean putCard(Card card){
+		if(cardIsValid(card)){
+			stack.addCard(card);
+			if (card.getClass().getName().equals("SkipCard")){
+				if (playerStep <2 && playerStep > -2)
+					playerStep *= 2;
+>>>>>>> 4512491f467e0f89c73480d11fe44547f1079b2b
 			}
 			else if (card.getClass().getName().equals("ChangeDirectionCard")){
 				playerStep *= -1;
@@ -286,6 +295,7 @@ public class Game implements GameLocal{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public LinkedList<Card> drawCard(Player player, int quantity) {
 		if(player.equals(this.getNextPlayer())){
 			if(deck.count() < quantity){
@@ -300,11 +310,15 @@ public class Game implements GameLocal{
 					playerStep = 1;
 				updateCurrentPlayerID();
 			}
-			if(player.calledUno()){
+			if(player.calledUno())
 				this.callLocalUno(player, false);
-			}
 			log.info(player.getUsername() +  " drawed " + quantity  + " cards");
 			return returnCard;
+=======
+	public LinkedList<Card> drawCard(int quantity) {
+		if(deck.count() < quantity){
+			deck.addCard(stack.cleanDeck());
+>>>>>>> 4512491f467e0f89c73480d11fe44547f1079b2b
 		}
 		LinkedList<Card> returnCard = deck.removeCard(quantity);
 		this.getNextPlayer().getHand().addCard(returnCard);
@@ -356,6 +370,7 @@ public class Game implements GameLocal{
 		}
 		return false;
 	}
+<<<<<<< HEAD
 
 	@Override
 	public boolean callUno(Player player) {
@@ -375,4 +390,6 @@ public class Game implements GameLocal{
 				p.callUno(value);
 		}
 	}
+=======
+>>>>>>> 4512491f467e0f89c73480d11fe44547f1079b2b
 }

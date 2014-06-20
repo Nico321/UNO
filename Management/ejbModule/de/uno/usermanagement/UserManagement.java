@@ -25,7 +25,7 @@ import biz.source_code.base64Coder.Base64Coder;
 @Stateless
 @Remote
 @WebService
-public class UserManagement {
+public class UserManagement implements UserManagementLocal{
 	private static final Logger log = Logger.getLogger( UserManagement.class.getName() );
 	@EJB
 	UserDAOLocal userdao;
@@ -64,63 +64,51 @@ public class UserManagement {
 	}
 	
 	//Neuer User wird mit PW und Usernamen in der Datenbank persistiert
-	//Password muss verschlüsselt übergeben werden
+	//Password muss verschlï¿½sselt ï¿½bergeben werden
+	@Override
 	@WebMethod
-	public String AddUser(String username, String password){
+	public boolean AddUser(String username, String password){
 		if(userdao.FindUserByName(username) == null){
 			log.info("User Added: " + username);
-			return serialize(userdao.AddUser(username, password));
+			return userdao.AddUser(username, password);
 		}
 		else{
 			log.info("Username already in use");
-			return null;
+			return false;
 		}
 	}
 	
-	//User über Usernamen suchen
-	@WebMethod
-	public String FindUserByName(String username){
-		return serialize(userdao.FindUserByName(username));
+	//User ï¿½ber Usernamen suchen
+	@Override
+	public User FindUserByName(String username){
+		return userdao.FindUserByName(username);
 	}
 	
-	//User zur Freundesliste hinzufügen
+	//User zur Freundesliste hinzufï¿½gen
+	@Override
 	@WebMethod
-	public void AddUserToFriendlist(User actualUser, String newFriendsUsername){
-		((User)deserialize(actualUser.getUsername())).setFriend(actualUser, userdao.FindUserByName(newFriendsUsername));
+	public void AddUserToFriendlist(String actualUsername, String newFriendsUsername){
+		userdao.AddUserToFriendlist(actualUsername, newFriendsUsername);
 	}
 	
 	//User von der Freundesliste entfernen
+	@Override
 	@WebMethod
 	public void RemoveUserFromFriendlist(String actualUserName, String OldFriendUsername){
 		userdao.RemoveFriend(actualUserName, OldFriendUsername);
 	}
 
 	//Login-Funktion
+	@Override
 	@WebMethod
 	public boolean Login(String username, String password){
 		return userdao.UserLogin(username, password);
 	}
 	
 	//Freundesliste anzeigen
+	@Override
 	@WebMethod
 	public String ShowFriendList(String username){
-		return serialize((Serializable) userdao.ShowFriends(username));
-	}
-	
-	//Nächsten möglichen Freunde anzeigen
-	@WebMethod
-	public String ShowWannabeFriends(String actualUserName){
-		return serialize((Serializable) userdao.ShowWannabeFriends(actualUserName));
-	}
-	
-	//User zur Freundesliste hinzufügen
-	@WebMethod
-	public void AddNewWannabeFriend(String actualUserName, String wantToBeName){
-		userdao.AddNewWannabeFriend(actualUserName, wantToBeName);
-	}
-	
-	@WebMethod
-	public void UserLogin(String username, String password){
-		userdao.UserLogin(username, password);
+		return serialize(userdao.ShowFriends(username));
 	}
 }

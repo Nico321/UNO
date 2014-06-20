@@ -18,8 +18,8 @@ public interface GameLocal {
 
 	
 	public Player getNextPlayer();
-	public LinkedList<Card> drawCard(int quantity);
-	public boolean putCard(Card card);
+	public LinkedList<Card> drawCard(Player player, int quantity);
+	public boolean putCard(Player player, Card card);
 	public HashMap<String, Integer> getGameStatus();
 	public Card getStackCard();
 	public void addPlayer(Player player);
@@ -28,4 +28,5 @@ public interface GameLocal {
 	public void setWishedColor(CardColor wishedColor);
 	public CardColor getWishedColor();
 	public boolean playerAssignedToGame(Player player);
+	boolean callUno(Player player);
 }

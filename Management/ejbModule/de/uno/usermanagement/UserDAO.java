@@ -21,10 +21,10 @@ public class UserDAO implements UserDAOLocal{
 	@Override
 	public boolean AddUser(String username, String password){
 		if(FindUserByName(username) == null){
-		User user = new User(username, password);
-		em.persist(user);
-		log.info("Added new Player: " + username);
-		return true;
+			User user = new User(username, password);
+			em.persist(user);
+			log.info("Added new Player: " + username);
+			return true;
 		}
 		else{
 			log.info("Username already existing");
@@ -45,28 +45,18 @@ public class UserDAO implements UserDAOLocal{
 		log.info("Remove friend: " + username);
 		User oldFriend = em.find(User.class, OldFriendUsername);
 		User actualUser = em.find(User.class, username);
-		oldFriend.getFriends().remove(actualUser);
-		actualUser.getFriendOf().remove(oldFriend);
-		em.refresh(User.class);
+		actualUser.removeFriend(oldFriend);
+		em.persist(actualUser);
 	}
 	
 	//Methode mit Datenbankabfrage zum Freund adden
 	@Override
 	public void AddUserToFriendlist(String username, String newFriendsUsername){
-		log.info("Add Friend: " + username);
+		log.info("Added "+ newFriendsUsername + " to "+ username+ "'s friendslist.");
 		User actualUser = em.find(User.class, username);
 		User newFriend = em.find(User.class, newFriendsUsername);
-		for( User wannabe : actualUser.getWannabeFriends()){
-			if(wannabe.getUsername() == newFriendsUsername){
-				actualUser.getFriends().add(newFriend);
-				newFriend.getFriendOf().add(actualUser);
-			}
-			else{
-				newFriend.setNewWannabeFriend(actualUser);
-				log.info("Add user to Wannabe Friend: " + username);
-			}
-		}
-
+		actualUser.addFriend(newFriend);
+		em.persist(actualUser);
 	}
 	
 	@Override
@@ -83,35 +73,10 @@ public class UserDAO implements UserDAOLocal{
 			return false;	
 	}
 	
-	//Freunde eines Users werden mit Usernamen zurückgegeben
+	//Freunde eines Users werden mit Usernamen zurï¿½ckgegeben
 	@Override
-	public List<String> ShowFriends(String username){
-		List<User> users = em.find(User.class, username).getFriends();
-		List<String> userNames = new ArrayList<String>();
-		for (User user : users){
-			userNames.add(user.getUsername());
-			log.info("Friend: " + user.getUsername());
-		}
-		return userNames;
-	}
-	
-	//Leute ausgeben, die mit einem User befreundet sein möchten.
-	@Override
-	public List<String> ShowWannabeFriends(String username){
-		List<User> users = em.find(User.class, username).getWannabeFriends();
-		List<String> userNames = new ArrayList<String>();
-		for (User user : users){
-			userNames.add(user.getUsername());
-			log.info("Wannabe Friend: " + user.getUsername());
-		}
-		return userNames;
-	}
-	
-	@Override
-	public boolean AddNewWannabeFriend(String username, String wantToBeUsername){
-		User wantToBe = em.find(User.class, wantToBeUsername);
-		wantToBe.setNewWannabeFriend((User) FindUserByName(username));
-		log.info("Added wannabe friend: " + username);
-		return true;
+	public ArrayList<String> ShowFriends(String username){
+		User user = em.find(User.class, username);
+		return user.getFriends();
 	}
 }

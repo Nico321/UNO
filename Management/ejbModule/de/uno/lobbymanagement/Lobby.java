@@ -32,7 +32,7 @@ public class Lobby {
 	@EJB
 	private GameManagerLocal gameManager;
 	@EJB
-	private UserManagement userManagement;
+	private UserManagementLocal userManagement;
 	private static final Logger log = Logger.getLogger( UserDAO.class.getName() );
 	
     @PostConstruct
@@ -78,13 +78,13 @@ public class Lobby {
 		return serialize(possibleGames);
 	}
 	
-	//Game eröffnen Param1= creatorUsername Param2=isPublic
+	//Game erï¿½ffnen Param1= creatorUsername Param2=isPublic
 	@WebMethod
 	public boolean createNewGame(String creatorUsername, Boolean isPublic){
 		System.out.println("ba");
-		if( deserialize(userManagement.FindUserByName(creatorUsername)) != null ){
+		if( userManagement.FindUserByName(creatorUsername) != null ){
 			log.info("new lobby game created");
-			User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+			User creator =userManagement.FindUserByName(creatorUsername);
 			LobbyGame newGame = new LobbyGame(creator, isPublic);
 			possibleGames.put(creator.getUsername(), newGame);
 			return true;
@@ -107,7 +107,7 @@ public class Lobby {
 	
 	@WebMethod
 	public void enterRandom(String username){
-		User user = (User) deserialize(userManagement.FindUserByName(username));
+		User user = userManagement.FindUserByName(username);
 		for(String u : possibleGames.keySet()){
 			LobbyGame game = (LobbyGame) possibleGames.get(u);
 				if(game.getFill() == true)
@@ -121,7 +121,7 @@ public class Lobby {
 		if(possibleGames.get(mod) != null){
 			log.info("send lobby game to real game");
 			if(possibleGames.get(mod).rdyToStart() == true){
-				//Mit Nico über die Anbindung an das Game reden!
+				//Mit Nico ï¿½ber die Anbindung an das Game reden!
 					Player creator = new Player(mod.getUsername());
 					gameManager.createGame(creator);
 					for(User u : possibleGames.get(mod).getPlayer().values()){
@@ -137,7 +137,7 @@ public class Lobby {
 	
 	@WebMethod
 	public void joinLobbyGame(String creatorUsername){
-		User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+		User creator = userManagement.FindUserByName(creatorUsername);
 		possibleGames.get(creatorUsername).addMeToGame(creator);
 		log.info("User joined open game from: " + creatorUsername);
 	}

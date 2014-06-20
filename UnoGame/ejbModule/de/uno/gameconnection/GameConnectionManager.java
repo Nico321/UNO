@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+
 import biz.source_code.base64Coder.Base64Coder;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
@@ -79,13 +81,15 @@ public class GameConnectionManager implements GameConnectionRemote {
 	@Override
 	@WebMethod
 	public String drawCard(String player, int quantity) {
-		return serialize(getGame((Player)deserialize(player)).drawCard(quantity));
+		Player p = (Player)deserialize(player);
+		return serialize(getGame(p).drawCard(p, quantity));
 	}
 
 	@Override
 	@WebMethod
 	public boolean putCard(String player, String card){
-		return getGame((Player)deserialize(player)).putCard((Card)deserialize(card));
+		Player p = (Player)deserialize(player);
+		return getGame(p).putCard(p, (Card)deserialize(card));
 	}
 
 	@Override
@@ -130,6 +134,13 @@ public class GameConnectionManager implements GameConnectionRemote {
 	@Override
 	public void addPlayer(String creator, String member) {
 		getGame((Player)deserialize(creator)).addPlayer((Player)deserialize(member));
+	}
+
+	@Override
+	public void callUno(String player) {
+		Player p = (Player)deserialize(player);
+		getGame(p).callUno(p);
+		
 	}
 
 	
