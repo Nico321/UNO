@@ -89,13 +89,23 @@ public class GameManager implements GameManagerLocal {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * erstellt ein neues Spiel und fügt diesem den ersten Spieler hinzu
+	 * 
+	 * @param player	Spiler der dem SPiel hinzugefügt wird
+	 */
 	@Override
 	public void createGame(Player player) {
 		games.add(new Game(player));	
 		log.info("added game to managementlist");
 	}
 
+	/**
+	 * Schickt Aktualisierungen an die Highscore
+	 * 
+	 * @param pointsList	HashMap mit dem Player und den dazugehörigen Punkten
+	 */
 	@Override
 	@Asynchronous
 	public void updateHighScore(HashMap<Player, Integer> pointList) {

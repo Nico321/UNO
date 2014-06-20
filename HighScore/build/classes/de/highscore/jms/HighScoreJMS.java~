@@ -32,7 +32,6 @@ public class HighScoreJMS implements MessageListener {
 	
 	private static final Logger log = Logger.getLogger(HighScoreJMS.class.getName());
 	
-	//Bei Erhalt einer Nachricht wird die Punktzahl auf dem Highscore Server erhöht
     @Override
 	public void onMessage(Message message) {
     	
@@ -55,7 +54,7 @@ public class HighScoreJMS implements MessageListener {
        }
        catch (JMSException e) {
     	   log.log(Level.SEVERE, "error while processing message", e);
-           throw new EJBException(e);
+            throw new EJBException(e);
        }
     }
 
