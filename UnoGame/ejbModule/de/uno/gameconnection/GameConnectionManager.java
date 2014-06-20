@@ -79,15 +79,13 @@ public class GameConnectionManager implements GameConnectionRemote {
 	@Override
 	@WebMethod
 	public String drawCard(String player, int quantity) {
-		Player p = (Player)deserialize(player);
-		return serialize(getGame(p).drawCard(p, quantity));
+		return serialize(getGame((Player)deserialize(player)).drawCard(quantity));
 	}
 
 	@Override
 	@WebMethod
 	public boolean putCard(String player, String card){
-		Player p = (Player)deserialize(player);
-		return getGame(p).putCard(p, (Card)deserialize(card));
+		return getGame((Player)deserialize(player)).putCard((Card)deserialize(card));
 	}
 
 	@Override
@@ -125,14 +123,6 @@ public class GameConnectionManager implements GameConnectionRemote {
 	public String getWishedColor(String player) {
 		return serialize(getGame((Player)deserialize(player)).getWishedColor());
 	}
-	
-	@Override
-	@WebMethod
-	public boolean callUno(String player){
-		Player p = (Player)deserialize(player);
-		return getGame(p).callUno(p);
-	}
-	
 	@Override
 	public void createNewGame(String player) {
 		gameManager.createGame((Player)deserialize(player));

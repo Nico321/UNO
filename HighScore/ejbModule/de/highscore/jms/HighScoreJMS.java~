@@ -54,7 +54,7 @@ public class HighScoreJMS implements MessageListener {
        }
        catch (JMSException e) {
     	   log.log(Level.SEVERE, "error while processing message", e);
-           throw new EJBException(e);
+            throw new EJBException(e);
        }
     }
 

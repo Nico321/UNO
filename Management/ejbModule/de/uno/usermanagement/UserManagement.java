@@ -1,12 +1,11 @@
 package de.uno.usermanagement;
-
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -15,12 +14,19 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import biz.source_code.base64Coder.Base64Coder;
+/**
+ * User Management Class
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 
 
 @Stateless
 @Remote
 @WebService
 public class UserManagement {
+	private static final Logger log = Logger.getLogger( UserManagement.class.getName() );
 	@EJB
 	UserDAOLocal userdao;
 		
@@ -61,10 +67,14 @@ public class UserManagement {
 	//Password muss verschlüsselt übergeben werden
 	@WebMethod
 	public String AddUser(String username, String password){
-		if(userdao.FindUserByName(username) == null)
+		if(userdao.FindUserByName(username) == null){
+			log.info("User Added: " + username);
 			return serialize(userdao.AddUser(username, password));
-		else
+		}
+		else{
+			log.info("Username already in use");
 			return null;
+		}
 	}
 	
 	//User über Usernamen suchen
@@ -98,12 +108,19 @@ public class UserManagement {
 	}
 	
 	//Nächsten möglichen Freunde anzeigen
+	@WebMethod
 	public String ShowWannabeFriends(String actualUserName){
 		return serialize((Serializable) userdao.ShowWannabeFriends(actualUserName));
 	}
 	
 	//User zur Freundesliste hinzufügen
+	@WebMethod
 	public void AddNewWannabeFriend(String actualUserName, String wantToBeName){
 		userdao.AddNewWannabeFriend(actualUserName, wantToBeName);
+	}
+	
+	@WebMethod
+	public void UserLogin(String username, String password){
+		userdao.UserLogin(username, password);
 	}
 }

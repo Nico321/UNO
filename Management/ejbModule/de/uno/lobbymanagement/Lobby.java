@@ -1,5 +1,4 @@
 package de.uno.lobbymanagement;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,19 +17,28 @@ import javax.jws.WebService;
 import biz.source_code.base64Coder.Base64Coder;
 import de.uno.gamemanager.GameManagerLocal;
 import de.uno.player.Player;
-import de.uno.usermanagement.User;
-
+import de.uno.usermanagement.*;
+/**
+ * Lobby Singleton, manages all obbyGames
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 
 @Singleton
 @WebService
 public class Lobby {
-	HashMap<User, LobbyGame> possibleGames;
+	HashMap<String, LobbyGame> possibleGames;
 	@EJB
 	private GameManagerLocal gameManager;
+	@EJB
+	private UserManagement userManagement;
+	private static final Logger log = Logger.getLogger( UserDAO.class.getName() );
 	
     @PostConstruct
     public void init() {
-    	possibleGames = new HashMap<User, LobbyGame>();
+    	possibleGames = new HashMap<String, LobbyGame>();
+    	
     }
     private String serialize(Serializable o){
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -69,26 +78,38 @@ public class Lobby {
 		return serialize(possibleGames);
 	}
 	
+	//Game eröffnen Param1= creatorUsername Param2=isPublic
 	@WebMethod
-	public void createNewGame(String screator, Boolean isPublic){
-		User creator = (User)deserialize(screator);
-		LobbyGame newGame = new LobbyGame(creator, isPublic);
-		possibleGames.put(creator, newGame);
+	public boolean createNewGame(String creatorUsername, Boolean isPublic){
+		System.out.println("ba");
+		if( deserialize(userManagement.FindUserByName(creatorUsername)) != null ){
+			log.info("new lobby game created");
+			User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+			LobbyGame newGame = new LobbyGame(creator, isPublic);
+			possibleGames.put(creator.getUsername(), newGame);
+			return true;
+		}
+		else{
+			log.info("no lobby game crated");
+			return false;
+		}
 	}
 	
 	@WebMethod
 	public void addFriendsToGame(String smod, String sfriend){
 		User mod = (User)deserialize(smod);
 		User friend = (User)deserialize(sfriend);
-		if(possibleGames.get(mod) != null)
+		if(possibleGames.get(mod) != null){
 			possibleGames.get(mod).addFriend(friend);
+			log.info("friend added to lobby game");
+		}
 	}
 	
 	@WebMethod
-	public void enterRandom(String suser){
-		User user = (User)deserialize(suser);
-		for(User u : possibleGames.keySet()){
-			LobbyGame game = (LobbyGame)possibleGames.get(u);
+	public void enterRandom(String username){
+		User user = (User) deserialize(userManagement.FindUserByName(username));
+		for(String u : possibleGames.keySet()){
+			LobbyGame game = (LobbyGame) possibleGames.get(u);
 				if(game.getFill() == true)
 					game.addFriend(user);		
 		}
@@ -98,17 +119,27 @@ public class Lobby {
 	public void startGame(String smod){
 		User mod = (User)deserialize(smod);
 		if(possibleGames.get(mod) != null){
+			log.info("send lobby game to real game");
 			if(possibleGames.get(mod).rdyToStart() == true){
 				//Mit Nico über die Anbindung an das Game reden!
 					Player creator = new Player(mod.getUsername());
 					gameManager.createGame(creator);
 					for(User u : possibleGames.get(mod).getPlayer().values()){
-						if(u.getUsername() != mod.getUsername())
+						if(u.getUsername() != mod.getUsername()){
 							gameManager.getPlayersGame(creator).addPlayer(new Player(u.getUsername()));
+							log.info("transfered player to game:" + u.getUsername());
+						}
 					}
 					gameManager.getPlayersGame(creator).startGame();
 			}
 		}
+	}
+	
+	@WebMethod
+	public void joinLobbyGame(String creatorUsername){
+		User creator = (User) deserialize(userManagement.FindUserByName(creatorUsername));
+		possibleGames.get(creatorUsername).addMeToGame(creator);
+		log.info("User joined open game from: " + creatorUsername);
 	}
 
 }

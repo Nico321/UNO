@@ -1,7 +1,12 @@
 package de.uno.lobbymanagement;
-
 import java.util.HashMap;
 import de.uno.usermanagement.User;
+/**
+ * LobbyGame Class - Game which is used in our Lobby (not started)
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 
 public class LobbyGame {
 	HashMap<Integer, User> player;
@@ -14,14 +19,17 @@ public class LobbyGame {
 		this.isPublic = isPublic;
 	}
 	
-	public User getCreator(){
-		return player.get(1);
+	public String getCreator(){
+		return player.get(1).getUsername();
 	}
 	
-	public void addFriend(User friend){
-		if(countPlayer < 4)
+	public boolean addFriend(User friend){
+		if(countPlayer < 4){
 			player.put(countPlayer, friend);
-		countPlayer++;
+			countPlayer++;
+			return true;
+		}
+		return false;
 	}
 	
 	public Boolean rdyToStart(){
@@ -43,5 +51,14 @@ public class LobbyGame {
 
 	public HashMap<Integer, User> getPlayer() {
 		return player;
+	}
+	
+	public boolean addMeToGame(User me){
+		if(countPlayer < 4){
+			player.put(countPlayer, me);
+			countPlayer++;
+			return true;
+		}
+		return false;
 	}
 }
