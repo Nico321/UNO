@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Timer;
+import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -39,6 +40,7 @@ public class Game implements GameLocal{
 	
 	private GameManagerLocal gameManager;
 	
+	private static final Logger log = Logger.getLogger(Game.class.getName());
 	@Override
 	public CardColor getWishedColor() {
 		return wishedColor;
@@ -59,6 +61,7 @@ public class Game implements GameLocal{
         
         players = new HashMap<Integer, Player>();
         players.put(1,player);
+
         
     }
 
@@ -76,8 +79,8 @@ public class Game implements GameLocal{
 		else{
 			for(Player p:players.values()){
 				if(p.getHand().getCards().size() == 0){
-					System.out.println(p.getUsername() +  " 0 cards -  "+p.calledUno());
 					if(p.calledUno()){
+						log.info(p.getUsername() + " won the game");
 						closeGame();
 						return true;	
 					}
@@ -141,6 +144,7 @@ public class Game implements GameLocal{
 					task = new MyTimerTask(this);
 					timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
 				}
+				log.info(player.getUsername() + " played " + card);
 				return true;
 			}
 			else
@@ -152,6 +156,7 @@ public class Game implements GameLocal{
 	}
 	
 	private void closeGame(){
+		log.info("Game finished, trying to write Highscore");
 		InitialContext context;
 		try {
 			context = new InitialContext();
@@ -182,6 +187,7 @@ public class Game implements GameLocal{
 		}
 		
 		gameManager.updateHighScore(playerPoints);
+		log.info("Highscore successfully updated, closing game");
 		gameManager.removeGame(this);
 			
 		task.cancel();
@@ -282,6 +288,7 @@ public class Game implements GameLocal{
 			}
 			if(player.calledUno())
 				this.callLocalUno(player, false);
+			log.info(player.getUsername() +  " drawed " + quantity  + " cards");
 			return returnCard;
 		}
 		else
@@ -296,6 +303,7 @@ public class Game implements GameLocal{
 
 	@Override
 	public void startGame() {
+		log.info("starting game...");
 		for(int i = 1; i<=players.size();i++){
 			players.get(i).getHand().addCard(deck.removeCard(5));
 		}
@@ -330,6 +338,7 @@ public class Game implements GameLocal{
 	@Override
 	public boolean callUno(Player player) {
 		if (player.getHand().getCards().size() == 1){
+			log.info(player.getUsername() + " called Uno");
 			callLocalUno(player, true);
 			return true;
 		}
@@ -339,7 +348,6 @@ public class Game implements GameLocal{
 	
 	private void callLocalUno(Player remotePlayer, boolean value){
 		remotePlayer.callUno(value);
-		System.out.println(remotePlayer.getUsername() + " called Uno: " + remotePlayer.calledUno());
 		for(Player p : players.values()){
 			if (p.equals(remotePlayer))
 				p.callUno(value);

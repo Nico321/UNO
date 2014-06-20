@@ -1,5 +1,8 @@
 package de.highscore.jms;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJBException;
 import javax.ejb.MessageDriven;
@@ -27,10 +30,15 @@ import de.highscore.common.HighScoreLocal;
 			      propertyValue = "DocType LIKE 'Letter'") })
 public class HighScoreJMS implements MessageListener {
 	
+	private static final Logger log = Logger.getLogger(HighScoreJMS.class.getName());
+	
     @Override
 	public void onMessage(Message message) {
+    	
        try {
     	  TextMessage msg = (TextMessage) message;
+    	  log.info("received new message, trying to handle it: " + msg.getText());
+    	  
     	  	InitialContext context;
 	  		HighScoreLocal highscore = null;
 	  		try {
@@ -43,9 +51,9 @@ public class HighScoreJMS implements MessageListener {
 	  		
 	  	  String[] userpoints = msg.getText().split(":");
 	  	  highscore.addPointsToUser(userpoints[0], Integer.parseInt(userpoints[1]));
-          System.out.println("Received message from queue/HighscoreJMS: " + msg.getText());
        }
        catch (JMSException e) {
+    	   log.log(Level.SEVERE, "error while processing message", e);
             throw new EJBException(e);
        }
     }
