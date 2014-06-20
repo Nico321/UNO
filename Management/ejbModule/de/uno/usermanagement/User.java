@@ -2,6 +2,8 @@ package de.uno.usermanagement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
 import javax.persistence.*;
 /**
  * Session Bean implementation class User
@@ -11,6 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 public class User implements Serializable {
+	private static final Logger log = Logger.getLogger( User.class.getName() );
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -51,12 +54,14 @@ public class User implements Serializable {
 	
 	
 	public List<User> getFriends(){
+		log.info("User:Friendlist");
 		return friends;
 	}
 	
 	public void setFriend(User actualUser, User newFriend){
 		friendOf.add(actualUser);
 		friends.add(newFriend);
+		log.info("User:setFriend" + actualUser +"; " + newFriend);
 	}
 	
 	public String getUsername(){
@@ -70,7 +75,7 @@ public class User implements Serializable {
 		return wannabeFriends;
 	}
 	
-	public void setNewWannabeeFriend(User wannabe){
+	public void setNewWannabeFriend(User wannabe){
 		wannabeFriends.add(wannabe);
 		wannabeFriendsOf.add(this);
 	}

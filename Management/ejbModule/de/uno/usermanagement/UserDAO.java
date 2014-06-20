@@ -3,6 +3,7 @@ import javax.ejb.Stateless;
 import javax.persistence.*;
 
 import java.util.*;
+import java.util.logging.Logger;
 /**
  * UserDAO
  *  
@@ -12,6 +13,7 @@ import java.util.*;
 //Beinhaltet alle Datenbankabfragen/Verbindungen f�r die Userklasse
 @Stateless
 public class UserDAO implements UserDAOLocal{
+	private static final Logger log = Logger.getLogger( UserDAO.class.getName() );
 	
 	private @PersistenceContext EntityManager em;
 	
@@ -21,9 +23,11 @@ public class UserDAO implements UserDAOLocal{
 		if(FindUserByName(username) == null){
 		User user = new User(username, password);
 		em.persist(user);
+		log.info("Added new Player: " + username);
 		return true;
 		}
 		else{
+			log.info("Username already existing");
 			return false;
 		}
 	}
@@ -31,12 +35,14 @@ public class UserDAO implements UserDAOLocal{
 	//Methode mit Datenbankabfrage zur Usersuche
 	@Override
 	public User FindUserByName(String username){
+		log.info("User searching!");
 		return em.find(User.class, username);
 	}
 	
 	//Methode mir Datenbankabfrage zur Freundl�schung
 	@Override
 	public void RemoveFriend(String username, String OldFriendUsername){
+		log.info("Remove friend: " + username);
 		User oldFriend = em.find(User.class, OldFriendUsername);
 		User actualUser = em.find(User.class, username);
 		oldFriend.getFriends().remove(actualUser);
@@ -47,6 +53,7 @@ public class UserDAO implements UserDAOLocal{
 	//Methode mit Datenbankabfrage zum Freund adden
 	@Override
 	public void AddUserToFriendlist(String username, String newFriendsUsername){
+		log.info("Add Friend: " + username);
 		User actualUser = em.find(User.class, username);
 		User newFriend = em.find(User.class, newFriendsUsername);
 		for( User wannabe : actualUser.getWannabeFriends()){
@@ -55,7 +62,8 @@ public class UserDAO implements UserDAOLocal{
 				newFriend.getFriendOf().add(actualUser);
 			}
 			else{
-				newFriend.setNewWannabeeFriend(actualUser);
+				newFriend.setNewWannabeFriend(actualUser);
+				log.info("Add user to Wannabe Friend: " + username);
 			}
 		}
 
@@ -63,10 +71,12 @@ public class UserDAO implements UserDAOLocal{
 	
 	@Override
 	public boolean UserLogin(String username, String password){
+		log.info("Userlogin: " + username);
 		//Direkte DB-Abfrage um das Password nicht in dem Objekt zu haben
 		List<String> dbpw = em.createQuery("SELECT password from User where username like ?0").
 		setParameter(0, username).
 		getResultList();
+		log.info("Password: " + dbpw.get(0));
 		if(password.equals(dbpw.get(0)))
 			return true;
 		else
@@ -80,6 +90,7 @@ public class UserDAO implements UserDAOLocal{
 		List<String> userNames = new ArrayList<String>();
 		for (User user : users){
 			userNames.add(user.getUsername());
+			log.info("Friend: " + user.getUsername());
 		}
 		return userNames;
 	}
@@ -91,6 +102,7 @@ public class UserDAO implements UserDAOLocal{
 		List<String> userNames = new ArrayList<String>();
 		for (User user : users){
 			userNames.add(user.getUsername());
+			log.info("Wannabe Friend: " + user.getUsername());
 		}
 		return userNames;
 	}
@@ -98,7 +110,8 @@ public class UserDAO implements UserDAOLocal{
 	@Override
 	public boolean AddNewWannabeFriend(String username, String wantToBeUsername){
 		User wantToBe = em.find(User.class, wantToBeUsername);
-		wantToBe.setNewWannabeeFriend(FindUserByName(username));
+		wantToBe.setNewWannabeFriend((User) FindUserByName(username));
+		log.info("Added wannabe friend: " + username);
 		return true;
 	}
 }
