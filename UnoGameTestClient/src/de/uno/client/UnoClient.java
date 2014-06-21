@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.List;
 
 import de.highscore.HighScore;
 import de.highscore.HighScoreService;
@@ -20,6 +21,8 @@ import de.uno.card.Card;
 import de.uno.card.CardColor;
 import de.uno.card.DrawCard;
 import de.uno.player.Player;
+import de.uno.usermanagement.UserManagement;
+import de.uno.usermanagement.UserManagementService;
 /**
  *  
  * @author Nico Lindmeyer 737045
@@ -29,12 +32,31 @@ public class UnoClient {
 
 
 	private static GameConnectionManager uno;
+	private static UserManagement usermanagement;
 	private static HighScore highscore;
 	private static Player nico,daniel;
 	private static boolean drawedMarker = false;
 	
 	public static void main(String[] args) {
 		try {
+			UserManagementService userService = new UserManagementService();
+			usermanagement = userService.getUserManagementPort();
+			
+			usermanagement.addUser("Nico", "nico");
+			usermanagement.addUser("Daniel", "daniel");
+			
+			usermanagement.addUserToFriendlist("Nico", "Daniel");
+			
+			String puffer = usermanagement.showFriendList("Nico");
+			List<String> friends = (List<String>) deserialize(puffer);
+			
+			for(String s:friends){
+				System.out.println(s);
+			}
+			
+			if(usermanagement.login("Daniel", "daniel"))
+				System.out.println("voll geil!");
+			
 			GameConnectionManagerService service = new GameConnectionManagerService();
 			uno = service.getGameConnectionManagerPort();
 			
@@ -59,6 +81,14 @@ public class UnoClient {
 				
 				//------------- normales Game -----------------------
 				placeCard();
+				
+				if(nico.getHand().getCards().size() == 1){
+					uno.callUno(serialize(nico));
+				}
+				if(daniel.getHand().getCards().size() == 1){
+					uno.callUno(serialize(daniel));
+				}
+				
 				if(nico.getHand().getCards().size() == 0){
 					break;
 				}

@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -31,7 +32,8 @@ import de.highscoredao.UserDAOLocal;
 public class HighScore implements HighScoreRemote, HighScoreLocal {
 	@EJB
 	UserDAOLocal userDao;
-
+	private static final Logger log = Logger.getLogger(HighScore.class.getName());
+	
     private String serialize(Serializable o){
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos;
@@ -46,11 +48,23 @@ public class HighScore implements HighScoreRemote, HighScoreLocal {
         return new String( Base64Coder.encode( baos.toByteArray() ) );
     }
 	
+    /**
+	 * Fügt Punkte zu einem Spieler hinzu
+	 * 
+	 * @param	username	Username des Spielers dem punkte hinzugefügt werden sollen
+	 * @param	points		Anzahl der Punkte die hinzugefügt werden sollen
+	 */
 	@Override
 	public void addPointsToUser(String username, Integer points) {
 		userDao.addPointsToUser(username, points);
+		log.info("added " + points.toString() + " Points to " + username);
 	}
-
+	
+	/**
+	 * Fragt die HighScore ab
+	 * 
+	 * @return	liefert eine serialisierte HashMap von User und Punkte
+	 */
 	@Override
 	@WebMethod
 	public String getHighscore() {

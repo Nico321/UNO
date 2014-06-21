@@ -2,6 +2,7 @@ package de.uno.usermanagement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.*;
 /**
  * Session Bean implementation class User
@@ -14,74 +15,52 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String username;
-	
+	private String username;	
 	@Column
 	private String password;
 	
-	@ManyToMany
-	@JoinTable(name="tbl_friends",
-	 joinColumns=@JoinColumn(name="personId"),
-	 inverseJoinColumns=@JoinColumn(name="friendId")
-	)
-	private List<User> friends;
-
-	@ManyToMany
-	@JoinTable(name="tbl_friends",
-	 joinColumns=@JoinColumn(name="friendId"),
-	 inverseJoinColumns=@JoinColumn(name="personId")
-	)
-	private List<User> friendOf;
-
-	@ManyToMany
-	@JoinTable(name="add_friends",
-	 joinColumns=@JoinColumn(name="personId"),
-	 inverseJoinColumns=@JoinColumn(name="addableUser")
-	)
-	private List<User> wannabeFriends;
-
-	@ManyToMany
-	@JoinTable(name="add_friends",
-	 joinColumns=@JoinColumn(name="addableUser"),
-	 inverseJoinColumns=@JoinColumn(name="personId")
-	)
-	private List<User> wannabeFriendsOf;
-	
-	
-	
-	
-	public List<User> getFriends(){
-		return friends;
-	}
-	
-	public void setFriend(User actualUser, User newFriend){
-		friendOf.add(actualUser);
-		friends.add(newFriend);
-	}
+	@OneToMany(mappedBy="sourceUser", cascade=CascadeType.ALL)
+	private List<Friendship> friendships = new ArrayList<Friendship>();
 	
 	public String getUsername(){
 		return username;
 	}
-	public List<User> getFriendOf(){
-		return friendOf;
+	
+	public void addFriend(User user) {
+		friendships.add(new Friendship(this, user));
 	}
 	
-	public List<User> getWannabeFriends(){
-		return wannabeFriends;
+	public void removeFriend(User user){
+		int puffer = 0;
+		for(Friendship f:friendships){
+			puffer++;
+			if(f.getTargetUser().equals(user)){
+				friendships.remove(puffer);
+				break;
+			}				
+		}	
 	}
 	
-	public void setNewWannabeeFriend(User wannabe){
-		wannabeFriends.add(wannabe);
-		wannabeFriendsOf.add(this);
+	public ArrayList<String> getFriends(){
+		ArrayList<String> friends = new ArrayList<String>();
+		for(Friendship f:friendships){
+			friends.add(f.getTargetUser().getUsername());
+		}		
+		return friends;
+	}
+	
+	public User(String username, String password){
+			this.username = username;
+			this.password = password;
 	}
 
-
-public User(String username, String password){
-		this.username = username;
-		this.password = password;
-		friends  = new ArrayList<User>();
-		friendOf = new ArrayList<User>();
+	public User(){};
+	
+	@Override
+	public boolean equals(Object o){
+		if(o.getClass() == User.class){
+			return ((User) o ).getUsername().equals(this.username);
+		}
+		else
+			return false;
 	}
-
-public User(){};
-}

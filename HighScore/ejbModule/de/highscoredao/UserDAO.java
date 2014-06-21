@@ -1,6 +1,7 @@
 package de.highscoredao;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,12 +20,14 @@ import de.highscore.User;
 public class UserDAO implements UserDAOLocal {
 
 	private @PersistenceContext EntityManager em;
+	private static final Logger log = Logger.getLogger(UserDAO.class.getName());
 	
 	private void addUser(String username) {
 		User user = new User();
 		user.setUsername(username);
 		user.setPoints(0);
 		em.persist(user);
+		log.info("wrote new Player to Database: " + username);
 	}
 
 	@Override

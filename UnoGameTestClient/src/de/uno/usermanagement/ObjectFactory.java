@@ -25,19 +25,31 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _AddUserToFriendlistResponse_QNAME = new QName("http://usermanagement.uno.de/", "AddUserToFriendlistResponse");
+    private final static QName _LoginResponse_QNAME = new QName("http://usermanagement.uno.de/", "LoginResponse");
     private final static QName _RemoveUserFromFriendlistResponse_QNAME = new QName("http://usermanagement.uno.de/", "RemoveUserFromFriendlistResponse");
     private final static QName _AddUserResponse_QNAME = new QName("http://usermanagement.uno.de/", "AddUserResponse");
     private final static QName _AddUserToFriendlist_QNAME = new QName("http://usermanagement.uno.de/", "AddUserToFriendlist");
+    private final static QName _ShowFriendList_QNAME = new QName("http://usermanagement.uno.de/", "ShowFriendList");
     private final static QName _AddUser_QNAME = new QName("http://usermanagement.uno.de/", "AddUser");
     private final static QName _FindUserByName_QNAME = new QName("http://usermanagement.uno.de/", "FindUserByName");
     private final static QName _RemoveUserFromFriendlist_QNAME = new QName("http://usermanagement.uno.de/", "RemoveUserFromFriendlist");
+    private final static QName _ShowFriendListResponse_QNAME = new QName("http://usermanagement.uno.de/", "ShowFriendListResponse");
     private final static QName _FindUserByNameResponse_QNAME = new QName("http://usermanagement.uno.de/", "FindUserByNameResponse");
+    private final static QName _Login_QNAME = new QName("http://usermanagement.uno.de/", "Login");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.uno.usermanagement
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link Login }
+     * 
+     */
+    public Login createLogin() {
+        return new Login();
     }
 
     /**
@@ -65,6 +77,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ShowFriendListResponse }
+     * 
+     */
+    public ShowFriendListResponse createShowFriendListResponse() {
+        return new ShowFriendListResponse();
+    }
+
+    /**
      * Create an instance of {@link RemoveUserFromFriendlist }
      * 
      */
@@ -81,11 +101,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ShowFriendList }
+     * 
+     */
+    public ShowFriendList createShowFriendList() {
+        return new ShowFriendList();
+    }
+
+    /**
      * Create an instance of {@link AddUserToFriendlist }
      * 
      */
     public AddUserToFriendlist createAddUserToFriendlist() {
         return new AddUserToFriendlist();
+    }
+
+    /**
+     * Create an instance of {@link LoginResponse }
+     * 
+     */
+    public LoginResponse createLoginResponse() {
+        return new LoginResponse();
     }
 
     /**
@@ -111,6 +147,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "AddUserToFriendlistResponse")
     public JAXBElement<AddUserToFriendlistResponse> createAddUserToFriendlistResponse(AddUserToFriendlistResponse value) {
         return new JAXBElement<AddUserToFriendlistResponse>(_AddUserToFriendlistResponse_QNAME, AddUserToFriendlistResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LoginResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "LoginResponse")
+    public JAXBElement<LoginResponse> createLoginResponse(LoginResponse value) {
+        return new JAXBElement<LoginResponse>(_LoginResponse_QNAME, LoginResponse.class, null, value);
     }
 
     /**
@@ -141,6 +186,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowFriendList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "ShowFriendList")
+    public JAXBElement<ShowFriendList> createShowFriendList(ShowFriendList value) {
+        return new JAXBElement<ShowFriendList>(_ShowFriendList_QNAME, ShowFriendList.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AddUser }{@code >}}
      * 
      */
@@ -168,12 +222,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowFriendListResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "ShowFriendListResponse")
+    public JAXBElement<ShowFriendListResponse> createShowFriendListResponse(ShowFriendListResponse value) {
+        return new JAXBElement<ShowFriendListResponse>(_ShowFriendListResponse_QNAME, ShowFriendListResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindUserByNameResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "FindUserByNameResponse")
     public JAXBElement<FindUserByNameResponse> createFindUserByNameResponse(FindUserByNameResponse value) {
         return new JAXBElement<FindUserByNameResponse>(_FindUserByNameResponse_QNAME, FindUserByNameResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Login }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://usermanagement.uno.de/", name = "Login")
+    public JAXBElement<Login> createLogin(Login value) {
+        return new JAXBElement<Login>(_Login_QNAME, Login.class, null, value);
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Timer;
+import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -38,6 +39,7 @@ public class Game implements GameLocal{
 	
 	private GameManagerLocal gameManager;
 	
+	private static final Logger log = Logger.getLogger(Game.class.getName());
 	@Override
 	public CardColor getWishedColor() {
 		return wishedColor;
@@ -58,6 +60,7 @@ public class Game implements GameLocal{
         
         players = new HashMap<Integer, Player>();
         players.put(1,player);
+
         
     }
 
@@ -75,8 +78,15 @@ public class Game implements GameLocal{
 		else{
 			for(Player p:players.values()){
 				if(p.getHand().getCards().size() == 0){
-					closeGame();
-					return true;
+					if(p.calledUno()){
+						log.info(p.getUsername() + " won the game");
+						closeGame();
+						return true;	
+					}
+					else{
+						this.drawCard(p, 1);
+						return false;
+					}
 				}
 			}
 		}
@@ -111,12 +121,30 @@ public class Game implements GameLocal{
 	}
 	
 	@Override
-	public boolean putCard(Card card){
-		if(cardIsValid(card)){
-			stack.addCard(card);
-			if (card.getClass().getName().equals("SkipCard")){
-				if (playerStep <2 && playerStep > -2)
-					playerStep *= 2;
+	public boolean putCard(Player player, Card card){
+		if(player.equals(this.getNextPlayer())){
+			if(cardIsValid(card)){
+				stack.addCard(card);
+				if (card.getClass().getName().equals("SkipCard")){
+					if (playerStep <2 && playerStep > -2)
+						playerStep *= 2;
+				}
+				else if (card.getClass().getName().equals("ChangeDirectionCard")){
+					playerStep *= -1;
+				}
+				else{
+					playerStep = 1;
+				}
+				
+				this.getNextPlayer().getHand().removeCard(card);
+				if (!checkGameState()){
+					updateCurrentPlayerID();
+					task.cancel();
+					task = new MyTimerTask(this);
+					timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
+				}
+				log.info(player.getUsername() + " played " + card);
+				return true;
 			}
 			else if (card.getClass().getName().equals("ChangeDirectionCard")){
 				playerStep *= -1;
@@ -139,6 +167,7 @@ public class Game implements GameLocal{
 	}
 	
 	private void closeGame(){
+		log.info("Game finished, trying to write Highscore");
 		InitialContext context;
 		try {
 			context = new InitialContext();
@@ -169,6 +198,7 @@ public class Game implements GameLocal{
 		}
 		
 		gameManager.updateHighScore(playerPoints);
+		log.info("Highscore successfully updated, closing game");
 		gameManager.removeGame(this);
 			
 			
@@ -256,9 +286,25 @@ public class Game implements GameLocal{
 	}
 
 	@Override
-	public LinkedList<Card> drawCard(int quantity) {
-		if(deck.count() < quantity){
-			deck.addCard(stack.cleanDeck());
+	public LinkedList<Card> drawCard(Player player, int quantity) {
+		if(player.equals(this.getNextPlayer())){
+			if(deck.count() < quantity){
+				deck.addCard(stack.cleanDeck());
+			}
+			LinkedList<Card> returnCard = deck.removeCard(quantity);
+			this.getNextPlayer().getHand().addCard(returnCard);
+			if(quantity == 1){
+				if(playerStep < 0)
+					playerStep = -1;
+				else
+					playerStep = 1;
+				updateCurrentPlayerID();
+			}
+			if(player.calledUno()){
+				this.callLocalUno(player, false);
+			}
+			log.info(player.getUsername() +  " drawed " + quantity  + " cards");
+			return returnCard;
 		}
 		LinkedList<Card> returnCard = deck.removeCard(quantity);
 		this.getNextPlayer().getHand().addCard(returnCard);
@@ -279,6 +325,7 @@ public class Game implements GameLocal{
 
 	@Override
 	public void startGame() {
+		log.info("starting game...");
 		for(int i = 1; i<=players.size();i++){
 			players.get(i).getHand().addCard(deck.removeCard(5));
 		}
@@ -308,5 +355,24 @@ public class Game implements GameLocal{
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean callUno(Player player) {
+		if (player.getHand().getCards().size() == 1){
+			log.info(player.getUsername() + " called Uno");
+			callLocalUno(player, true);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	private void callLocalUno(Player remotePlayer, boolean value){
+		remotePlayer.callUno(value);
+		for(Player p : players.values()){
+			if (p.equals(remotePlayer))
+				p.callUno(value);
+		}
 	}
 }

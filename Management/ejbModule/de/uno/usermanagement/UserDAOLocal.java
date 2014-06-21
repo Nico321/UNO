@@ -1,4 +1,5 @@
 package de.uno.usermanagement;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * UserDAO Interface
@@ -12,7 +13,5 @@ public interface UserDAOLocal {
 	boolean AddUser(String username, String password);
 	void RemoveFriend(String username, String OldFriendUsername);
 	void AddUserToFriendlist(String username, String newFriendsUsername);
-	List<String> ShowFriends(String username);
-	List<String> ShowWannabeFriends(String username);
-	boolean AddNewWannabeFriend(String username, String wantToBeUsername);
+	ArrayList<String> ShowFriends(String username);
 }
