@@ -64,7 +64,7 @@ public class UserManagement implements UserManagementLocal{
 	}
 	
 	//Neuer User wird mit PW und Usernamen in der Datenbank persistiert
-	//Password muss verschl�sselt �bergeben werden
+	//Password muss verschluesselt uebergeben werden
 	@Override
 	@WebMethod
 	public boolean AddUser(String username, String password){
@@ -78,13 +78,13 @@ public class UserManagement implements UserManagementLocal{
 		}
 	}
 	
-	//User �ber Usernamen suchen
+	//User ueber Usernamen suchen
 	@Override
 	public User FindUserByName(String username){
 		return userdao.FindUserByName(username);
 	}
 	
-	//User zur Freundesliste hinzuf�gen
+	//User zur Freundesliste hinzufuegen
 	@Override
 	@WebMethod
 	public void AddUserToFriendlist(String actualUsername, String newFriendsUsername){

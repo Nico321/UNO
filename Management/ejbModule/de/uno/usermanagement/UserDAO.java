@@ -35,7 +35,7 @@ public class UserDAO implements UserDAOLocal{
 	//Methode mit Datenbankabfrage zur Usersuche
 	@Override
 	public User FindUserByName(String username){
-		log.info("User searching!");
+		log.info("Found User: " + em.find(User.class, username));
 		return em.find(User.class, username);
 	}
 	
@@ -52,11 +52,11 @@ public class UserDAO implements UserDAOLocal{
 	//Methode mit Datenbankabfrage zum Freund adden
 	@Override
 	public void AddUserToFriendlist(String username, String newFriendsUsername){
-		log.info("Added "+ newFriendsUsername + " to "+ username+ "'s friendslist.");
 		User actualUser = em.find(User.class, username);
 		User newFriend = em.find(User.class, newFriendsUsername);
 		actualUser.addFriend(newFriend);
 		em.persist(actualUser);
+		log.info("Added "+ newFriendsUsername + " to "+ username+ "'s friendslist.");
 	}
 	
 	@Override

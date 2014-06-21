@@ -15,7 +15,9 @@ public class LobbyGame {
 	Boolean fill;
 	
 	public LobbyGame(User creator, Boolean isPublic){
+		player = new HashMap<Integer, User>();
 		player.put(1, creator);
+		System.out.println("creator in player");
 		this.isPublic = isPublic;
 	}
 	

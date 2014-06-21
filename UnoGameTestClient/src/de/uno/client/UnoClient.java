@@ -23,6 +23,7 @@ import de.uno.card.DrawCard;
 import de.uno.player.Player;
 import de.uno.usermanagement.UserManagement;
 import de.uno.usermanagement.UserManagementService;
+import de.uno.lobbymanagement.*;
 /**
  *  
  * @author Nico Lindmeyer 737045
@@ -33,6 +34,7 @@ public class UnoClient {
 
 	private static GameConnectionManager uno;
 	private static UserManagement usermanagement;
+	private static Lobby lobbymanager;
 	private static HighScore highscore;
 	private static Player nico,daniel;
 	private static boolean drawedMarker = false;
@@ -42,20 +44,34 @@ public class UnoClient {
 			UserManagementService userService = new UserManagementService();
 			usermanagement = userService.getUserManagementPort();
 			
+			LobbyService lobbyService = new LobbyService();
+			lobbymanager = lobbyService.getLobbyPort();
+			
+			System.out.println("Add User:");
 			usermanagement.addUser("Nico", "nico");
 			usermanagement.addUser("Daniel", "daniel");
 			
+			System.out.println("Add Daniel to Nicos friendlist");
 			usermanagement.addUserToFriendlist("Nico", "Daniel");
 			
+			System.out.println("Show Nicos friends: ");
 			String puffer = usermanagement.showFriendList("Nico");
 			List<String> friends = (List<String>) deserialize(puffer);
-			
+						
 			for(String s:friends){
 				System.out.println(s);
 			}
 			
 			if(usermanagement.login("Daniel", "daniel"))
-				System.out.println("voll geil!");
+				System.out.println("Daniel ist eingeloggt!");
+			if(usermanagement.login("Nico", "nico"))
+				System.out.println("Nico ist eingeloggt!");
+			
+			
+			lobbymanager.createNewGame("Nico", true);
+			lobbymanager.joinLobbyGame("Nico", "Dave");
+
+			lobbymanager.startGame("Nico");
 			
 			GameConnectionManagerService service = new GameConnectionManagerService();
 			uno = service.getGameConnectionManagerPort();

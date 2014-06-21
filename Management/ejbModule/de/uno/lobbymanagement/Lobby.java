@@ -78,19 +78,19 @@ public class Lobby {
 		return serialize(possibleGames);
 	}
 	
-	//Game er�ffnen Param1= creatorUsername Param2=isPublic
+	//Game eroeffnen Param1= creatorUsername Param2=isPublic
 	@WebMethod
 	public boolean createNewGame(String creatorUsername, Boolean isPublic){
-		System.out.println("ba");
 		if( userManagement.FindUserByName(creatorUsername) != null ){
-			log.info("new lobby game created");
-			User creator =userManagement.FindUserByName(creatorUsername);
+			User creator = userManagement.FindUserByName(creatorUsername);
 			LobbyGame newGame = new LobbyGame(creator, isPublic);
+			System.out.println("new Game");
 			possibleGames.put(creator.getUsername(), newGame);
+			log.info("new lobby game created");
 			return true;
 		}
 		else{
-			log.info("no lobby game crated");
+			log.info("no lobby game created");
 			return false;
 		}
 	}
@@ -116,11 +116,10 @@ public class Lobby {
 	}
 	
 	@WebMethod
-	public void startGame(String smod){
-		User mod = (User)deserialize(smod);
+	public void startGame(String UsernameCreator){
+		User mod = userManagement.FindUserByName(UsernameCreator);
 		if(possibleGames.get(mod) != null){
 			log.info("send lobby game to real game");
-			if(possibleGames.get(mod).rdyToStart() == true){
 				//Mit Nico �ber die Anbindung an das Game reden!
 					Player creator = new Player(mod.getUsername());
 					gameManager.createGame(creator);
@@ -131,14 +130,14 @@ public class Lobby {
 						}
 					}
 					gameManager.getPlayersGame(creator).startGame();
-			}
+					log.info("lobby game send to real game");
 		}
 	}
 	
 	@WebMethod
-	public void joinLobbyGame(String creatorUsername){
-		User creator = userManagement.FindUserByName(creatorUsername);
-		possibleGames.get(creatorUsername).addMeToGame(creator);
+	public void joinLobbyGame(String creatorUsername, String joinUsername){
+		User player = userManagement.FindUserByName(joinUsername);
+		possibleGames.get(creatorUsername).addMeToGame(player);
 		log.info("User joined open game from: " + creatorUsername);
 	}
 
