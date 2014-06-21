@@ -78,11 +78,11 @@ public class MainMenu extends Activity implements OnClickListener{
 			startActivity(intent);
 		}
 		if(ce == R.id.createServerbtn){
-			Intent intent = new Intent(MainMenu.this, CreateServer.class);
+			Intent intent = new Intent(MainMenu.this, CreateGame.class);
 			startActivity(intent);
 		}
 		if(ce == R.id.joinServerbtn){
-			Intent intent = new Intent(MainMenu.this, JoinServer.class);
+			Intent intent = new Intent(MainMenu.this, JoinGame.class);
 			startActivity(intent);
 		}		
 		if(ce == R.id.settingsbtn){

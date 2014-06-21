@@ -10,10 +10,5 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="/home/user/Programme/wildfly-8.0.0.Final/bin/client/jboss-client.jar"/>
 	<classpathentry kind="lib" path="/home/user/uno/UnoAndroid/libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

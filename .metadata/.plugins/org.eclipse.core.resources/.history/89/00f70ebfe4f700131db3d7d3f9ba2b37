@@ -1,0 +1,54 @@
+package de.uno.android;
+
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+public class NewGamePlayer extends Activity implements OnClickListener{
+
+	private ArrayList<String> pNames = new ArrayList<String>();
+	private ProgressDialog progDailog = null;
+	private MenuItem refresh = null;
+	
+	
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.newgameplayer_view);
+		pNames = getIntent().getStringArrayListExtra("playerNames");
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.joinGameAction_refresh) {
+			refresh = item;
+			progDailog = new ProgressDialog(JoinGame.this);
+	        progDailog.setMessage("Spielsuche...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(true);
+	        progDailog.show();
+			
+			//AsynchronTask runner = new AsynchronTask();
+			//runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+			//runner.execute(this,"showOpenGames");			
+			}
+		
+		
+		return true;
+	}
+	
+	
+	@Override
+	public void onClick(View v) {
+		
+		
+	}
+
+}

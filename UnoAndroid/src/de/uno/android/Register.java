@@ -34,7 +34,11 @@ public class Register extends Activity implements OnClickListener{
 		toast = Toast.makeText(Register.this, "",
 				Toast.LENGTH_LONG);
 	}
-
+	@Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+ 	}
 
 	@Override
 	public void onClick(View v) {

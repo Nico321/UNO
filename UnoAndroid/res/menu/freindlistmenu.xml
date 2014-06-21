@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.android.uno.FriendList" >    
+    
+    <item 
+          android:id="@+id/FriendListAction_refresh"
+          android:icon="@drawable/ic_action_refresh"
+          android:title="Aktualisieren"
+          android:showAsAction="ifRoom" />
+
+</menu>

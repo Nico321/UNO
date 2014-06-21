@@ -9,3 +9,25 @@
 1403095764279	Rename type 'TheGameConnectionManagerService'
 1403095817610	Move compilation unit
 1403118400177	Delete element
+1403190264032	Rename type 'CreateServer'
+1403190699932	Rename resource 'createserver_view.xml'
+1403190763875	Rename field 'createServerCreatebtn'
+1403191466629	Extracts string 'null' into R.string.joinServerHeadLine
+1403191547199	Extracts string 'null' into R.string.joinServerListHeader
+1403191960062	Delete element
+1403195945719	Rename type 'JoinServer'
+1403200023374	Rename resource 'newserver_view.xml'
+1403200281711	Rename resource 'newgame_view.xml'
+1403200395396	Change Layout
+1403200467389	Rename field 'newServerTextView'
+1403200557225	Rename field 'newServerListView'
+1403200574306	Rename field 'newServerStartGamebtn'
+1403202418796	Rename field 'textView1'
+1403202538948	Rename field 'textView2'
+1403202628984	Rename field 'newServerPlayerListTextView'
+1403202794767	Extracts string 'null' into R.string.newGamePlayerHeadline
+1403203042074	Extracts string 'null' into R.string.newGamePlayerListTextView
+1403203056079	Rename field 'listView1'
+1403203458972	Rename type 'NewServer'
+1403204499518	Rename resource 'joinserver_view.xml'
+1403204543495	Rename resource 'main.xml'

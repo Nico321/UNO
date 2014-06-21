@@ -4,30 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import de.uno.android.usermanagement.User;
 
 public class FriendList extends Activity implements OnClickListener{
 
-	private Button refreshbtn;
-	private Button addFriendbtn;
-	private List<String> valueList;
+	
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
 	private static final String URL = "http://192.168.2.104:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "ShowFriendList";
 	private static final String TAG = FriendList.class.getName();
 	private User activeUser = null;
+	private Button refreshbtn;
+	private Button addFriendbtn;
+	private ProgressDialog progDailog = null;
+	private List<String> valueList;
+	private MenuItem refresh = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +44,32 @@ public class FriendList extends Activity implements OnClickListener{
 		
 		
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.FriendListAction_refresh) {
+			refresh = item;
+			progDailog = new ProgressDialog(FriendList.this);
+	        progDailog.setMessage("Freunde werden aktualisiert...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(true);
+	        progDailog.show();
+			
+	        AsynchronTask runner = new AsynchronTask();
+			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+			runner.execute(this,((AppVariables) this.getApplication()).getUser().getUsername());			
+			}
+		return true;
+	}
 
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == R.id.friendListRefreshbtn){
-			AsynchronTask runner = new AsynchronTask();
-			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			runner.execute(this,((AppVariables) this.getApplication()).getUser().getUsername());
-			
-		}
+		
 		if(v.getId() == R.id.friendListAddFriendbtn){
 			final String out;
 			Log.d (TAG,activeUser.getUsername());
@@ -72,8 +90,8 @@ public class FriendList extends Activity implements OnClickListener{
 		        }
 		    });
 		    **/
-			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			runner.execute(this);
+			runner.setKsoapAttributes(NAMESPACE, URL, "AddUserToFriendlist");
+			runner.execute(this,activeUser,"test005");
 		}
 	}
 	
