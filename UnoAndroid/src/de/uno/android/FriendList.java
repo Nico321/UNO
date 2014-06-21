@@ -38,7 +38,7 @@ public class FriendList extends Activity implements OnClickListener{
 		addFriendbtn = (Button) findViewById(R.id.friendListAddFriendbtn);
 		addFriendbtn.setOnClickListener(this);
 		activeUser = ((AppVariables) this.getApplication()).getUser();
-		Log.d (TAG,"TestFreindlist");
+
 		
 		
 	}
@@ -62,8 +62,8 @@ public class FriendList extends Activity implements OnClickListener{
 	        progDailog.setIndeterminate(false);
 	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progDailog.setCancelable(true);
-	        progDailog.show();
-			
+	        // progDailog.show();
+			Log.d (TAG,activeUser.getUsername());
 	        AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
 			runner.execute(this,((AppVariables) this.getApplication()).getUser().getUsername());			
@@ -93,15 +93,23 @@ public class FriendList extends Activity implements OnClickListener{
 		        }
 		    });
 		    **/
+			progDailog = new ProgressDialog(FriendList.this);
+	        progDailog.setMessage("Freund wird hinzugefügt...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(true);
+	        progDailog.show();
 			runner.setKsoapAttributes(NAMESPACE, URL, "AddUserToFriendlist");
-			runner.execute(this,activeUser,"test005");
+			runner.execute(this,activeUser.getUsername(),"test005");
 		}
 	}
 	
-	public void showFriendListCompleted(boolean success, List<User> userList){
-		Log.d (TAG,"Friendlist- Antwort angekommen");
+	public void showFriendListCompleted(boolean success, ArrayList<String> userList){
+		Log.d ("showFriendListCompleted","Friendlist- Antwort angekommen");
 		progDailog.cancel();
+		Log.d (TAG,"Progdialog canceled!");
 		valueList = new ArrayList<String>();
+		Log.d (TAG,"valueList created");
 		if (userList.isEmpty()){
 			Log.d (TAG,"keine Freunde");
 			valueList.add("TestFriend1");
@@ -119,12 +127,11 @@ public class FriendList extends Activity implements OnClickListener{
 		}
 		else{
 			Log.d (TAG,"userList notEmpty");
-		}
-			
-					
-		for(int i = 0;i<userList.size();i++){
-			 valueList.add(userList.get(i).getUsername());
-		}
+			for(int i = 0;i<userList.size();i++){
+				 valueList.add(userList.get(i));
+			}
+		}			
+		
 		Log.d (TAG,"ListView füllen...");
 		runOnUiThread(new Runnable() {
 				    public void run(){   
@@ -135,6 +142,12 @@ public class FriendList extends Activity implements OnClickListener{
 			});
 		
 		Log.d (TAG,"...abgeschlossen");
+		
+	}
+	public void addUserToFriendlistCompleted(boolean success){
+		Log.d ("addUserToFriendlistCompleted","Friendlist- Antwort angekommen");
+		progDailog.cancel();	
+		
 		
 	}
 }

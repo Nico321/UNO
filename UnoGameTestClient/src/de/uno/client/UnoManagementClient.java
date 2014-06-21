@@ -56,11 +56,11 @@ public class UnoManagementClient {
 	}
     
     public static void main(String[] args){
-    	User nico = (User) deserialize(userManagement.addUser("Nico", "passwd123"));
-    	User dave = (User) deserialize(userManagement.addUser("Dave", "passwd123"));
+    	User nico = (User) deserialize(userManagement.AddUser("Nico", "passwd123"));
+    	User dave = (User) deserialize(userManagement.AddUser("Dave", "passwd123"));
     	
-    	userManagement.addUserToFriendlist(serialize(nico), "Dave");
-    	userManagement.removeUserFromFriendlist(serialize(dave), "Nico");
+    	userManagement.AddUserToFriendlist(serialize(nico), "Dave");
+    	userManagement.RemoveUserFromFriendlist(serialize(dave), "Nico");
     	
     }
 

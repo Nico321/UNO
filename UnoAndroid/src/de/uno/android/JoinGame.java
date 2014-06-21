@@ -85,7 +85,7 @@ public class JoinGame extends Activity implements OnClickListener{
 			
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			runner.execute(this,"showOpenGames");			
+			runner.execute(this);			
 			}
 		return true;
 	}
@@ -101,7 +101,7 @@ public class JoinGame extends Activity implements OnClickListener{
 			Log.d(TAG, "Join Game of " + gameUsername + "_Aufruf");
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, "joinLobbyGame");
-			runner.execute(this,"joinLobbyGame",gameUsername);
+			runner.execute(this,activeUser.getUsername(), gameUsername);
 			
 		}
 	}

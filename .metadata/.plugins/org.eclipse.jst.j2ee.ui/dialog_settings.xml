@@ -3,7 +3,7 @@
 	<item value="true" key="J2EE_EXPORT_OVERWRITE"/>
 	<item value="false" key="J2EE_EXPORT_SOURCE"/>
 	<list key="J2EE_EXPORT_JST_EAR">
-		<item value="/home/user/Arbeitsfläche/Link to Deployments/HighScoreEAR.ear"/>
 		<item value="/home/user/Arbeitsfläche/Link to Deployments/UnoEAR.ear"/>
+		<item value="/home/user/Arbeitsfläche/Link to Deployments/HighScoreEAR.ear"/>
 	</list>
 </section>
