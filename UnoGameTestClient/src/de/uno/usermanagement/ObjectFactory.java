@@ -141,6 +141,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link User }
+     * 
+     */
+    public User createUser() {
+        return new User();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AddUserToFriendlistResponse }{@code >}}
      * 
      */
