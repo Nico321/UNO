@@ -1,5 +1,6 @@
 package de.uno.lobbymanagement;
 import java.util.HashMap;
+import java.io.Serializable;
 import de.uno.usermanagement.User;
 /**
  * LobbyGame Class - Game which is used in our Lobby (not started)
