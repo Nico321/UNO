@@ -151,8 +151,8 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    
 		    if(params[0] instanceof CreateGame){		    	
 		    	Log.d(TAG, "CreateGame - LOG");
-		    	User activeUser = (User) params[1];
-		    	Log.d(TAG, activeUser.getUsername());
+		    	String username = params[1].toString();
+		    	Log.d(TAG, username);
 		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
 		    	success = Boolean.valueOf(response.toString());
 		    	
@@ -187,6 +187,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
 		    	Log.d(TAG, "Login-Method-response POST");
 	            success = Boolean.valueOf(response.toString());
+	            Log.d(TAG, "Login_success_booleanOf erfolgreich");
 	            
 		    }	
 		    
@@ -194,8 +195,8 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    	System.out.println(envelope.bodyIn.toString());
 		    	SoapPrimitive response =  (SoapPrimitive) (envelope.getResponse());
 		    	Log.d("GetPointsByUser - Response", response.toString());
-		    	success = (boolean) deserialize(response.toString());
-		    	Log.d(TAG, "success-cast erfolgreich");
+		    	success = Boolean.valueOf(response.toString());
+		    	Log.d(TAG, "Register_success_booleanOf erfolgreich");
 		    	
 		    }
 		   

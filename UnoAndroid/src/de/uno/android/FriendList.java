@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +25,6 @@ public class FriendList extends Activity implements OnClickListener{
 	private static final String METHOD_NAME = "ShowFriendList";
 	private static final String TAG = FriendList.class.getName();
 	private User activeUser = null;
-	private Button refreshbtn;
 	private Button addFriendbtn;
 	private ProgressDialog progDailog = null;
 	private List<String> valueList;
@@ -35,14 +35,18 @@ public class FriendList extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friendlist_view);
 		
-		refreshbtn = (Button) findViewById(R.id.friendListRefreshbtn);
-		refreshbtn.setOnClickListener(this);
 		addFriendbtn = (Button) findViewById(R.id.friendListAddFriendbtn);
 		addFriendbtn.setOnClickListener(this);
 		activeUser = ((AppVariables) this.getApplication()).getUser();
 		Log.d (TAG,"TestFreindlist");
 		
 		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.friendlistmenu, menu);	
+		return true;
 	}
 	
 	@Override
@@ -71,7 +75,6 @@ public class FriendList extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		
 		if(v.getId() == R.id.friendListAddFriendbtn){
-			final String out;
 			Log.d (TAG,activeUser.getUsername());
 			AsynchronTask runner = new AsynchronTask();
 			
@@ -97,19 +100,41 @@ public class FriendList extends Activity implements OnClickListener{
 	
 	public void showFriendListCompleted(boolean success, List<User> userList){
 		Log.d (TAG,"Friendlist- Antwort angekommen");
+		progDailog.cancel();
+		valueList = new ArrayList<String>();
 		if (userList.isEmpty()){
 			Log.d (TAG,"keine Freunde");
+			valueList.add("TestFriend1");
+			valueList.add("TestFriend2");
+			valueList.add("TestFriend3");
+			valueList.add("TestFriend4");
+			valueList.add("TestFriend5");
+			valueList.add("TestFriend6");
+			valueList.add("TestFriend7");
+			valueList.add("TestFriend8");
+			valueList.add("TestFriend9");
+			valueList.add("TestFriend10");
+			valueList.add("TestFriend11");
+			valueList.add("TestFriend12");	
 		}
 		else{
 			Log.d (TAG,"userList notEmpty");
-			valueList = new ArrayList<String>();
-			valueList.add("TestFriend");
-			 for(int i = 0;i<userList.size();i++){
-				 valueList.add(userList.get(i).getUsername());
-			 }
-			ListAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);
-			final ListView lv = (ListView)findViewById(R.id.friendListView);
-			lv.setAdapter(adapter);
 		}
+			
+					
+		for(int i = 0;i<userList.size();i++){
+			 valueList.add(userList.get(i).getUsername());
+		}
+		Log.d (TAG,"ListView füllen...");
+		runOnUiThread(new Runnable() {
+				    public void run(){   
+				    	ListAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);
+						final ListView lv = (ListView)findViewById(R.id.friendListView);
+						lv.setAdapter(adapter);
+			    }
+			});
+		
+		Log.d (TAG,"...abgeschlossen");
+		
 	}
 }
