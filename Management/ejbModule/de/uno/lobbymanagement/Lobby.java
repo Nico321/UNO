@@ -172,10 +172,16 @@ public class Lobby {
 	 * @param joinUsername Username, des Users, der einem (isPublic==true) LobbyGame beitreten möchte
 	 */
 	@WebMethod
-	public void joinLobbyGame(String creatorUsername, String joinUsername){
+	public boolean joinLobbyGame(String creatorUsername, String joinUsername){
+		try{
 		User player = userManagement.FindUserByName(joinUsername);
 		possibleGames.get(creatorUsername).addMeToGame(player);
 		log.info("User joined open game from: " + creatorUsername);
+		return true;
+		}
+		catch(Exception e){
+			return false;
+		}
 	}
 	
 	/**
@@ -184,12 +190,12 @@ public class Lobby {
 	 * @return List<String> mit userNames
 	 */
 	@WebMethod
-	public List<String> showParticipatingPlayer(String creatorUsername){
-		List<String> userNames = new ArrayList<String>();
+	public String showParticipatingPlayer(String creatorUsername){
+		ArrayList<String> userNames = new ArrayList<String>();
 		LobbyGame thisGame = possibleGames.get(creatorUsername);
 		for( User u: thisGame.getPlayer().values()){
 			userNames.add(u.getUsername());
 		}
-		return userNames;
+		return serialize(userNames);
 	}
 }

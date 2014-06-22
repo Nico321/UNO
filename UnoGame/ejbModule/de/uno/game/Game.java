@@ -33,7 +33,7 @@ public class Game implements GameLocal{
 	private Deck deck, stack;
 	private CardColor wishedColor;
 	
-	private final long TIMEOUT = Integer.MAX_VALUE;
+	private final long TIMEOUT = 30000;
 	Timer timer = new Timer();
 	MyTimerTask task = new MyTimerTask(this);
 	
@@ -143,12 +143,24 @@ public class Game implements GameLocal{
 					task = new MyTimerTask(this);
 					timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
 				}
-				System.out.println("Next Player: " + this.getNextPlayer().getUsername());
 				log.info(player.getUsername() + " played " + card);
 				return true;
 			}
-			else
-				return false;
+			else if (card.getClass().getName().equals("ChangeDirectionCard")){
+				playerStep *= -1;
+			}
+			else{
+				playerStep = 1;
+			}
+			
+			this.getNextPlayer().getHand().removeCard(card);
+			if (!checkGameState()){
+				updateCurrentPlayerID();
+				task.cancel();
+				task = new MyTimerTask(this);
+				timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
+			}
+			return true;
 		}
 		else
 			return false;
