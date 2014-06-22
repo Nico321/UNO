@@ -41,3 +41,5 @@
 1403451351604	Extracts string 'null' into R.string.highscoreHeadline
 1403455451526	Rename field 'listView1'
 1403456329858	Rename resource 'Background.png'
+1403463339471	Rename resource 'creategamemenu.xml'
+1403463355050	Rename resource 'newgamehostmenu'

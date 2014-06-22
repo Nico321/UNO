@@ -30,13 +30,14 @@ public class JoinGame extends Activity implements OnClickListener{
 	private Button prevbtn;
 	private ProgressDialog progDailog;
 	private List<String> valueList;
-	private HashMap<User, LobbyGame> possibleGames = null;
+	private List<String> possibleGames = null;
 	private ListAdapter adapter = null;
 	private MenuItem refresh = null;
 	private String activeUsername = null;
 	private ListView lv = null;
 	private String selectedGame = null;
 	private String gameUsername = null;
+	private List<String> userNames;
 	
 	
 	@Override
@@ -107,35 +108,28 @@ public class JoinGame extends Activity implements OnClickListener{
 	}
 	
 	
-	public void showOpenGamesCompleted(boolean success, HashMap<User, LobbyGame> pGames){
+	public void showOpenGamesCompleted(boolean success, List<String> pGames){
 		if (success){
-			possibleGames = pGames;
+			userNames = pGames;
 			Log.d(TAG, "showOpenGames_success");			
 			
-			valueList = new ArrayList<String>();
-			Log.d(TAG, "valueList erzeugt!");
-			if(pGames == null){
+			if(userNames.isEmpty()){
 				Log.d(TAG, "keine offnen Spiele!");
-				valueList.add("TestUsers Spiel");
 			}
 
-			if(!(pGames == null)){
+			if(!(userNames.isEmpty())){
 				Log.d(TAG, "Offene Spiele!");
-				for (HashMap.Entry<User, LobbyGame> entry : pGames.entrySet()) {
-					User user = entry.getKey();			  
-					Log.d(TAG, user.getUsername()+ " zur valuelist hingegefügt!");
-					valueList.add(user.getUsername() + "s Spiel");
-					}	
-			}
+				
+			}		
 			
 			Log.d(TAG, "Verarbeitung auf UI-Tread beginnt...");
 			runOnUiThread(new Runnable() {
 			    public void run(){			    	
 			    	Log.d(TAG, "adapter füllen...");
-			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);		    
+			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, userNames);		    
 			    	Log.d(TAG, "adapter gefüllt");			    	
 			    	Log.d(TAG, "ListView füllen...");
-			    	ListView lv = (ListView)findViewById(R.id.joinServerListView);
+			    	ListView lv = (ListView)findViewById(R.id.newServerHostListView);
 			    	Log.d(TAG, "ListView gefüllt");
 			    	lv.setAdapter(adapter);;
 			    	Log.d(TAG, "ListView angezeigt");			    
@@ -145,11 +139,6 @@ public class JoinGame extends Activity implements OnClickListener{
 		progDailog.cancel();
 		Log.d("GameLoaded", "Success");
 		
-		
-		
-		//alertDialogBuilder
-		//.setMessage("Registrierung erfolgreich!")
-		//.setCancelable(true);
 		}
 		else{
 			progDailog.cancel();
@@ -163,22 +152,12 @@ public class JoinGame extends Activity implements OnClickListener{
 	
 	public void joinLobbyGameCompleted(Boolean success){
 		if (success){
-			LobbyGame g = possibleGames.get(gameUsername);
-			
-			HashMap<Integer,User> playerInLobby = g.getPlayer();
-			ArrayList<String> playerNames = new ArrayList<String>();
-			for(User player : playerInLobby.values()) {
-				playerNames.add(player.getUsername());
-				Log.d("JoinGame_PlayerNames:", player.getUsername());
-			    
-			}
 			Intent intent = new Intent(JoinGame.this, NewGamePlayer.class);
-			intent.putStringArrayListExtra("playerNames", playerNames);
-			intent.putExtra("gameOwner", gameUsername);
 			startActivity(intent);
-		}
+			}
+		
 		else{
-			
+			Log.d(TAG,"JoinGame_failed");
 		}
 	}
 	

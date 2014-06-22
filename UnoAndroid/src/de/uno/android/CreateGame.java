@@ -1,5 +1,10 @@
 package de.uno.android;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import de.uno.android.lobbymanagement.LobbyGame;
+import de.uno.android.usermanagement.User;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,7 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -24,6 +32,7 @@ private String CLASSNAME = this.getClass().getSimpleName();
 private ProgressDialog progDailog = null;
 private Button createbtn;
 private String activeUsername = null;
+private Toast toast = null;
 
 	
 
@@ -37,6 +46,9 @@ private String activeUsername = null;
 		
 		createbtn = (Button) findViewById(R.id.createGameCreatebtn);
 		createbtn.setOnClickListener(this);
+		toast.makeText(getApplicationContext(), "",
+				   Toast.LENGTH_LONG).show();
+		
 		
 	}
 
@@ -58,32 +70,7 @@ private String activeUsername = null;
 		}
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.creategamemenu, menu);	
-		return true;
-	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.joinGameAction_refresh) {
-			progDailog = new ProgressDialog(CreateGame.this);
-	        progDailog.setMessage("Spielsuche...Bitte warten");
-	        progDailog.setIndeterminate(false);
-	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	        progDailog.setCancelable(true);
-	        progDailog.show();
-			
-			AsynchronTask runner = new AsynchronTask();
-			runner.setKsoapAttributes(NAMESPACE, URL, "showParticipatingPlayer");
-			runner.execute(this, activeUsername);			
-			}
-		return true;
-	}
 	
 	public void createGameCompleted(boolean success){
 		Log.d(TAG, "CreateGame Rückruf angekommen");
@@ -100,11 +87,14 @@ private String activeUsername = null;
 			Log.d(TAG, "createServer_failed");
 			progDailog.cancel();
 			createbtn.setEnabled(true);
-			Toast.makeText(getApplicationContext(), "Fehler beim Servererstellen",
-					   Toast.LENGTH_LONG).show();
-		
+			runOnUiThread(new Runnable() {
+			    public void run(){
+			    	toast.setText("Fehler beim Servererstellen");
+			    	toast.show();
+			    }
+			});
 		}
 	}
 	
-	
+
 }

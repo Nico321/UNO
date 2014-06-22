@@ -28,11 +28,11 @@ public final class R {
         public static final int uno=0x7f020003;
     }
     public static final class id {
-        public static final int CreateGameAction_refresh=0x7f080028;
-        public static final int FriendListAction_refresh=0x7f080029;
-        public static final int HighscoreAction_refresh=0x7f08002a;
+        public static final int FriendListAction_refresh=0x7f080028;
+        public static final int HighscoreAction_refresh=0x7f080029;
         public static final int JoinServerjoinbtn=0x7f080013;
         public static final int LinearLayout1=0x7f080000;
+        public static final int NewGameHostAction_refresh=0x7f08002b;
         public static final int NewGamePlayerAction_refresh=0x7f08002c;
         public static final int RelativeLayout1=0x7f080007;
         public static final int Space1=0x7f080008;
@@ -46,7 +46,7 @@ public final class R {
         public static final int highscoreHeadlineTextView=0x7f08000e;
         public static final int highscoreListView=0x7f08000f;
         public static final int highscorebtn=0x7f080005;
-        public static final int joinGameAction_refresh=0x7f08002b;
+        public static final int joinGameAction_refresh=0x7f08002a;
         public static final int joinServerListHeader=0x7f080011;
         public static final int joinServerListView=0x7f080012;
         public static final int joinServerTextView=0x7f080010;
@@ -86,10 +86,10 @@ public final class R {
         public static final int register_view=0x7f030008;
     }
     public static final class menu {
-        public static final int creategamemenu=0x7f070000;
-        public static final int friendlistmenu=0x7f070001;
-        public static final int highscoremenu=0x7f070002;
-        public static final int joingamemenu=0x7f070003;
+        public static final int friendlistmenu=0x7f070000;
+        public static final int highscoremenu=0x7f070001;
+        public static final int joingamemenu=0x7f070002;
+        public static final int newgamehostmenu=0x7f070003;
         public static final int newgameplayermenu=0x7f070004;
     }
     public static final class string {

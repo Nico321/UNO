@@ -47,17 +47,25 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 				Log.d(TAG, "execute SoapAction-3Attr - createNewGame");
 				executeSoapAction(params[0], params[1], params[2]);	
 			}
-			if(METHOD_NAME.equals("showParticipatingPlayer")){
-				executeSoapAction(params[0], params[1]);
-			}
 			
 		}
 		if (params[0] instanceof NewGameHost ){
-			Log.d(TAG, "execute SoapAction-2Attr");
-			executeSoapAction(params[0], params[1]);
+			if(METHOD_NAME.equals("showParticipatingPlayer")){
+				Log.d(TAG, "execute SoapAction-2Attr");
+				executeSoapAction(params[0], params[1]);
+			}			
 		}
-		if (params[0] instanceof NewGamePlayer| params[0] instanceof JoinGame | params[0] instanceof Highscore){
+		
+		if (params[0] instanceof NewGamePlayer| params[0] instanceof Highscore){
 			executeSoapAction(params[0]);
+		}
+		if(params[0] instanceof JoinGame){
+			if(METHOD_NAME.equals("showOpenGames")){
+				executeSoapAction(params[0]);
+			}
+			if(METHOD_NAME.equals("joinLobbyGame")){
+				executeSoapAction(params[0], params[1], params[2]);
+			}
 		}
 		if (params[0] instanceof FriendList){
 			if(METHOD_NAME.equals("AddUserToFriendlist")){
@@ -90,8 +98,9 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    boolean success = false;
 		//GameConnectionManager uno;
 		//HighScore highscore;
-	    HashMap<User, LobbyGame> possibleGames = null;
+	    List<String> possibleGames = null;
 	    ArrayList<String> userFriendList = null;
+	    ArrayList<String> participatingPlayers = null;
 	    HashMap<String, Integer> highscore = null;
 	    
 
@@ -119,6 +128,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    }
 	    if (params[0] instanceof CreateGame){
 	    	if(METHOD_NAME.equals("createNewGame")){
+	    		Log.d("CreateGame","addProperty");
 	    		request.addProperty("arg0", params[1].toString());
 	    		request.addProperty("arg1", true);
 	    	}
@@ -146,13 +156,17 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    		Log.d(TAG, "JoinGameRefresh-response Post");		    	
 		    		Object ul = deserialize(response.toString());
 		    		Log.d(TAG, "response deserialized");
-		    		//possibleGames = (HashMap<User, de.uno.android.lobbymanagement.LobbyGame>) ul;
+		    		possibleGames = (List<String>) ul;
 		    		Log.d(TAG, "possibleGames casted");
 		    		
 		    		success = true;
 		    	}
 		    	if (METHOD_NAME.equals("joinLobbyGame")){
-		    		success=true;
+		    		Log.d(TAG, "JoinLobbyGame-response PRE");
+		    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    		Log.d(TAG, "JoinLobbyGame-response PRE");
+		    		success = Boolean.valueOf(response.toString());
+		    		Log.d(TAG, "JoinLobbyGame-success set");
 		    	}
 		    }
 		    if(params[0] instanceof Highscore){
@@ -184,34 +198,20 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
 		    		success = Boolean.valueOf(response.toString());
 		    	}
-		    	if(METHOD_NAME.equals("showParticipatingPlayer")){
-		    		Log.d(TAG, "showParticipatingPlayer - LOG");
-		    		
-		    		
-		    	}
+		    	
 		    }
 		    if(params[0] instanceof NewGameHost){		    	
-		    	Log.d(TAG, "NewGame - LOG");
-		    	
-		    	User activeUser = (User) params[1];
-		    	User testUser1 = new User("testUser1","test123");
-		    	Log.d(TAG, "testUser1 angelegt");
-		    	/*
-		    	GameConnectionManagerService service = new GameConnectionManagerService();
-		    	Log.d(TAG, "service angelegt");
-				uno = service.getGameConnectionManagerPort();
-				Log.d(TAG, "port zugewiesen");
-				uno.createNewGame(serialize(activeUser));
-				Log.d(TAG, "spiel mit activeUser erstellt");
-				uno.addPlayer(serialize(activeUser), serialize(testUser1));
-				Log.d(TAG, "testUSer1 hinzugefügt");
-				uno.startGame(serialize(testUser1));
-				Log.d(TAG, "Spiel gestartet");
-				
-				HighScoreService highscoreService = new HighScoreService();
-				highscore = highscoreService.getHighScorePort();
-				*/
-		    	success = true;
+		    	if(METHOD_NAME.equals("showParticipatingPlayer")){
+		    		Log.d(TAG, "showParticipatingPlayer - LOG");
+		    		Log.d(TAG, "showParticipatingPlayer-response PRE");
+		    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    		Log.d(TAG, "showParticipatingPlayer-response Post");		    	
+		    		Object ul = deserialize(response.toString());
+		    		Log.d(TAG, "response deserialized");
+		    		participatingPlayers = (ArrayList<String>) ul;
+				    success = true;
+		    		
+		    	}
 		    	
 		    	
 		    }    
@@ -285,7 +285,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
         if(params[0] instanceof NewGamePlayer){
         	Log.d(TAG, "NewGamePlayer Rückruf");
         	NewGamePlayer n = (NewGamePlayer) params[0];
-        	n.refreshPlayerCompleted(success, possibleGames);
+        	//n.refreshPlayerCompleted(success);
         }
         if(params[0] instanceof CreateGame){
 	    	Log.d(TAG, "CreateGame Rückruf");
@@ -316,9 +316,9 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
         	
 	    }
         if (params[0] instanceof NewGameHost){
-	    	Log.d(TAG, "NewServer Rückruf");
+	    	Log.d(TAG, "NewServerHost Rückruf");
 	    	NewGameHost n = (NewGameHost) params[0];
-	    	n.createNewGameCompleted(success);
+	    	n.participatingPlayersCompleted(success, participatingPlayers);
 	    }
         
 	    return result;
