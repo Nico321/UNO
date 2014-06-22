@@ -68,7 +68,30 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 		runner.execute(this);	
 	}
 	
-	
+	public void refreshPlayerCompleted(Boolean success, final HashMap<User, LobbyGame> possibleGames){
+		runOnUiThread(new Runnable() {
+		    public void run(){	
+		    	ArrayList<String> playerNames = null;
+		    	LobbyGame lg = possibleGames.get(gameOwner);
+		    	HashMap<Integer,User> playerInLobby = lg.getPlayer();
+		    	for(User player : playerInLobby.values()) {
+		    		playerNames.add(player.getUsername());
+					Log.d("JoinGame_PlayerNames:", player.getUsername());
+				    
+				}
+		    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, playerNames);
+		 
+		    	if(pNames.isEmpty()){
+		    		Log.d(TAG, "keine Spieler vorhanden!");
+		    	}
+		    	Log.d(TAG, "ListView gefüllt");		    			
+		    	ListView lv = (ListView)findViewById(R.id.newGamePlayerListView);
+		    	lv.setAdapter(adapter);;
+		    	Log.d(TAG, "ListView angezeigt");
+		    	
+		    }
+		});
+	}
 	
 	@Override
 	public void onClick(View v) {
@@ -97,7 +120,7 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, userNames);		    
 			    	Log.d(TAG, "adapter gefüllt");			    	
 			    	Log.d(TAG, "ListView füllen...");
-			    	ListView lv = (ListView)findViewById(R.id.newGamePlayerListView);
+			    	ListView lv = (ListView)findViewById(R.id.newServerHostListView);
 			    	Log.d(TAG, "ListView gefüllt");
 			    	lv.setAdapter(adapter);;
 			    	Log.d(TAG, "ListView angezeigt");			    

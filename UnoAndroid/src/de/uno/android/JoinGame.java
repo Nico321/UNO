@@ -108,7 +108,7 @@ public class JoinGame extends Activity implements OnClickListener{
 	}
 	
 	
-	public void showOpenGamesCompleted(boolean success, List<String> pGames){
+	public void showOpenGamesCompleted(boolean success, ArrayList<String> pGames){
 		if (success){
 			userNames = pGames;
 			Log.d(TAG, "showOpenGames_success");			

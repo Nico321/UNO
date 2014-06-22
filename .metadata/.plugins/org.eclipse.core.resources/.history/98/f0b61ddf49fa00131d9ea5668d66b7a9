@@ -47,7 +47,7 @@ private Toast toast = null;
 		createbtn = (Button) findViewById(R.id.createGameCreatebtn);
 		createbtn.setOnClickListener(this);
 		toast.makeText(getApplicationContext(), "",
-				   Toast.LENGTH_LONG);
+				   Toast.LENGTH_LONG).show();
 		
 		
 	}

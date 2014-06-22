@@ -98,7 +98,6 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    boolean success = false;
 		//GameConnectionManager uno;
 		//HighScore highscore;
-	    List<String> possibleGames = null;
 	    ArrayList<String> userFriendList = null;
 	    ArrayList<String> participatingPlayers = null;
 	    HashMap<String, Integer> highscore = null;
@@ -156,9 +155,8 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    		Log.d(TAG, "JoinGameRefresh-response Post");		    	
 		    		Object ul = deserialize(response.toString());
 		    		Log.d(TAG, "response deserialized");
-		    		possibleGames = (List<String>) ul;
+		    		participatingPlayers = (ArrayList<String>) ul;
 		    		Log.d(TAG, "possibleGames casted");
-		    		
 		    		success = true;
 		    	}
 		    	if (METHOD_NAME.equals("joinLobbyGame")){
@@ -268,7 +266,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
         	if(METHOD_NAME.equals("showOpenGames")){
         		Log.d(TAG, "JoinGameRefresh Rückruf");
         		JoinGame j = (JoinGame) params[0];
-        		j.showOpenGamesCompleted(success, possibleGames);
+        		j.showOpenGamesCompleted(success, participatingPlayers);
         	}
         	if(METHOD_NAME.equals("joinLobbyGame")){
         		Log.d(TAG, "JoinLobbyGame Rückruf");

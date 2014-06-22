@@ -97,7 +97,7 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, userNames);		    
 			    	Log.d(TAG, "adapter gefüllt");			    	
 			    	Log.d(TAG, "ListView füllen...");
-			    	ListView lv = (ListView)findViewById(R.id.newGamePlayerListView);
+			    	ListView lv = (ListView)findViewById(R.id.newServerHostListView);
 			    	Log.d(TAG, "ListView gefüllt");
 			    	lv.setAdapter(adapter);;
 			    	Log.d(TAG, "ListView angezeigt");			    
