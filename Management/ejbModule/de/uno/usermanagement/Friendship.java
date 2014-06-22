@@ -9,6 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 @Entity
 @Table(name="friends")
 public class Friendship implements Serializable {

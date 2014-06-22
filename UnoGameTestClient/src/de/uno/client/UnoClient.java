@@ -47,7 +47,7 @@ public class UnoClient {
 			LobbyService lobbyService = new LobbyService();
 			lobbymanager = lobbyService.getLobbyPort();
 			
-			System.out.println("Add User:");
+			System.out.println("Add User: Daniel & Nico");
 			usermanagement.addUser("Nico", "nico");
 			usermanagement.addUser("Daniel", "daniel");
 			
