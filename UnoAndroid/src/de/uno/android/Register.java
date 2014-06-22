@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class Register extends Activity implements OnClickListener{
 
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/Management/UserManagement";	 
+	private static final String URL = "http://192.168.1.109:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "AddUser";
 	private static final String TAG = Register.class.getName();
 	private Button registerBtn;

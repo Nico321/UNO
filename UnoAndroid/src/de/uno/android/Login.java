@@ -20,7 +20,7 @@ public class Login extends Activity implements OnClickListener{
 	private ProgressDialog progDailog;
 	private AlertDialog.Builder alertDialogBuilder;
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/Management/UserManagement";	 
+	private static final String URL = "http://192.168.1.109:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "Login";
 	private static final String TAG = Login.class.getName();
 	private Toast toast = null;

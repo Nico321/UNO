@@ -25,7 +25,7 @@ public class JoinGame extends Activity implements OnClickListener{
 
 	private static final String TAG = JoinGame.class.getName();
 	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/Management/Lobby";	 
+	private static final String URL = "http://192.168.1.109:8080/Management/Lobby";	 
 	private static final String METHOD_NAME = "showOpenGames";
 	private Button prevbtn;
 	private ProgressDialog progDailog;
@@ -109,39 +109,41 @@ public class JoinGame extends Activity implements OnClickListener{
 	
 	public void showOpenGamesCompleted(boolean success, HashMap<User, LobbyGame> pGames){
 		if (success){
-			Log.d(TAG, "showOpenGames_success");
 			possibleGames = pGames;
-			runOnUiThread(new Runnable() {
-			    public void run(){
-			    	
+			Log.d(TAG, "showOpenGames_success");			
+			
 			valueList = new ArrayList<String>();
-			if(possibleGames.isEmpty()){
+			Log.d(TAG, "valueList erzeugt!");
+			if(pGames == null){
+				Log.d(TAG, "keine offnen Spiele!");
 				valueList.add("TestUsers Spiel");
 			}
-				for (HashMap.Entry<User, LobbyGame> entry : possibleGames.entrySet()) {
+
+			if(!(pGames == null)){
+				Log.d(TAG, "Offene Spiele!");
+				for (HashMap.Entry<User, LobbyGame> entry : pGames.entrySet()) {
 					User user = entry.getKey();			  
-				  	
+					Log.d(TAG, user.getUsername()+ " zur valuelist hingegefügt!");
 					valueList.add(user.getUsername() + "s Spiel");
 					}	
+			}
 			
-				adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);
-			 
-			    if(possibleGames.isEmpty()){
-			    Log.d(TAG, "no possible Games");
-			    }
-			    Log.d(TAG, "ListView gefüllt");
-			    	
-				Log.d(TAG, "ListView 1");
-				ListView lv = (ListView)findViewById(R.id.joinServerListView);
-				Log.d(TAG, "ListView 2");
-				lv.setAdapter(adapter);;
-				Log.d(TAG, "ListView angezeigt");
-			    	
-			    }
+			Log.d(TAG, "Verarbeitung auf UI-Tread beginnt...");
+			runOnUiThread(new Runnable() {
+			    public void run(){			    	
+			    	Log.d(TAG, "adapter füllen...");
+			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, valueList);		    
+			    	Log.d(TAG, "adapter gefüllt");			    	
+			    	Log.d(TAG, "ListView füllen...");
+			    	ListView lv = (ListView)findViewById(R.id.joinServerListView);
+			    	Log.d(TAG, "ListView gefüllt");
+			    	lv.setAdapter(adapter);;
+			    	Log.d(TAG, "ListView angezeigt");			    
+			    }		
 			});
 			
 		progDailog.cancel();
-		Log.d("ServerLoaded", "Success");
+		Log.d("GameLoaded", "Success");
 		
 		
 		

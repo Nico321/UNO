@@ -15,7 +15,7 @@ public class NewGameHost extends Activity implements OnClickListener{
 
 	private static final String TAG = NewGameHost.class.getName();
 	private static final String NAMESPACE = "http://gameconnection.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/UnoGame/GameConnectionManager";
+	private static final String URL = "http://192.168.1.109:8080/UnoGame/GameConnectionManager";
 	private static final String METHOD_NAME = "createNewGame";
 
 	private ProgressDialog progDailog;

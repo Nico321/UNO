@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import de.uno.android.usermanagement.User;
@@ -21,7 +26,7 @@ public class FriendList extends Activity implements OnClickListener{
 
 	
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/Management/UserManagement";	 
+	private static final String URL = "http://192.168.1.109:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "ShowFriendList";
 	private static final String TAG = FriendList.class.getName();
 	private User activeUser = null;
@@ -29,6 +34,7 @@ public class FriendList extends Activity implements OnClickListener{
 	private ProgressDialog progDailog = null;
 	private List<String> valueList;
 	private MenuItem refresh = null;
+	protected String result = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,33 +81,57 @@ public class FriendList extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		
 		if(v.getId() == R.id.friendListAddFriendbtn){
-			Log.d (TAG,activeUser.getUsername());
-			AsynchronTask runner = new AsynchronTask();
+			Log.d (TAG,activeUser.getUsername());			
 			
-			/**
-			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		    EditText input = new EditText(this);      
-		    alert.setView(input);
+ 	        
+	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        builder.setTitle("Title");
+	        Log.d (TAG,"Builder-setTitle");
+	        // Set up the input
+	        final EditText input = new EditText(this);
+	        builder.setTitle("Freund hinzufügen!");
+	        builder.setMessage("Username eingeben:");
+	        input.setInputType(InputType.TYPE_CLASS_TEXT);
+	        builder.setView(input);
+	        Log.d (TAG,"ButtonsPre");
 
-		    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-		        //@Override
-		        public void onClick(DialogInterface dialog, int which) {
-		            EditText input = (EditText) dialog.findViewById("myInput");
-		            Editable value = input.getText();
-		            out = value.toString();               
-
-		        }
-		    });
-		    **/
-			progDailog = new ProgressDialog(FriendList.this);
-	        progDailog.setMessage("Freund wird hinzugefügt...Bitte warten");
-	        progDailog.setIndeterminate(false);
-	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	        progDailog.setCancelable(true);
-	        progDailog.show();
-			runner.setKsoapAttributes(NAMESPACE, URL, "AddUserToFriendlist");
-			runner.execute(this,activeUser.getUsername(),"test005");
+	        // Set up the buttons
+	        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	            	result  = input.getText().toString();
+	            	Log.d (TAG,"ButtonsOK");
+	            	AddFriendMethodCall();
+	     	        progDailog = new ProgressDialog(FriendList.this);
+	     	        progDailog.setMessage("Freund wird hinzugefügt...Bitte warten");
+	     	        progDailog.setIndeterminate(false);
+	     	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	     	        progDailog.setCancelable(true);
+	     	        progDailog.show();
+	            	
+	            }
+	        });
+	        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) {
+	            	Log.d (TAG,"ButtonsCancel");
+	                dialog.cancel();
+	            }
+	        });
+	        builder.create().show();
+	    
+	       
+	        
+			
 		}
+		
+		
+	}
+	
+	private void AddFriendMethodCall(){
+		final AsynchronTask runner = new AsynchronTask();
+		runner.setKsoapAttributes(NAMESPACE, URL, "AddUserToFriendlist");
+	    runner.execute(this,activeUser.getUsername(),result.toString());
 	}
 	
 	public void showFriendListCompleted(boolean success, ArrayList<String> userList){

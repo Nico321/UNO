@@ -16,7 +16,7 @@ public class CreateGame extends Activity implements OnClickListener{
 
 
 private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-private static final String URL = "http://192.168.2.104:8080/Management/Lobby";	 
+private static final String URL = "http://192.168.1.109:8080/Management/Lobby";	 
 private static final String METHOD_NAME = "createNewGame";
 private static final String TAG = CreateGame.class.getName();
 private String CLASSNAME = this.getClass().getSimpleName();

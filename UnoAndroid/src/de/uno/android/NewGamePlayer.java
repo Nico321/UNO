@@ -20,7 +20,7 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 
 	private static final String TAG = NewGamePlayer.class.getName();
 	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.2.104:8080/Management/Lobby";	 
+	private static final String URL = "http://192.168.1.109:8080/Management/Lobby";	 
 	private static final String METHOD_NAME = "showOpenGames";
 	private ArrayList<String> pNames = new ArrayList<String>();
 	private ProgressDialog progDailog = null;

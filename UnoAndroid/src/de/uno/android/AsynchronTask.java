@@ -89,6 +89,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    	request.addProperty("arg1", params[2].toString());
 	    }
 	    if (params[0] instanceof FriendList){
+	    	Log.d("aaaaaaaaaaaaaa","bbbbbbbbbbbbbbbbb");
 	    	if(METHOD_NAME.equals("ShowFriendList")){
 	    		request.addProperty("arg0", params[1].toString());
 	    	}
@@ -225,6 +226,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    }
 	    catch(SocketTimeoutException e){
 	    	success = false;
+	    	Log.d(TAG, "Zeitüberschreitung");
 	    	e.printStackTrace();	    	
 	    }
 	    catch (SoapFault e) {
@@ -236,12 +238,12 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    }	      
         
         if(params[0] instanceof JoinGame){
-        	if(params[1].toString().equals("showOpenGames")){
+        	if(METHOD_NAME.equals("showOpenGames")){
         		Log.d(TAG, "JoinGameRefresh Rückruf");
         		JoinGame j = (JoinGame) params[0];
         		j.showOpenGamesCompleted(success, possibleGames);
         	}
-        	if(params[1].toString().equals("joinLobbyGame")){
+        	if(METHOD_NAME.equals("joinLobbyGame")){
         		Log.d(TAG, "JoinLobbyGame Rückruf");
         		JoinGame j = (JoinGame) params[0];
         		j.joinLobbyGameCompleted(success);
