@@ -73,7 +73,7 @@ public class UserDAO implements UserDAOLocal{
 			return false;	
 	}
 	
-	//Freunde eines Users werden mit Usernamen zur�ckgegeben
+	//Freunde eines Users werden mit Usernamen zurueckgegeben
 	@Override
 	public ArrayList<String> ShowFriends(String username){
 		User user = em.find(User.class, username);

@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +23,7 @@ import de.uno.gamemanager.GameManagerLocal;
 import de.uno.player.Player;
 import de.uno.usermanagement.*;
 /**
- * Lobby Singleton, manages all obbyGames
+ * Lobby Singleton, manages all lobbyGames
  *  
  * @author Daniel Reider 734544
  * 
@@ -33,8 +37,10 @@ public class Lobby {
 	private GameManagerLocal gameManager;
 	@EJB
 	private UserManagementLocal userManagement;
+	
 	private static final Logger log = Logger.getLogger( UserDAO.class.getName() );
 	
+	//Creates HashMap for all lobbyGames
     @PostConstruct
     public void init() {
     	possibleGames = new HashMap<String, LobbyGame>();
@@ -73,11 +79,21 @@ public class Lobby {
         return o;
 	}
 	
+	/**
+	 * Methode um sich alle LobbyGames anzuzeigen
+	 * @return alle Lobby games werden zurückgegeben
+	 */
 	@WebMethod
 	public String showOpenGames(){
 		return serialize(possibleGames);
 	}
 	
+	/**
+	 * Neues LobbyGame erstellen
+	 * @param creatorUsername Username des Erstellers, Aktueller Username
+	 * @param isPublic true=Public game, sichtbar in der lobby false= nicht in der Lobby sichtbar
+	 * @return true=new game created false= failed to create
+	 */
 	//Game eroeffnen Param1= creatorUsername Param2=isPublic
 	@WebMethod
 	public boolean createNewGame(String creatorUsername, Boolean isPublic){
@@ -95,6 +111,11 @@ public class Lobby {
 		}
 	}
 	
+	/**
+	 * Methode um Leute aus seiner Freundesliste zu einem LobbyGame inzuzufügen
+	 * @param smod Username Moderator/Creator des LobbyGames
+	 * @param sfriend Name des Freundes, der hinzugefügt werden soll
+	 */
 	@WebMethod
 	public void addFriendsToGame(String smod, String sfriend){
 		User mod = (User)deserialize(smod);
@@ -105,6 +126,10 @@ public class Lobby {
 		}
 	}
 	
+	/**
+	 * Methode um einem Random Game beizutreten (isPublic == true)
+	 * @param username Username des Users, der einem LobbyGame zugeteilt werden möchte
+	 */
 	@WebMethod
 	public void enterRandom(String username){
 		User user = userManagement.FindUserByName(username);
@@ -115,12 +140,15 @@ public class Lobby {
 		}
 	}
 	
+	/**
+	 * Methode um ein LobbyGame zu starten ==> richtiges Game
+	 * @param UsernameCreator Username des Creators/Moderators
+	 */
 	@WebMethod
 	public void startGame(String UsernameCreator){
 		User mod = userManagement.FindUserByName(UsernameCreator);
 		if(possibleGames.get(mod) != null){
 			log.info("send lobby game to real game");
-				//Mit Nico ï¿½ber die Anbindung an das Game reden!
 					Player creator = new Player(mod.getUsername());
 					gameManager.createGame(creator);
 					for(User u : possibleGames.get(mod).getPlayer().values()){
@@ -134,11 +162,30 @@ public class Lobby {
 		}
 	}
 	
+	/**
+	 * Mehtode um einen User zu einem LobbyGame zuzuweisen
+	 * @param creatorUsername Username des Creators/Mods
+	 * @param joinUsername Username, des Users, der einem (isPublic==true) LobbyGame beitreten möchte
+	 */
 	@WebMethod
 	public void joinLobbyGame(String creatorUsername, String joinUsername){
 		User player = userManagement.FindUserByName(joinUsername);
 		possibleGames.get(creatorUsername).addMeToGame(player);
 		log.info("User joined open game from: " + creatorUsername);
 	}
-
+	
+	/**
+	 * Methode zeigt Spieler, die an einem Spiel teilnehmen
+	 * @param creatorUsername Username des Creators
+	 * @return List<String> mit userNames
+	 */
+	@WebMethod
+	public List<String> showParticipatingPlayer(String creatorUsername){
+		List<String> userNames = new ArrayList<String>();
+		LobbyGame thisGame = possibleGames.get(creatorUsername);
+		for( User u: thisGame.getPlayer().values()){
+			userNames.add(u.getUsername());
+		}
+		return userNames;
+	}
 }
