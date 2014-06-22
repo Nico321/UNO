@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -168,5 +172,20 @@ public class Lobby {
 		User player = userManagement.FindUserByName(joinUsername);
 		possibleGames.get(creatorUsername).addMeToGame(player);
 		log.info("User joined open game from: " + creatorUsername);
+	}
+	
+	/**
+	 * Methode zeigt Spieler, die an einem Spiel teilnehmen
+	 * @param creatorUsername Username des Creators
+	 * @return List<String> mit userNames
+	 */
+	@WebMethod
+	public List<String> showParticipatingPlayer(String creatorUsername){
+		List<String> userNames = new ArrayList<String>();
+		LobbyGame thisGame = possibleGames.get(creatorUsername);
+		for( User u: thisGame.getPlayer().values()){
+			userNames.add(u.getUsername());
+		}
+		return userNames;
 	}
 }
