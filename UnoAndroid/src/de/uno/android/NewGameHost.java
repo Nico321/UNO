@@ -15,21 +15,21 @@ public class NewGameHost extends Activity implements OnClickListener{
 
 	private static final String TAG = NewGameHost.class.getName();
 	private static final String NAMESPACE = "http://gameconnection.uno.de/";
-	private static final String URL = "http://192.168.1.109:8080/UnoGame/GameConnectionManager";
+	private static final String URL = "http://192.168.1.110:8080/UnoGame/GameConnectionManager";
 	private static final String METHOD_NAME = "createNewGame";
 
 	private ProgressDialog progDailog;
 	private Button startbtn;
 	private ToggleButton togglebtn;
 	private Toast toast = null;
-	private User activeUser = null;
+	private String activeUsername = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.newgamehost_view);
 		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
-		activeUser = ((AppVariables) this.getApplication()).getUser();
+		activeUsername = ((AppVariables) this.getApplication()).getUsername();
 		
 		startbtn = (Button) findViewById(R.id.newServerHostStartGamebtn);
 		startbtn.setOnClickListener(this);
@@ -53,7 +53,7 @@ public class NewGameHost extends Activity implements OnClickListener{
 			
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			runner.execute(this, activeUser);
+			runner.execute(this, activeUsername);
 			
 			
 			

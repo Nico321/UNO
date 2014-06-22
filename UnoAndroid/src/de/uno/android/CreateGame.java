@@ -10,19 +10,18 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import de.uno.android.usermanagement.User;
 
 public class CreateGame extends Activity implements OnClickListener{
 
 
 private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-private static final String URL = "http://192.168.1.109:8080/Management/Lobby";	 
+private static final String URL = "http://192.168.1.110:8080/Management/Lobby";	 
 private static final String METHOD_NAME = "createNewGame";
 private static final String TAG = CreateGame.class.getName();
 private String CLASSNAME = this.getClass().getSimpleName();
 private ProgressDialog progDailog = null;
 private Button createbtn;
-private User activeUser = null;
+private String activeUsername = null;
 
 	
 
@@ -32,7 +31,7 @@ private User activeUser = null;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.creategame_view);
 		
-		activeUser = ((AppVariables) this.getApplication()).getUser();
+		activeUsername = ((AppVariables) this.getApplication()).getUsername();
 		
 		createbtn = (Button) findViewById(R.id.createGameCreatebtn);
 		createbtn.setOnClickListener(this);
@@ -51,9 +50,9 @@ private User activeUser = null;
 	        progDailog.show();
 	        AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			Log.d("AvtiveUser_Username", activeUser.getUsername());
+			Log.d("AvtiveUser_Username", activeUsername);
 			ToggleButton tb = (ToggleButton) findViewById (R.id.publicSwitch);
-			runner.execute(this, activeUser.getUsername(), tb.isChecked());
+			runner.execute(this, activeUsername, tb.isChecked());
 		}
 	}
 	

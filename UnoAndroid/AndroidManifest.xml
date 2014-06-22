@@ -26,7 +26,7 @@
        	<activity android:name="de.uno.android.MainMenu" android:screenOrientation="portrait"></activity>
         <activity android:name="de.uno.android.CreateGame" android:screenOrientation="portrait"></activity><activity android:name="de.uno.android.JoinGame" android:screenOrientation="portrait"></activity>  
         
-        <activity android:name="NewGamePlayer"></activity><activity android:name="de.uno.android.Settings" android:screenOrientation="portrait"></activity>
+        <activity android:name="NewGamePlayer"></activity><activity android:name="de.uno.android.Highscore" android:screenOrientation="portrait"></activity>
         <activity android:name="de.uno.android.FriendList" android:screenOrientation="portrait"></activity>
         <activity android:name="NewGameHost"></activity>
         

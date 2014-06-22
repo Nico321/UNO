@@ -20,11 +20,11 @@ public class Login extends Activity implements OnClickListener{
 	private ProgressDialog progDailog;
 	private AlertDialog.Builder alertDialogBuilder;
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
-	private static final String URL = "http://192.168.1.109:8080/Management/UserManagement";	 
+	private static final String URL = "http://192.168.1.110:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "Login";
 	private static final String TAG = Login.class.getName();
 	private Toast toast = null;
-	private User activeUser = null;
+	private String activeUsername = null;
 	
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class Login extends Activity implements OnClickListener{
 		        progDailog.setCancelable(true);
 		        progDailog.show();
 				runner.execute(this,username, pass);
-				activeUser = new User(username, pass);
+				activeUsername = username;
 			;
 			}
 			
@@ -101,7 +101,7 @@ public class Login extends Activity implements OnClickListener{
 		if(success){
 			Log.d(TAG, "Login success");
 			progDailog.cancel();
-			((AppVariables) this.getApplication()).setUser(activeUser);
+			((AppVariables) this.getApplication()).setUsername(activeUsername);
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {

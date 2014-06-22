@@ -26,10 +26,10 @@ public class FriendList extends Activity implements OnClickListener{
 
 	
 	private static final String NAMESPACE = "http://usermanagement.uno.de/";
-	private static final String URL = "http://192.168.1.109:8080/Management/UserManagement";	 
+	private static final String URL = "http://192.168.1.110:8080/Management/UserManagement";	 
 	private static final String METHOD_NAME = "ShowFriendList";
 	private static final String TAG = FriendList.class.getName();
-	private User activeUser = null;
+	private String activeUsername = null;
 	private Button addFriendbtn;
 	private ProgressDialog progDailog = null;
 	private List<String> valueList;
@@ -43,7 +43,7 @@ public class FriendList extends Activity implements OnClickListener{
 		
 		addFriendbtn = (Button) findViewById(R.id.friendListAddFriendbtn);
 		addFriendbtn.setOnClickListener(this);
-		activeUser = ((AppVariables) this.getApplication()).getUser();
+		activeUsername = ((AppVariables) this.getApplication()).getUsername();
 
 		
 		
@@ -69,10 +69,10 @@ public class FriendList extends Activity implements OnClickListener{
 	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progDailog.setCancelable(true);
 	        // progDailog.show();
-			Log.d (TAG,activeUser.getUsername());
+			Log.d (TAG,activeUsername);
 	        AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-			runner.execute(this,((AppVariables) this.getApplication()).getUser().getUsername());			
+			runner.execute(this,((AppVariables) this.getApplication()).getUsername());			
 			}
 		return true;
 	}
@@ -81,7 +81,7 @@ public class FriendList extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		
 		if(v.getId() == R.id.friendListAddFriendbtn){
-			Log.d (TAG,activeUser.getUsername());			
+			Log.d (TAG,activeUsername);			
 			
  	        
 	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -131,7 +131,7 @@ public class FriendList extends Activity implements OnClickListener{
 	private void AddFriendMethodCall(){
 		final AsynchronTask runner = new AsynchronTask();
 		runner.setKsoapAttributes(NAMESPACE, URL, "AddUserToFriendlist");
-	    runner.execute(this,activeUser.getUsername(),result.toString());
+	    runner.execute(this,activeUsername,result.toString());
 	}
 	
 	public void showFriendListCompleted(boolean success, ArrayList<String> userList){

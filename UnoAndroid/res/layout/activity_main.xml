@@ -36,10 +36,10 @@
         android:text="@string/friendList_btn" />
 
     <Button
-        android:id="@+id/settingsbtn"
+        android:id="@+id/highscorebtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings_btn" />
+        android:text="@string/highscore_btn" />
 
     <Button
         android:id="@+id/quitbtn"

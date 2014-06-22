@@ -30,6 +30,8 @@
     <string name="joinServerListHeader">Verfügbare Spiele:</string>
     <string name="newGamePlayerHeadline">Spiel</string>
     <string name="newGamePlayerListTextView">Mitspieler in diesem Spiel:</string>
+    <string name="highscore_btn">Highscore</string>
+    <string name="highscoreHeadline">HighScore</string>
     
 
 </resources>

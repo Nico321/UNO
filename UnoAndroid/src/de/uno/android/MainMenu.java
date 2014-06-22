@@ -18,7 +18,7 @@ public class MainMenu extends Activity implements OnClickListener{
 	
 	private Button createServer;
 	private Button joinServer;
-	private Button settings;
+	private Button highscore;
 	private Button quit;
 	private Button friendList;
 
@@ -39,8 +39,8 @@ public class MainMenu extends Activity implements OnClickListener{
 		friendList = (Button) findViewById(R.id.friendListbtn);
 		friendList.setOnClickListener(this);
 		
-		settings = (Button) findViewById(R.id.settingsbtn);
-		settings.setOnClickListener(this);
+		highscore = (Button) findViewById(R.id.highscorebtn);
+		highscore.setOnClickListener(this);
 		
 		quit = (Button) findViewById(R.id.quitbtn);
 		quit.setOnClickListener(this);
@@ -85,8 +85,8 @@ public class MainMenu extends Activity implements OnClickListener{
 			Intent intent = new Intent(MainMenu.this, JoinGame.class);
 			startActivity(intent);
 		}		
-		if(ce == R.id.settingsbtn){
-			Intent intent = new Intent(MainMenu.this, Settings.class);
+		if(ce == R.id.highscorebtn){
+			Intent intent = new Intent(MainMenu.this, Highscore.class);
 			startActivity(intent);
 		}		
 		if(ce == R.id.quitbtn){

@@ -1,5 +1,11 @@
 package de.uno.lobbymanagement;
+import java.io.Serializable;
 import java.util.HashMap;
+<<<<<<< HEAD
+
+=======
+import java.io.Serializable;
+>>>>>>> 352092089c5f0d51033ad950d1d8770742c6460a
 import de.uno.usermanagement.User;
 /**
  * LobbyGame Class - Game which is used in our Lobby (not started)
@@ -8,7 +14,8 @@ import de.uno.usermanagement.User;
  * 
  */
 
-public class LobbyGame {
+public class LobbyGame implements Serializable {
+	private static final long serialVersionUID = 1L;
 	HashMap<Integer, User> player;
 	Boolean isPublic;
 	Integer countPlayer = 2;

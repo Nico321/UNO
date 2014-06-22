@@ -33,3 +33,11 @@
 1403204543495	Rename resource 'main.xml'
 1403344812498	Rename resource 'freindlistmenu.xml'
 1403345331596	Change Layout
+1403446522764	Delete element
+1403450434581	Rename field 'settingsbtn'
+1403450454418	Extracts string 'null' into R.string.highscore_btn
+1403450675255	Rename resource 'settings_view.xml'
+1403450702924	Rename type 'Settings'
+1403451351604	Extracts string 'null' into R.string.highscoreHeadline
+1403455451526	Rename field 'listView1'
+1403456329858	Rename resource 'Background.png'

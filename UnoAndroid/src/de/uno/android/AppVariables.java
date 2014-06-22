@@ -5,13 +5,13 @@ import de.uno.android.usermanagement.User;
 
 public class AppVariables extends Application {
 
-    private User user = new User("test", "test123");
+    private String username = "";
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

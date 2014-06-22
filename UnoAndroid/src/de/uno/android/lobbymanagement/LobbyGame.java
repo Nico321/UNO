@@ -1,29 +1,40 @@
 package de.uno.android.lobbymanagement;
-
+import java.io.Serializable;
 import java.util.HashMap;
 
 import de.uno.android.usermanagement.User;
+/**
+ * LobbyGame Class - Game which is used in our Lobby (not started)
+ *  
+ * @author Daniel Reider 734544
+ * 
+ */
 
-
-public class LobbyGame {
+public class LobbyGame implements Serializable {
+	private static final long serialVersionUID = 1L;
 	HashMap<Integer, User> player;
 	Boolean isPublic;
 	Integer countPlayer = 2;
 	Boolean fill;
 	
 	public LobbyGame(User creator, Boolean isPublic){
+		player = new HashMap<Integer, User>();
 		player.put(1, creator);
+		System.out.println("creator in player");
 		this.isPublic = isPublic;
 	}
 	
-	public User getCreator(){
-		return player.get(1);
+	public String getCreator(){
+		return player.get(1).getUsername();
 	}
 	
-	public void addFriend(User friend){
-		if(countPlayer < 4)
+	public boolean addFriend(User friend){
+		if(countPlayer < 4){
 			player.put(countPlayer, friend);
-		countPlayer++;
+			countPlayer++;
+			return true;
+		}
+		return false;
 	}
 	
 	public Boolean rdyToStart(){
@@ -45,5 +56,14 @@ public class LobbyGame {
 
 	public HashMap<Integer, User> getPlayer() {
 		return player;
+	}
+	
+	public boolean addMeToGame(User me){
+		if(countPlayer < 4){
+			player.put(countPlayer, me);
+			countPlayer++;
+			return true;
+		}
+		return false;
 	}
 }

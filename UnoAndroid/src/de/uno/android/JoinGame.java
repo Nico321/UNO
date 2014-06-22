@@ -25,7 +25,7 @@ public class JoinGame extends Activity implements OnClickListener{
 
 	private static final String TAG = JoinGame.class.getName();
 	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.1.109:8080/Management/Lobby";	 
+	private static final String URL = "http://192.168.1.110:8080/Management/Lobby";	 
 	private static final String METHOD_NAME = "showOpenGames";
 	private Button prevbtn;
 	private ProgressDialog progDailog;
@@ -33,7 +33,7 @@ public class JoinGame extends Activity implements OnClickListener{
 	private HashMap<User, LobbyGame> possibleGames = null;
 	private ListAdapter adapter = null;
 	private MenuItem refresh = null;
-	private User activeUser = null;
+	private String activeUsername = null;
 	private ListView lv = null;
 	private String selectedGame = null;
 	private String gameUsername = null;
@@ -44,7 +44,7 @@ public class JoinGame extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.joingame_view);
 		
-		activeUser = ((AppVariables) this.getApplication()).getUser();
+		activeUsername = ((AppVariables) this.getApplication()).getUsername();
 		
 		prevbtn = (Button) findViewById(R.id.JoinServerjoinbtn);
 		prevbtn.setOnClickListener(this);
@@ -101,7 +101,7 @@ public class JoinGame extends Activity implements OnClickListener{
 			Log.d(TAG, "Join Game of " + gameUsername + "_Aufruf");
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, "joinLobbyGame");
-			runner.execute(this,activeUser.getUsername(), gameUsername);
+			runner.execute(this,activeUsername, gameUsername);
 			
 		}
 	}

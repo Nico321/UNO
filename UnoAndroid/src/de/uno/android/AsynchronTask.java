@@ -46,7 +46,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 			Log.d(TAG, "execute SoapAction-2Attr");
 			executeSoapAction(params[0], params[1]);
 		}
-		if (params[0] instanceof NewGamePlayer| params[0] instanceof JoinGame){
+		if (params[0] instanceof NewGamePlayer| params[0] instanceof JoinGame | params[0] instanceof Highscore){
 			executeSoapAction(params[0]);
 		}
 		if (params[0] instanceof FriendList){
@@ -82,6 +82,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		//HighScore highscore;
 	    HashMap<User, LobbyGame> possibleGames = null;
 	    ArrayList<String> userFriendList = null;
+	    HashMap<String, Integer> highscore = null;
 	    
 
 	    if (params[0] instanceof Register | params[0] instanceof Login){
@@ -89,7 +90,6 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    	request.addProperty("arg1", params[2].toString());
 	    }
 	    if (params[0] instanceof FriendList){
-	    	Log.d("aaaaaaaaaaaaaa","bbbbbbbbbbbbbbbbb");
 	    	if(METHOD_NAME.equals("ShowFriendList")){
 	    		request.addProperty("arg0", params[1].toString());
 	    	}
@@ -105,8 +105,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    	}	
 	    }
 	    if (params[0] instanceof NewGameHost){
-	    	User u = (User) params[1];
-	    	request.addProperty("arg0", u.getUsername().toString());
+	    	request.addProperty("arg0", params[1].toString());
 	    }
 	    if (params[0] instanceof CreateGame){
 	    	request.addProperty("arg0", params[1].toString());
@@ -136,7 +135,7 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    		Log.d(TAG, "JoinGameRefresh-response Post");		    	
 		    		Object ul = deserialize(response.toString());
 		    		Log.d(TAG, "response deserialized");
-		    		possibleGames = (HashMap<User, LobbyGame>) ul;
+		    		//possibleGames = (HashMap<User, de.uno.android.lobbymanagement.LobbyGame>) ul;
 		    		Log.d(TAG, "possibleGames casted");
 		    		
 		    		success = true;
@@ -145,12 +144,23 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 		    		success=true;
 		    	}
 		    }
+		    if(params[0] instanceof Highscore){
+		    	Log.d(TAG, "HighscoreRefresh-response PRE");
+	    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+	    		Log.d(TAG, "HighscoreRefresh-response Post");		    	
+	    		Object ul = deserialize(response.toString());
+	    		Log.d(TAG, "response deserialized");
+			    highscore = (HashMap<String, Integer>) ul;
+			    success = true;
+		    }
+		    
+
 		    
 		    if(params[0] instanceof NewGamePlayer){
 		    	Log.d(TAG, "NewGamePlayerRefresh-response PRE");
 	    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
 	    		Log.d(TAG, "NewGamePlayerRefresh-response Post");		    	
-	    		possibleGames = (HashMap<User, LobbyGame>) deserialize(response.toString());
+	    		//possibleGames = (HashMap<User, LobbyGame>) deserialize(response.toString());
 	    		Log.d(TAG, "possibleGames deserialized");
 	    		success = true;
 		    }
@@ -250,6 +260,11 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
         	}
         	
 	    }
+        if(params[0] instanceof Highscore){
+        	Log.d(TAG, "HighscoreRefresh Rückruf");
+        	Highscore h = (Highscore) params[0];
+        	h.HighScoreListCompleted(success, highscore);
+        }
         if(params[0] instanceof NewGamePlayer){
         	Log.d(TAG, "NewGamePlayer Rückruf");
         	NewGamePlayer n = (NewGamePlayer) params[0];

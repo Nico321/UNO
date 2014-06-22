@@ -71,13 +71,13 @@ public class Lobby {
 	        ois.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}highscoreMap
         return o;
 	}
 	
 	/**
 	 * Methode um sich alle LobbyGames anzuzeigen
-	 * @return alle Lobby games werden zurückgegeben
+	 * @return alle Lobby games werden zurï¿½ckgegeben
 	 */
 	@WebMethod
 	public String showOpenGames(){
@@ -108,9 +108,9 @@ public class Lobby {
 	}
 	
 	/**
-	 * Methode um Leute aus seiner Freundesliste zu einem LobbyGame inzuzufügen
+	 * Methode um Leute aus seiner Freundesliste zu einem LobbyGame inzuzufï¿½gen
 	 * @param smod Username Moderator/Creator des LobbyGames
-	 * @param sfriend Name des Freundes, der hinzugefügt werden soll
+	 * @param sfriend Name des Freundes, der hinzugefï¿½gt werden soll
 	 */
 	@WebMethod
 	public void addFriendsToGame(String smod, String sfriend){
@@ -124,7 +124,7 @@ public class Lobby {
 	
 	/**
 	 * Methode um einem Random Game beizutreten (isPublic == true)
-	 * @param username Username des Users, der einem LobbyGame zugeteilt werden möchte
+	 * @param username Username des Users, der einem LobbyGame zugeteilt werden mï¿½chte
 	 */
 	@WebMethod
 	public void enterRandom(String username){
@@ -161,7 +161,7 @@ public class Lobby {
 	/**
 	 * Mehtode um einen User zu einem LobbyGame zuzuweisen
 	 * @param creatorUsername Username des Creators/Mods
-	 * @param joinUsername Username, des Users, der einem (isPublic==true) LobbyGame beitreten möchte
+	 * @param joinUsername Username, des Users, der einem (isPublic==true) LobbyGame beitreten mï¿½chte
 	 */
 	@WebMethod
 	public void joinLobbyGame(String creatorUsername, String joinUsername){
