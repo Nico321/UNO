@@ -47,11 +47,15 @@ public class UnoClient {
 			LobbyService lobbyService = new LobbyService();
 			lobbymanager = lobbyService.getLobbyPort();
 			
-
+<<<<<<< HEAD
 			System.out.println("Add User:");
 			usermanagement.AddUser("Nico", "nico");
 			usermanagement.AddUser("Daniel", "daniel");
-
+=======
+			System.out.println("Add User: Daniel & Nico");
+			usermanagement.addUser("Nico", "nico");
+			usermanagement.addUser("Daniel", "daniel");
+>>>>>>> 352092089c5f0d51033ad950d1d8770742c6460a
 			
 			System.out.println("Add Daniel to Nicos friendlist");
 			usermanagement.AddUserToFriendlist("Nico", "Daniel");
