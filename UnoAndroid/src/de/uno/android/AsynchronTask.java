@@ -38,9 +38,19 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	protected String doInBackground(Object... params) {
 		String result = null;
 	try{
-		if (params[0] instanceof Register | params[0] instanceof Login | params[0] instanceof CreateGame){
+		if (params[0] instanceof Register | params[0] instanceof Login){
 			Log.d(TAG, "execute SoapAction-3Attr");
 			executeSoapAction(params[0], params[1], params[2]);
+		}
+		if(params[0] instanceof CreateGame){
+			if(METHOD_NAME.equals("createNewGame")){
+				Log.d(TAG, "execute SoapAction-3Attr - createNewGame");
+				executeSoapAction(params[0], params[1], params[2]);	
+			}
+			if(METHOD_NAME.equals("showParticipatingPlayer")){
+				executeSoapAction(params[0], params[1]);
+			}
+			
 		}
 		if (params[0] instanceof NewGameHost ){
 			Log.d(TAG, "execute SoapAction-2Attr");
@@ -108,9 +118,10 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    	request.addProperty("arg0", params[1].toString());
 	    }
 	    if (params[0] instanceof CreateGame){
-	    	request.addProperty("arg0", params[1].toString());
-	    	//Boolean b = (Boolean) params[2];
-	    	request.addProperty("arg1", true);
+	    	if(METHOD_NAME.equals("createNewGame")){
+	    		request.addProperty("arg0", params[1].toString());
+	    		request.addProperty("arg1", true);
+	    	}
 	    }
 	    
 	    Log.d(TAG, "requestPropertys added");
@@ -165,13 +176,19 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 	    		success = true;
 		    }
 		    
-		    if(params[0] instanceof CreateGame){		    	
-		    	Log.d(TAG, "CreateGame - LOG");
-		    	String username = params[1].toString();
-		    	Log.d(TAG, username);
-		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
-		    	success = Boolean.valueOf(response.toString());
-		    	
+		    if(params[0] instanceof CreateGame){	
+		    	if(METHOD_NAME.equals("createNewGame")){
+		    		Log.d(TAG, "CreateNewGame - LOG");
+		    		String username = params[1].toString();
+		    		Log.d(TAG, username);
+		    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    		success = Boolean.valueOf(response.toString());
+		    	}
+		    	if(METHOD_NAME.equals("showParticipatingPlayer")){
+		    		Log.d(TAG, "showParticipatingPlayer - LOG");
+		    		
+		    		
+		    	}
 		    }
 		    if(params[0] instanceof NewGameHost){		    	
 		    	Log.d(TAG, "NewGame - LOG");

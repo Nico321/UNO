@@ -75,7 +75,7 @@ public class Lobby {
 	        ois.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}highscoreMap
+		}
         return o;
 	}
 	
