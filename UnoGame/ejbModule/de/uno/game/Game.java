@@ -33,7 +33,7 @@ public class Game implements GameLocal{
 	private Deck deck, stack;
 	private CardColor wishedColor;
 	
-	private final long TIMEOUT = 30000;
+	private final long TIMEOUT = Integer.MAX_VALUE;
 	Timer timer = new Timer();
 	MyTimerTask task = new MyTimerTask(this);
 	

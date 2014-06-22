@@ -47,7 +47,7 @@ public class UserDAO implements UserDAOLocal {
 
 	@Override
 	public Collection<User> getAllUsers() {
-		Query query = em.createQuery("SELECT e FROM User e");
+		Query query = em.createQuery("SELECT e FROM User e ORDER BY e.points DESC");
 		
 		return (Collection<User>) query.getResultList();
 	}
