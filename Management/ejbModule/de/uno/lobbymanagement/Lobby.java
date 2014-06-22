@@ -84,12 +84,12 @@ public class Lobby {
 	 * @return alle Lobby games werden zurückgegeben
 	 */
 	@WebMethod
-	public List<String> showOpenGames(){
-		List<String> creatorNames = new ArrayList<String>();
+	public String showOpenGames(){
+		ArrayList<String> creatorNames = new ArrayList<String>();
 		for( String lg: possibleGames.keySet()){
 			creatorNames.add(lg);
 		}
-		return creatorNames;
+		return serialize(creatorNames);
 	}
 	
 	/**
