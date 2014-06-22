@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import de.uno.lobbymanagement.*;
  */
 public class UnoClient {
 
+	
 
 	private static GameConnectionManager uno;
 	private static UserManagement usermanagement;
@@ -69,6 +71,14 @@ public class UnoClient {
 			
 			
 			lobbymanager.createNewGame("Nico", true);
+			
+			System.out.println("All Games:");
+			
+			ArrayList<String> games = (ArrayList<String>) deserialize(lobbymanager.showOpenGames());
+			for(String name: games){
+				System.out.println(name);
+			}
+			
 			lobbymanager.joinLobbyGame("Nico", "Dave");
 
 			lobbymanager.startGame("Nico");
