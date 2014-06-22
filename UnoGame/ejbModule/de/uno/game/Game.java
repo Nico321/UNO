@@ -29,7 +29,7 @@ public class Game implements GameLocal{
 	
 	private HashMap<Integer, Player> players;
 	private LinkedList<Player> winners;
-	private int playerStep = 1, currentPlayer = 1;
+	private int playerStep = 1, currentPlayer = 1, gameProgress = 0, direction = 1;
 	private Deck deck, stack;
 	private CardColor wishedColor;
 	
@@ -94,21 +94,23 @@ public class Game implements GameLocal{
 	}
 	
 	private void updateCurrentPlayerID(){
-		currentPlayer += playerStep;
+		currentPlayer += (playerStep * direction);
 		if (currentPlayer > players.size()){
-			currentPlayer = 1;
+			while(currentPlayer > players.size()){
+				currentPlayer -= players.size();
+			}
 		}
 		if (currentPlayer < 1){
-			currentPlayer = players.size();
+			while(currentPlayer < 1){
+				currentPlayer += players.size();
+			}
 		}
 		if(players.get(currentPlayer).getDisconnected() != null){
-			if(playerStep > 1)
-				playerStep = 1;
-			if(playerStep < -1)
-				playerStep = -1;
+			playerStep = 1;
 			
 			updateCurrentPlayerID();
 		}
+		gameProgress++;
 	}
 	
 	private int getNumberOfPlayers(){
@@ -125,12 +127,17 @@ public class Game implements GameLocal{
 		if(player.equals(this.getNextPlayer())){
 			if(cardIsValid(card)){
 				stack.addCard(card);
-				if (card.getClass().getName().equals("SkipCard")){
-					if (playerStep <2 && playerStep > -2)
-						playerStep *= 2;
+				if (card.getClass() == SkipCard.class){
+					System.out.println("Skippiskip");
+					playerStep = 2;
 				}
-				else if (card.getClass().getName().equals("ChangeDirectionCard")){
-					playerStep *= -1;
+				else if (card.getClass() == ChangeDirectionCard.class){
+					if(players.size() > 2){
+						direction *= -1;
+						playerStep = 1;
+					}
+					else
+						playerStep = 0;					
 				}
 				else{
 					playerStep = 1;
@@ -143,8 +150,7 @@ public class Game implements GameLocal{
 					task = new MyTimerTask(this);
 					timer.scheduleAtFixedRate(task, TIMEOUT, TIMEOUT);
 				}
-				System.out.println("Next Player: " + this.getNextPlayer().getUsername());
-				log.info(player.getUsername() + " played " + card);
+				log.info(player.getUsername() + " played " + card + " - " + this.getNextPlayer().getUsername() + " is next.");
 				return true;
 			}
 			else
@@ -282,11 +288,14 @@ public class Game implements GameLocal{
 			LinkedList<Card> returnCard = deck.removeCard(quantity);
 			this.getNextPlayer().getHand().addCard(returnCard);
 			if(quantity == 1){
-				if(playerStep < 0)
-					playerStep = -1;
-				else
 					playerStep = 1;
 				updateCurrentPlayerID();
+			}
+			if(quantity >= 2){
+				if(this.getStackCard() instanceof DrawCard){
+					((DrawCard)this.getStackCard()).setDrawed(true);
+					gameProgress++;
+				}
 			}
 			if(player.calledUno()){
 				this.callLocalUno(player, false);
@@ -294,16 +303,8 @@ public class Game implements GameLocal{
 			log.info(player.getUsername() +  " drawed " + quantity  + " cards");
 			return returnCard;
 		}
-		LinkedList<Card> returnCard = deck.removeCard(quantity);
-		this.getNextPlayer().getHand().addCard(returnCard);
-		if(quantity == 1){
-			if(playerStep < 0)
-				playerStep = -1;
-			else
-				playerStep = 1;
-			updateCurrentPlayerID();
-		}
-		return returnCard;
+		else
+			return null;
 	}
 
 	@Override
@@ -362,5 +363,10 @@ public class Game implements GameLocal{
 			if (p.equals(remotePlayer))
 				p.callUno(value);
 		}
+	}
+
+	@Override
+	public int getGameProgress() {
+		return gameProgress;
 	}
 }

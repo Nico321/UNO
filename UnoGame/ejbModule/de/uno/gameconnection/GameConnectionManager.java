@@ -231,5 +231,11 @@ public class GameConnectionManager implements GameConnectionRemote {
 		
 	}
 
+	@Override
+	public int getGameProgress(String player) {
+		Player p = (Player)deserialize(player);
+		return getGame(p).getGameProgress();
+	}
+
 	
 }

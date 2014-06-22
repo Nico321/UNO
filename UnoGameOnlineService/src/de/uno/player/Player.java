@@ -48,7 +48,9 @@ public class Player implements Serializable {
 	
 	@Override
 	public boolean equals(Object o){
-		if(o.getClass() == Player.class){
+		if(o == null)
+			return false;
+		else if(o.getClass() == Player.class){
 			return ((Player) o ).getUsername().equals(this.username);
 		}
 		else
@@ -69,6 +71,11 @@ public class Player implements Serializable {
 
 	public void callUno(boolean calledUno) {
 		this.calledUno = calledUno;
+	}
+	
+	@Override
+	public String toString(){
+		return this.username;
 	}
 
 }

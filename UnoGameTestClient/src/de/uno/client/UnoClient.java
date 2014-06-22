@@ -41,7 +41,7 @@ public class UnoClient {
 	
 	public static void main(String[] args) {
 		try {
-			UserManagementService userService = new UserManagementService();
+			/*UserManagementService userService = new UserManagementService();
 			usermanagement = userService.getUserManagementPort();
 			
 			LobbyService lobbyService = new LobbyService();
@@ -71,7 +71,7 @@ public class UnoClient {
 			lobbymanager.createNewGame("Nico", true);
 			lobbymanager.joinLobbyGame("Nico", "Dave");
 
-			lobbymanager.startGame("Nico");
+			lobbymanager.startGame("Nico");*/
 			
 			GameConnectionManagerService service = new GameConnectionManagerService();
 			uno = service.getGameConnectionManagerPort();
@@ -189,7 +189,7 @@ public class UnoClient {
 						}
 					}
 					else {
-						System.out.println(turnPlayer.getUsername() +" Card not Valid: " + ((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))) + " --- " + card);
+						//System.out.println(turnPlayer.getUsername() +" Card not Valid: " + ((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))) + " --- " + card);
 						if(!it.hasNext()){
 							LinkedList<Card> drawCard = (LinkedList<Card>) deserialize(uno.drawCard(serialize(turnPlayer), 1));
 							turnPlayer.getHand().addCard(drawCard);

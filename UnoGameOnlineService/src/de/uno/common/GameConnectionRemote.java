@@ -20,4 +20,5 @@ public interface GameConnectionRemote {
 	public void createNewGame(String player);
 	public void addPlayer(String creator, String member);
 	public void callUno(String player);
+	public int getGameProgress(String player);
 }
