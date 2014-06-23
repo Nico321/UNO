@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für callUnoResponse complex type.
+ * <p>Java-Klasse für isGameFinishedResponse complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
- * &lt;complexType name="callUnoResponse">
+ * &lt;complexType name="isGameFinishedResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "callUnoResponse", propOrder = {
+@XmlType(name = "isGameFinishedResponse", propOrder = {
     "_return"
 })
-public class CallUnoResponse {
+public class IsGameFinishedResponse {
 
     @XmlElement(name = "return")
     protected boolean _return;

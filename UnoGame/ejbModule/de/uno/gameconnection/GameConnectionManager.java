@@ -204,6 +204,7 @@ public class GameConnectionManager implements GameConnectionRemote {
 	 * @param	player	Spieler der das Spiel erstellen möchte
 	 */
 	@Override
+	@WebMethod
 	public void createNewGame(String player) {
 		gameManager.createGame((Player)deserialize(player));
 	}
@@ -215,6 +216,7 @@ public class GameConnectionManager implements GameConnectionRemote {
 	 * @param	member	Spieler der hinzugefügt werden soll
 	 */
 	@Override
+	@WebMethod
 	public void addPlayer(String creator, String member) {
 		getGame((Player)deserialize(creator)).addPlayer((Player)deserialize(member));
 	}
@@ -225,10 +227,39 @@ public class GameConnectionManager implements GameConnectionRemote {
 	 * @param	player	Spieler der UNO sagen möchte
 	 */
 	@Override
-	public void callUno(String player) {
+	@WebMethod
+	public boolean callUno(String player) {
 		Player p = (Player)deserialize(player);
-		getGame(p).callUno(p);
+		return getGame(p).callUno(p);
 		
+	}
+
+	@Override
+	@WebMethod
+	public int getGameProgress(String player) {
+		Player p = (Player)deserialize(player);
+		return getGame(p).getGameProgress();
+	}
+
+	@Override
+	@WebMethod
+	public boolean isGameFinished(String player) {
+		Player p = (Player)deserialize(player);
+		return getGame(p).isGameFinished(p);
+	}
+
+	@Override
+	@WebMethod
+	public boolean leaveGame(String player) {
+		Player p = (Player)deserialize(player);
+		return getGame(p).leaveGame(p);
+	}
+
+	@Override
+	@WebMethod
+	public String getWinners(String player) {
+		Player p = (Player)deserialize(player);
+		return serialize(getGame(p).getWinners());
 	}
 
 	

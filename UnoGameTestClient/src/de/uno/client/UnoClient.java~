@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class UnoClient {
 	private static UserManagement usermanagement;
 	private static Lobby lobbymanager;
 	private static HighScore highscore;
-	private static Player nico,daniel;
+	private static Player nico,daniel,dave;
 	private static boolean drawedMarker = false;
 	
 	public static void main(String[] args) {
@@ -47,15 +48,11 @@ public class UnoClient {
 			LobbyService lobbyService = new LobbyService();
 			lobbymanager = lobbyService.getLobbyPort();
 			
-<<<<<<< HEAD
+
 			System.out.println("Add User:");
 			usermanagement.AddUser("Nico", "nico");
 			usermanagement.AddUser("Daniel", "daniel");
-=======
-			System.out.println("Add User: Daniel & Nico");
-			usermanagement.addUser("Nico", "nico");
-			usermanagement.addUser("Daniel", "daniel");
->>>>>>> 352092089c5f0d51033ad950d1d8770742c6460a
+
 			
 			System.out.println("Add Daniel to Nicos friendlist");
 			usermanagement.AddUserToFriendlist("Nico", "Daniel");
@@ -68,15 +65,36 @@ public class UnoClient {
 				System.out.println(s);
 			}
 			
+<<<<<<< HEAD
 			if(usermanagement.Login("Daniel", "daniel"))
+=======
+			System.out.println("<===============================>");
+			
+			if(usermanagement.login("Daniel", "daniel"))
+>>>>>>> a5f10e7fce4c49374520948528780d0b25cbb0e6
 				System.out.println("Daniel ist eingeloggt!");
 			if(usermanagement.Login("Nico", "nico"))
 				System.out.println("Nico ist eingeloggt!");
 			
 			
 			lobbymanager.createNewGame("Nico", true);
-			lobbymanager.joinLobbyGame("Nico", "Dave");
-
+			lobbymanager.joinLobbyGame("Nico", "Daniel");
+			
+			ArrayList<String> player = new ArrayList();
+			player = (ArrayList<String>) deserialize(lobbymanager.showOpenGames());
+			
+			for(String name:player){
+				System.out.println(name);
+			}
+			System.out.println("<===============================>");
+			
+			System.out.println("Open Games:");
+			ArrayList<String> lobbyGames = (ArrayList<String>) deserialize(lobbymanager.showOpenGames());
+			for(String creatorName : lobbyGames){
+				System.out.println(creatorName);
+			}
+			System.out.println("<===============================>");
+			
 			lobbymanager.startGame("Nico");
 			
 			GameConnectionManagerService service = new GameConnectionManagerService();
@@ -87,16 +105,20 @@ public class UnoClient {
 			
 			nico = new Player("Nico");
 			daniel = new Player("Daniel");
+			dave = new Player("Dave");
 			uno.createNewGame(serialize(nico));
 			uno.addPlayer(serialize(nico), serialize(daniel));
+			uno.addPlayer(serialize(nico), serialize(dave));
 			uno.startGame(serialize(nico));
 			nico.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(nico)))).getCards());
 			daniel.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(daniel)))).getCards());
+			dave.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(dave)))).getCards());
 			
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
+			showCards(dave.getHand(), "Dave");
 			
-			while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
+			/*while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
 				//-------------- Test zum TimeOut --------------------
 				//Thread.sleep(31000);
 				//break;
@@ -117,7 +139,7 @@ public class UnoClient {
 				if(daniel.getHand().getCards().size() == 0){
 					break;
 				}
-			}
+			}*/
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
 			
@@ -195,7 +217,7 @@ public class UnoClient {
 						}
 					}
 					else {
-						System.out.println(turnPlayer.getUsername() +" Card not Valid: " + ((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))) + " --- " + card);
+						//System.out.println(turnPlayer.getUsername() +" Card not Valid: " + ((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))) + " --- " + card);
 						if(!it.hasNext()){
 							LinkedList<Card> drawCard = (LinkedList<Card>) deserialize(uno.drawCard(serialize(turnPlayer), 1));
 							turnPlayer.getHand().addCard(drawCard);

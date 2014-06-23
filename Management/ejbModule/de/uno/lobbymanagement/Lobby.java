@@ -149,23 +149,32 @@ public class Lobby {
 	/**
 	 * Methode um ein LobbyGame zu starten ==> richtiges Game
 	 * @param UsernameCreator Username des Creators/Moderators
+	 * @return Boolean true=created false=not created
 	 */
 	@WebMethod
-	public void startGame(String UsernameCreator){
-		User mod = userManagement.FindUserByName(UsernameCreator);
-		if(possibleGames.get(mod) != null){
-			log.info("send lobby game to real game");
-					Player creator = new Player(mod.getUsername());
-					gameManager.createGame(creator);
-					for(User u : possibleGames.get(mod).getPlayer().values()){
-						if(u.getUsername() != mod.getUsername()){
-							gameManager.getPlayersGame(creator).addPlayer(new Player(u.getUsername()));
-							log.info("transfered player to game:" + u.getUsername());
+	public boolean startGame(String UsernameCreator){
+		try{
+			User mod = userManagement.FindUserByName(UsernameCreator);
+			if(possibleGames.get(mod) != null){
+				log.info("send lobby game to real game");
+						Player creator = new Player(mod.getUsername());
+						gameManager.createGame(creator);
+						for(User u : possibleGames.get(mod).getPlayer().values()){
+							if(u.getUsername() != mod.getUsername()){
+								gameManager.getPlayersGame(creator).addPlayer(new Player(u.getUsername()));
+								log.info("transfered player to game:" + u.getUsername());
+							}
 						}
-					}
-					gameManager.getPlayersGame(creator).startGame();
-					log.info("lobby game send to real game");
+						gameManager.getPlayersGame(creator).startGame();
+						deleteLobbyGame(UsernameCreator);
+						log.info("lobby game send to real game");
+						return true;
+			}
 		}
+		catch(Exception e){
+			return false;
+		}
+		return false;
 	}
 	
 	/**
@@ -177,6 +186,7 @@ public class Lobby {
 	public boolean joinLobbyGame(String creatorUsername, String joinUsername){
 		try{
 		User player = userManagement.FindUserByName(joinUsername);
+		log.info("before");
 		possibleGames.get(creatorUsername).addMeToGame(player);
 		log.info("User joined open game from: " + creatorUsername);
 		return true;
@@ -189,7 +199,7 @@ public class Lobby {
 	/**
 	 * Methode zeigt Spieler, die an einem Spiel teilnehmen
 	 * @param creatorUsername Username des Creators
-	 * @return List<String> mit userNames
+	 * @return ArrayList<String> mit userNames
 	 */
 	@WebMethod
 	public String showParticipatingPlayer(String creatorUsername){
@@ -199,5 +209,22 @@ public class Lobby {
 			userNames.add(u.getUsername());
 		}
 		return serialize(userNames);
+	}
+	
+	/**
+	 * Methode löscht das LobbyGame
+	 * @param creatorUsername Usernamen des Creators
+	 * @return Boolean true=LobbyGame deleted false=not deleted or not found
+	 */
+	@WebMethod
+	public boolean deleteLobbyGame(String creatorUsername){
+		try{
+			possibleGames.remove(creatorUsername);
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+		
 	}
 }

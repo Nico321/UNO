@@ -19,5 +19,9 @@ public interface GameConnectionRemote {
 	public String getWishedColor(String player);
 	public void createNewGame(String player);
 	public void addPlayer(String creator, String member);
-	public void callUno(String player);
+	public boolean callUno(String player);
+	public int getGameProgress(String player);
+	public boolean isGameFinished(String player);
+	public boolean leaveGame(String player);
+	public String getWinners(String player);
 }

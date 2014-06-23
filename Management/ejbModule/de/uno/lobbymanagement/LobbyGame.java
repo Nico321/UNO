@@ -1,7 +1,9 @@
 package de.uno.lobbymanagement;
-import java.io.Serializable;
 import java.util.HashMap;
+import java.util.logging.Logger;
+import java.io.Serializable;
 import de.uno.usermanagement.User;
+import de.uno.usermanagement.UserDAO;
 /**
  * LobbyGame Class - Game which is used in our Lobby (not started)
  *  
@@ -10,6 +12,7 @@ import de.uno.usermanagement.User;
  */
 
 public class LobbyGame implements Serializable {
+	private static final Logger log = Logger.getLogger( UserDAO.class.getName() );
 	private static final long serialVersionUID = 1L;
 	HashMap<Integer, User> player;
 	Boolean isPublic;
@@ -58,8 +61,9 @@ public class LobbyGame implements Serializable {
 	}
 	
 	public boolean addMeToGame(User me){
-		if(countPlayer < 4){
+		if(countPlayer < 5){
 			player.put(countPlayer, me);
+			log.info("addMeToGame " + me.getUsername() + " countPlayer: " + countPlayer);
 			countPlayer++;
 			return true;
 		}

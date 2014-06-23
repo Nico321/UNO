@@ -29,4 +29,8 @@ public interface GameLocal {
 	public CardColor getWishedColor();
 	public boolean playerAssignedToGame(Player player);
 	boolean callUno(Player player);
+	public int getGameProgress();
+	public boolean isGameFinished(Player player);
+	public boolean leaveGame(Player player);
+	public HashMap<String, Integer> getWinners();
 }

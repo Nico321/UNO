@@ -24,28 +24,36 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _GetStackCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "getStackCardResponse");
+    private final static QName _AddPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "addPlayerResponse");
+    private final static QName _GetGameProgressResponse_QNAME = new QName("http://gameconnection.uno.de/", "getGameProgressResponse");
+    private final static QName _LeaveGameResponse_QNAME = new QName("http://gameconnection.uno.de/", "leaveGameResponse");
+    private final static QName _GetGameStatusResponse_QNAME = new QName("http://gameconnection.uno.de/", "getGameStatusResponse");
+    private final static QName _IsGameFinished_QNAME = new QName("http://gameconnection.uno.de/", "isGameFinished");
+    private final static QName _GetNextPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayerResponse");
+    private final static QName _GetWinnersResponse_QNAME = new QName("http://gameconnection.uno.de/", "getWinnersResponse");
+    private final static QName _GetHandResponse_QNAME = new QName("http://gameconnection.uno.de/", "getHandResponse");
+    private final static QName _IsGameFinishedResponse_QNAME = new QName("http://gameconnection.uno.de/", "isGameFinishedResponse");
     private final static QName _SetWishedColorResponse_QNAME = new QName("http://gameconnection.uno.de/", "setWishedColorResponse");
     private final static QName _CallUno_QNAME = new QName("http://gameconnection.uno.de/", "callUno");
+    private final static QName _LeaveGame_QNAME = new QName("http://gameconnection.uno.de/", "leaveGame");
     private final static QName _CallUnoResponse_QNAME = new QName("http://gameconnection.uno.de/", "callUnoResponse");
     private final static QName _GetWishedColorResponse_QNAME = new QName("http://gameconnection.uno.de/", "getWishedColorResponse");
-    private final static QName _GetStackCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "getStackCardResponse");
+    private final static QName _GetWinners_QNAME = new QName("http://gameconnection.uno.de/", "getWinners");
     private final static QName _CreateNewGame_QNAME = new QName("http://gameconnection.uno.de/", "createNewGame");
     private final static QName _PutCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "putCardResponse");
-    private final static QName _AddPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "addPlayerResponse");
     private final static QName _SetWishedColor_QNAME = new QName("http://gameconnection.uno.de/", "setWishedColor");
     private final static QName _DrawCard_QNAME = new QName("http://gameconnection.uno.de/", "drawCard");
     private final static QName _StartGameResponse_QNAME = new QName("http://gameconnection.uno.de/", "startGameResponse");
-    private final static QName _GetGameStatusResponse_QNAME = new QName("http://gameconnection.uno.de/", "getGameStatusResponse");
     private final static QName _AddPlayer_QNAME = new QName("http://gameconnection.uno.de/", "addPlayer");
-    private final static QName _GetNextPlayerResponse_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayerResponse");
     private final static QName _GetStackCard_QNAME = new QName("http://gameconnection.uno.de/", "getStackCard");
     private final static QName _GetWishedColor_QNAME = new QName("http://gameconnection.uno.de/", "getWishedColor");
+    private final static QName _PutCard_QNAME = new QName("http://gameconnection.uno.de/", "putCard");
     private final static QName _GetHand_QNAME = new QName("http://gameconnection.uno.de/", "getHand");
     private final static QName _GetNextPlayer_QNAME = new QName("http://gameconnection.uno.de/", "getNextPlayer");
-    private final static QName _PutCard_QNAME = new QName("http://gameconnection.uno.de/", "putCard");
     private final static QName _StartGame_QNAME = new QName("http://gameconnection.uno.de/", "startGame");
     private final static QName _CreateNewGameResponse_QNAME = new QName("http://gameconnection.uno.de/", "createNewGameResponse");
-    private final static QName _GetHandResponse_QNAME = new QName("http://gameconnection.uno.de/", "getHandResponse");
+    private final static QName _GetGameProgress_QNAME = new QName("http://gameconnection.uno.de/", "getGameProgress");
     private final static QName _DrawCardResponse_QNAME = new QName("http://gameconnection.uno.de/", "drawCardResponse");
     private final static QName _GetGameStatus_QNAME = new QName("http://gameconnection.uno.de/", "getGameStatus");
 
@@ -65,6 +73,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetWinners }
+     * 
+     */
+    public GetWinners createGetWinners() {
+        return new GetWinners();
+    }
+
+    /**
      * Create an instance of {@link GetWishedColorResponse }
      * 
      */
@@ -73,19 +89,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetStackCardResponse }
-     * 
-     */
-    public GetStackCardResponse createGetStackCardResponse() {
-        return new GetStackCardResponse();
-    }
-
-    /**
      * Create an instance of {@link CallUnoResponse }
      * 
      */
     public CallUnoResponse createCallUnoResponse() {
         return new CallUnoResponse();
+    }
+
+    /**
+     * Create an instance of {@link LeaveGame }
+     * 
+     */
+    public LeaveGame createLeaveGame() {
+        return new LeaveGame();
     }
 
     /**
@@ -113,14 +129,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetGameStatusResponse }
-     * 
-     */
-    public GetGameStatusResponse createGetGameStatusResponse() {
-        return new GetGameStatusResponse();
-    }
-
-    /**
      * Create an instance of {@link DrawCard }
      * 
      */
@@ -145,11 +153,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AddPlayerResponse }
+     * Create an instance of {@link GetGameProgress }
      * 
      */
-    public AddPlayerResponse createAddPlayerResponse() {
-        return new AddPlayerResponse();
+    public GetGameProgress createGetGameProgress() {
+        return new GetGameProgress();
     }
 
     /**
@@ -158,14 +166,6 @@ public class ObjectFactory {
      */
     public DrawCardResponse createDrawCardResponse() {
         return new DrawCardResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetHandResponse }
-     * 
-     */
-    public GetHandResponse createGetHandResponse() {
-        return new GetHandResponse();
     }
 
     /**
@@ -193,19 +193,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetNextPlayer }
-     * 
-     */
-    public GetNextPlayer createGetNextPlayer() {
-        return new GetNextPlayer();
-    }
-
-    /**
      * Create an instance of {@link GetHand }
      * 
      */
     public GetHand createGetHand() {
         return new GetHand();
+    }
+
+    /**
+     * Create an instance of {@link GetNextPlayer }
+     * 
+     */
+    public GetNextPlayer createGetNextPlayer() {
+        return new GetNextPlayer();
     }
 
     /**
@@ -225,14 +225,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetNextPlayerResponse }
-     * 
-     */
-    public GetNextPlayerResponse createGetNextPlayerResponse() {
-        return new GetNextPlayerResponse();
-    }
-
-    /**
      * Create an instance of {@link AddPlayer }
      * 
      */
@@ -246,6 +238,176 @@ public class ObjectFactory {
      */
     public GetGameStatus createGetGameStatus() {
         return new GetGameStatus();
+    }
+
+    /**
+     * Create an instance of {@link GetStackCardResponse }
+     * 
+     */
+    public GetStackCardResponse createGetStackCardResponse() {
+        return new GetStackCardResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetGameStatusResponse }
+     * 
+     */
+    public GetGameStatusResponse createGetGameStatusResponse() {
+        return new GetGameStatusResponse();
+    }
+
+    /**
+     * Create an instance of {@link LeaveGameResponse }
+     * 
+     */
+    public LeaveGameResponse createLeaveGameResponse() {
+        return new LeaveGameResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetGameProgressResponse }
+     * 
+     */
+    public GetGameProgressResponse createGetGameProgressResponse() {
+        return new GetGameProgressResponse();
+    }
+
+    /**
+     * Create an instance of {@link AddPlayerResponse }
+     * 
+     */
+    public AddPlayerResponse createAddPlayerResponse() {
+        return new AddPlayerResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetHandResponse }
+     * 
+     */
+    public GetHandResponse createGetHandResponse() {
+        return new GetHandResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetWinnersResponse }
+     * 
+     */
+    public GetWinnersResponse createGetWinnersResponse() {
+        return new GetWinnersResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetNextPlayerResponse }
+     * 
+     */
+    public GetNextPlayerResponse createGetNextPlayerResponse() {
+        return new GetNextPlayerResponse();
+    }
+
+    /**
+     * Create an instance of {@link IsGameFinished }
+     * 
+     */
+    public IsGameFinished createIsGameFinished() {
+        return new IsGameFinished();
+    }
+
+    /**
+     * Create an instance of {@link IsGameFinishedResponse }
+     * 
+     */
+    public IsGameFinishedResponse createIsGameFinishedResponse() {
+        return new IsGameFinishedResponse();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetStackCardResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getStackCardResponse")
+    public JAXBElement<GetStackCardResponse> createGetStackCardResponse(GetStackCardResponse value) {
+        return new JAXBElement<GetStackCardResponse>(_GetStackCardResponse_QNAME, GetStackCardResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddPlayerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "addPlayerResponse")
+    public JAXBElement<AddPlayerResponse> createAddPlayerResponse(AddPlayerResponse value) {
+        return new JAXBElement<AddPlayerResponse>(_AddPlayerResponse_QNAME, AddPlayerResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameProgressResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getGameProgressResponse")
+    public JAXBElement<GetGameProgressResponse> createGetGameProgressResponse(GetGameProgressResponse value) {
+        return new JAXBElement<GetGameProgressResponse>(_GetGameProgressResponse_QNAME, GetGameProgressResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LeaveGameResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "leaveGameResponse")
+    public JAXBElement<LeaveGameResponse> createLeaveGameResponse(LeaveGameResponse value) {
+        return new JAXBElement<LeaveGameResponse>(_LeaveGameResponse_QNAME, LeaveGameResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameStatusResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getGameStatusResponse")
+    public JAXBElement<GetGameStatusResponse> createGetGameStatusResponse(GetGameStatusResponse value) {
+        return new JAXBElement<GetGameStatusResponse>(_GetGameStatusResponse_QNAME, GetGameStatusResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link IsGameFinished }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "isGameFinished")
+    public JAXBElement<IsGameFinished> createIsGameFinished(IsGameFinished value) {
+        return new JAXBElement<IsGameFinished>(_IsGameFinished_QNAME, IsGameFinished.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetNextPlayerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getNextPlayerResponse")
+    public JAXBElement<GetNextPlayerResponse> createGetNextPlayerResponse(GetNextPlayerResponse value) {
+        return new JAXBElement<GetNextPlayerResponse>(_GetNextPlayerResponse_QNAME, GetNextPlayerResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetWinnersResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getWinnersResponse")
+    public JAXBElement<GetWinnersResponse> createGetWinnersResponse(GetWinnersResponse value) {
+        return new JAXBElement<GetWinnersResponse>(_GetWinnersResponse_QNAME, GetWinnersResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetHandResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getHandResponse")
+    public JAXBElement<GetHandResponse> createGetHandResponse(GetHandResponse value) {
+        return new JAXBElement<GetHandResponse>(_GetHandResponse_QNAME, GetHandResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link IsGameFinishedResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "isGameFinishedResponse")
+    public JAXBElement<IsGameFinishedResponse> createIsGameFinishedResponse(IsGameFinishedResponse value) {
+        return new JAXBElement<IsGameFinishedResponse>(_IsGameFinishedResponse_QNAME, IsGameFinishedResponse.class, null, value);
     }
 
     /**
@@ -267,6 +429,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LeaveGame }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "leaveGame")
+    public JAXBElement<LeaveGame> createLeaveGame(LeaveGame value) {
+        return new JAXBElement<LeaveGame>(_LeaveGame_QNAME, LeaveGame.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CallUnoResponse }{@code >}}
      * 
      */
@@ -285,12 +456,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetStackCardResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetWinners }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getStackCardResponse")
-    public JAXBElement<GetStackCardResponse> createGetStackCardResponse(GetStackCardResponse value) {
-        return new JAXBElement<GetStackCardResponse>(_GetStackCardResponse_QNAME, GetStackCardResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getWinners")
+    public JAXBElement<GetWinners> createGetWinners(GetWinners value) {
+        return new JAXBElement<GetWinners>(_GetWinners_QNAME, GetWinners.class, null, value);
     }
 
     /**
@@ -309,15 +480,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "putCardResponse")
     public JAXBElement<PutCardResponse> createPutCardResponse(PutCardResponse value) {
         return new JAXBElement<PutCardResponse>(_PutCardResponse_QNAME, PutCardResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddPlayerResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "addPlayerResponse")
-    public JAXBElement<AddPlayerResponse> createAddPlayerResponse(AddPlayerResponse value) {
-        return new JAXBElement<AddPlayerResponse>(_AddPlayerResponse_QNAME, AddPlayerResponse.class, null, value);
     }
 
     /**
@@ -348,30 +510,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameStatusResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getGameStatusResponse")
-    public JAXBElement<GetGameStatusResponse> createGetGameStatusResponse(GetGameStatusResponse value) {
-        return new JAXBElement<GetGameStatusResponse>(_GetGameStatusResponse_QNAME, GetGameStatusResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AddPlayer }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "addPlayer")
     public JAXBElement<AddPlayer> createAddPlayer(AddPlayer value) {
         return new JAXBElement<AddPlayer>(_AddPlayer_QNAME, AddPlayer.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetNextPlayerResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getNextPlayerResponse")
-    public JAXBElement<GetNextPlayerResponse> createGetNextPlayerResponse(GetNextPlayerResponse value) {
-        return new JAXBElement<GetNextPlayerResponse>(_GetNextPlayerResponse_QNAME, GetNextPlayerResponse.class, null, value);
     }
 
     /**
@@ -393,6 +537,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PutCard }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "putCard")
+    public JAXBElement<PutCard> createPutCard(PutCard value) {
+        return new JAXBElement<PutCard>(_PutCard_QNAME, PutCard.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetHand }{@code >}}
      * 
      */
@@ -408,15 +561,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getNextPlayer")
     public JAXBElement<GetNextPlayer> createGetNextPlayer(GetNextPlayer value) {
         return new JAXBElement<GetNextPlayer>(_GetNextPlayer_QNAME, GetNextPlayer.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PutCard }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "putCard")
-    public JAXBElement<PutCard> createPutCard(PutCard value) {
-        return new JAXBElement<PutCard>(_PutCard_QNAME, PutCard.class, null, value);
     }
 
     /**
@@ -438,12 +582,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetHandResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameProgress }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getHandResponse")
-    public JAXBElement<GetHandResponse> createGetHandResponse(GetHandResponse value) {
-        return new JAXBElement<GetHandResponse>(_GetHandResponse_QNAME, GetHandResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://gameconnection.uno.de/", name = "getGameProgress")
+    public JAXBElement<GetGameProgress> createGetGameProgress(GetGameProgress value) {
+        return new JAXBElement<GetGameProgress>(_GetGameProgress_QNAME, GetGameProgress.class, null, value);
     }
 
     /**
