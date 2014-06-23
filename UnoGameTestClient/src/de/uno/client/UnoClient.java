@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class UnoClient {
 	
 	public static void main(String[] args) {
 		try {
-			/*UserManagementService userService = new UserManagementService();
+			UserManagementService userService = new UserManagementService();
 			usermanagement = userService.getUserManagementPort();
 			
 			LobbyService lobbyService = new LobbyService();
@@ -62,6 +63,8 @@ public class UnoClient {
 				System.out.println(s);
 			}
 			
+			System.out.println("<===============================>");
+			
 			if(usermanagement.login("Daniel", "daniel"))
 				System.out.println("Daniel ist eingeloggt!");
 			if(usermanagement.login("Nico", "nico"))
@@ -69,9 +72,16 @@ public class UnoClient {
 			
 			
 			lobbymanager.createNewGame("Nico", true);
-			lobbymanager.joinLobbyGame("Nico", "Dave");
+			lobbymanager.createNewGame("Daniel", true);
 
-			lobbymanager.startGame("Nico");*/
+			System.out.println("Open Games:");
+			ArrayList<String> lobbyGames = (ArrayList<String>) deserialize(lobbymanager.showOpenGames());
+			for(String creatorName : lobbyGames){
+				System.out.println(creatorName);
+			}
+			System.out.println("<===============================>");
+			
+			lobbymanager.startGame("Nico");
 			
 			GameConnectionManagerService service = new GameConnectionManagerService();
 			uno = service.getGameConnectionManagerPort();
