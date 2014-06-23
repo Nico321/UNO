@@ -1,5 +1,8 @@
 package de.uno.android;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -124,7 +127,16 @@ public class Login extends Activity implements OnClickListener{
 				});
 		}
 	}
-
+	public static String toSHA1(byte[] convertme) {
+	    MessageDigest md = null;
+	    try {
+	        md = MessageDigest.getInstance("SHA");
+	    }
+	    catch(NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    } 
+	    return new String(md.digest(convertme));
+	}
 	
 	
 }

@@ -31,7 +31,7 @@ public class LobbyGame implements Serializable {
 	}
 	
 	public boolean addFriend(User friend){
-		if(countPlayer < 4){
+		if(countPlayer < 5){
 			player.put(countPlayer, friend);
 			countPlayer++;
 			return true;
@@ -61,12 +61,17 @@ public class LobbyGame implements Serializable {
 	}
 	
 	public boolean addMeToGame(User me){
+		log.info("AddMeToGame");
 		if(countPlayer < 5){
+			log.info("if");
 			player.put(countPlayer, me);
 			log.info("addMeToGame " + me.getUsername() + " countPlayer: " + countPlayer);
 			countPlayer++;
 			return true;
 		}
-		return false;
+		else{
+			log.info("false");
+			return false;
+		}
 	}
 }

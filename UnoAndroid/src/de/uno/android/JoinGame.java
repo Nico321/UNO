@@ -46,9 +46,6 @@ public class JoinGame extends Activity implements OnClickListener{
 		setContentView(R.layout.joingame_view);
 		
 		activeUsername = ((AppVariables) this.getApplication()).getUsername();
-		
-		prevbtn = (Button) findViewById(R.id.JoinServerjoinbtn);
-		prevbtn.setOnClickListener(this);
 		lv = (ListView) findViewById(R.id.joinServerListView);
 		lv.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener(){
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
@@ -56,6 +53,19 @@ public class JoinGame extends Activity implements OnClickListener{
 			String item = (String) lv.getItemAtPosition(position);
 			Log.d(TAG, "Selected Game => " + item);
 			selectedGame = item;
+			gameUsername = selectedGame.replace("s Spiel", "");
+			Log.d("activeUsername: ",activeUsername);
+			Log.d("gameUsername: ",gameUsername);
+			Log.d(TAG, "Join Game of " + gameUsername + "_Aufruf");
+			AsynchronTask runner = new AsynchronTask();
+			runner.setKsoapAttributes(NAMESPACE, URL, "joinLobbyGame");
+			runner.execute(JoinGame.this,gameUsername,activeUsername);
+			progDailog = new ProgressDialog(JoinGame.this);
+	        progDailog.setMessage("Spielbeitritt...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(true);
+	        progDailog.show();
 			}
 		});
 		
@@ -84,7 +94,6 @@ public class JoinGame extends Activity implements OnClickListener{
 	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        progDailog.setCancelable(true);
 	        progDailog.show();
-			
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
 			runner.execute(this);			
@@ -94,25 +103,7 @@ public class JoinGame extends Activity implements OnClickListener{
 
 	
 	
-	@Override
-	public void onClick(View v) {
-		if(v.getId() == R.id.JoinServerjoinbtn){
-			
-			gameUsername = selectedGame.replace("s Spiel", "");
-			
-			Log.d(TAG, "Join Game of " + gameUsername + "_Aufruf");
-			AsynchronTask runner = new AsynchronTask();
-			runner.setKsoapAttributes(NAMESPACE, URL, "joinLobbyGame");
-			runner.execute(this,activeUsername, gameUsername);
-			progDailog = new ProgressDialog(JoinGame.this);
-	        progDailog.setMessage("Spielbeitritt...Bitte warten");
-	        progDailog.setIndeterminate(false);
-	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	        progDailog.setCancelable(true);
-	        progDailog.show();
-			
-		}
-	}
+
 	
 	
 	public void showOpenGamesCompleted(boolean success, ArrayList<String> pGames){
@@ -168,6 +159,11 @@ public class JoinGame extends Activity implements OnClickListener{
 			progDailog.cancel();
 			Log.d(TAG,"JoinGame_failed");
 		}
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		
 	}
 	
 }

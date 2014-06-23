@@ -30,9 +30,9 @@
         android:id="@+id/newGamePlayerListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/newGamePlayerListTextView"
-        android:layout_marginBottom="170dp"
-        android:layout_toLeftOf="@+id/newGameplayerHeadline" >
+        android:layout_marginBottom="170dp" >
 
     </ListView>
 

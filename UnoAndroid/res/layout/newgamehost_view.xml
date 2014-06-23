@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/newServerRdybtn"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/newServerHostHeadLine"
-        android:layout_marginTop="28dp"
-        android:layout_toLeftOf="@+id/newServerHostStartGamebtn" >
+        android:layout_marginTop="28dp" >
 
     </ListView>
 

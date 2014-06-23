@@ -32,6 +32,13 @@ public class NewGameHost extends Activity implements OnClickListener{
 	ArrayList<String> userNames = null;
 	private ListAdapter adapter = null;
 	
+	
+	//public void onFinish() {
+	//	AsynchronTask runner = new AsynchronTask();
+	//	runner.setKsoapAttributes(NAMESPACE, URL, "deleteLobbyGame");
+	//	runner.execute(this, activeUsername);	
+	//}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,6 +60,8 @@ public class NewGameHost extends Activity implements OnClickListener{
 		getMenuInflater().inflate(R.menu.newgamehostmenu, menu);	
 		return true;
 	}
+	
+	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,9 +117,11 @@ public class NewGameHost extends Activity implements OnClickListener{
 			if(participatingPlayers.isEmpty()){
 				Log.d(TAG, "keine offnen Spiele!");
 			}
-			else{
-				Log.d(TAG, "Offene Spiele!");
-			}		
+			for(int i=0;i<participatingPlayers.size();i++){
+				if(participatingPlayers.get(i).equals(userNames.get(i))){
+					userNames.set(i, participatingPlayers.get(i) + " (Du)");
+				}
+			}
 			
 			Log.d(TAG, "Verarbeitung auf UI-Tread beginnt...");
 			runOnUiThread(new Runnable() {

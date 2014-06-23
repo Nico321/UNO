@@ -73,9 +73,7 @@ public class Highscore extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == R.id.JoinServerjoinbtn){
-			finish();
-		}
+		
 	}
 	
 	public void HighScoreListCompleted(boolean success, HashMap<String, Integer> highscoreMap){

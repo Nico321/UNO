@@ -1,5 +1,8 @@
 package de.uno.android;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import de.uno.android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -117,5 +120,16 @@ public class Register extends Activity implements OnClickListener{
 				});
 		
 		}
+	}
+	public static String toSHA1(byte[] convertme) {
+	    MessageDigest md = null;
+	    try {
+	    	Log.d("decrypt","decrypt");
+	        md = MessageDigest.getInstance("SHA");
+	    }
+	    catch(NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    } 
+	    return new String(md.digest(convertme));
 	}
 }

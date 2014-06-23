@@ -29,7 +29,7 @@ import de.uno.android.usermanagement.User;
 public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 
 	private String NAMESPACE;
-	private String URL = "http://192.168.1.110:8080";	 
+	private String URL = "http://192.168.1.101:8080";	 
 	private String METHOD_NAME;
 	private static final String TAG = AsynchronTask.class.getName();
 
@@ -215,24 +215,24 @@ public class AsynchronTask extends AsyncTask<Object, Object, Object> {
 				    success = true;
 		    		
 		    	}
-		    	if(METHOD_NAME.equals("startGame")){
-		    		
+		    	if(METHOD_NAME.equals("startGame")){		    		
 				    success = true;
 		    	}
-		    	
+		    	if(METHOD_NAME.equals("deleteLobbyGame")){	
+		    		SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+		    		success = Boolean.valueOf(response.toString());
+		    		Log.d(""," " + success);
+		    	}  				    	
 		    	
 		    }    
 		    if (params[0] instanceof Login){
-		    	Log.d(TAG, "Login-Method-response PRE");
 		    	SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
-		    	Log.d(TAG, "Login-Method-response POST");
-	            success = Boolean.valueOf(response.toString());
+	    		success = Boolean.valueOf(response.toString());
 	            Log.d(TAG, "Login_success_booleanOf erfolgreich");
 	            
 		    }	
 		    
 		    if (params[0] instanceof Register){
-		    	System.out.println(envelope.bodyIn.toString());
 		    	SoapPrimitive response =  (SoapPrimitive) (envelope.getResponse());
 		    	Log.d("GetPointsByUser - Response", response.toString());
 		    	success = Boolean.valueOf(response.toString());
