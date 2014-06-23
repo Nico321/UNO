@@ -30,4 +30,7 @@ public interface GameLocal {
 	public boolean playerAssignedToGame(Player player);
 	boolean callUno(Player player);
 	public int getGameProgress();
+	public boolean isGameFinished();
+	public boolean leaveGame(Player player);
+	public HashMap<String, Integer> getWinners();
 }

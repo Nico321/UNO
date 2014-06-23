@@ -1,10 +1,12 @@
 package de.uno.game;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.logging.Logger;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -28,10 +30,12 @@ import de.uno.player.Player;
 public class Game implements GameLocal{
 	
 	private HashMap<Integer, Player> players;
+	private HashMap<String, Integer> playerRanking;
 	private LinkedList<Player> winners;
 	private int playerStep = 1, currentPlayer = 1, gameProgress = 0, direction = 1;
 	private Deck deck, stack;
 	private CardColor wishedColor;
+	private boolean finished = false;
 	
 	private final long TIMEOUT = Integer.MAX_VALUE;
 	Timer timer = new Timer();
@@ -59,6 +63,7 @@ public class Game implements GameLocal{
         stack = new Deck();
         
         players = new HashMap<Integer, Player>();
+        playerRanking = new HashMap<String, Integer>();
         players.put(1,player);
 
         
@@ -72,6 +77,7 @@ public class Game implements GameLocal{
 	public boolean checkGameState(){
 		if(getNumberOfPlayers() == 1)
 		{
+			gameProgress++;
 			closeGame();
 			return true;
 		}
@@ -80,11 +86,18 @@ public class Game implements GameLocal{
 				if(p.getHand().getCards().size() == 0){
 					if(p.calledUno()){
 						log.info(p.getUsername() + " won the game");
+						gameProgress++;
 						closeGame();
 						return true;	
 					}
 					else{
 						this.drawCard(p, 1);
+						int tmpPlayerStep = playerStep;
+						playerStep = 1;
+						direction *= -1;
+						updateCurrentPlayerID();
+						playerStep = tmpPlayerStep;
+						direction *= -1;
 						return false;
 					}
 				}
@@ -128,7 +141,6 @@ public class Game implements GameLocal{
 			if(cardIsValid(card)){
 				stack.addCard(card);
 				if (card.getClass() == SkipCard.class){
-					System.out.println("Skippiskip");
 					playerStep = 2;
 				}
 				else if (card.getClass() == ChangeDirectionCard.class){
@@ -162,6 +174,7 @@ public class Game implements GameLocal{
 	
 	private void closeGame(){
 		log.info("Game finished, trying to write Highscore");
+		finished = true;
 		InitialContext context;
 		try {
 			context = new InitialContext();
@@ -192,8 +205,12 @@ public class Game implements GameLocal{
 		}
 		
 		gameManager.updateHighScore(playerPoints);
-		log.info("Highscore successfully updated, closing game");
-		gameManager.removeGame(this);
+		log.info("Highscore successfully updated");
+		
+		if(this.getNumberOfPlayers() == 0){
+			log.info("Removing Game from Manager..");
+			gameManager.removeGame(this);
+		}
 			
 			
 		
@@ -222,6 +239,10 @@ public class Game implements GameLocal{
 			sortedPlayers.put(playerPuff, bonus - count);
 			count +=30;
 			winners.addLast(playerPuff);
+		}
+		
+		for(Player p : sortedPlayers.keySet()){
+			playerRanking.put(new String(p.getUsername()), new Integer(sortedPlayers.get(p)));
 		}
 		
 		return sortedPlayers;
@@ -316,7 +337,7 @@ public class Game implements GameLocal{
 	public void startGame() {
 		log.info("starting game...");
 		for(int i = 1; i<=players.size();i++){
-			players.get(i).getHand().addCard(deck.removeCard(5));
+			players.get(i).getHand().addCard(deck.removeCard(1));
 		}
 		do{
 			stack.addCard(deck.removeCard());
@@ -348,6 +369,12 @@ public class Game implements GameLocal{
 
 	@Override
 	public boolean callUno(Player player) {
+		for(Player p : players.values()){
+			if (p.equals(player)){
+				player = p;
+				break;
+			}
+		}
 		if (player.getHand().getCards().size() == 1){
 			log.info(player.getUsername() + " called Uno");
 			callLocalUno(player, true);
@@ -368,5 +395,30 @@ public class Game implements GameLocal{
 	@Override
 	public int getGameProgress() {
 		return gameProgress;
+	}
+
+	@Override
+	public boolean isGameFinished() {
+		return finished;
+	}
+
+	@Override
+	public boolean leaveGame(Player player) {
+		for(Player p : players.values()){
+			if (p.equals(player)){
+				player = p;
+				break;
+			}
+		}
+		player.setDisconnected(new Date());
+		log.warning(player.getUsername() + " left the game.");
+		if(this.getNumberOfPlayers() == 0)
+			this.closeGame();
+		return true;
+	}
+
+	@Override
+	public HashMap<String, Integer> getWinners() {
+		return playerRanking;
 	}
 }

@@ -52,29 +52,11 @@ public class UserDAO implements UserDAOLocal{
 	//Methode mit Datenbankabfrage zum Freund adden
 	@Override
 	public void AddUserToFriendlist(String username, String newFriendsUsername){
-		log.info("In AddUserToFrienddlist");
 		User actualUser = em.find(User.class, username);
 		User newFriend = em.find(User.class, newFriendsUsername);
-		if(actualUser.getFriends().size() > 0 ){
-			for(String u : actualUser.getFriends()){
-				log.info("In for");
-				if(u.equals(newFriendsUsername)){
-					log.info("Friend already in friendlist");
-				}
-				else{
-					actualUser.addFriend(newFriend);
-					em.persist(actualUser);
-					log.info("Added "+ newFriendsUsername + " to "+ username+ "'s friendslist.");
-					break;
-				}
-			}
-		}
-		else{
-			actualUser.addFriend(newFriend);
-			em.persist(actualUser);
-			log.info("IF-Else Added "+ newFriendsUsername + " to "+ username+ "'s friendslist.");
-		}
-		
+		actualUser.addFriend(newFriend);
+		em.persist(actualUser);
+		log.info("Added "+ newFriendsUsername + " to "+ username+ "'s friendslist.");
 	}
 	
 	@Override
