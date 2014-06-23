@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _ShowParticipatingPlayer_QNAME = new QName("http://lobbymanagement.uno.de/", "showParticipatingPlayer");
     private final static QName _JoinLobbyGame_QNAME = new QName("http://lobbymanagement.uno.de/", "joinLobbyGame");
     private final static QName _AddFriendsToGameResponse_QNAME = new QName("http://lobbymanagement.uno.de/", "addFriendsToGameResponse");
     private final static QName _AddFriendsToGame_QNAME = new QName("http://lobbymanagement.uno.de/", "addFriendsToGame");
@@ -33,6 +34,7 @@ public class ObjectFactory {
     private final static QName _ShowOpenGames_QNAME = new QName("http://lobbymanagement.uno.de/", "showOpenGames");
     private final static QName _StartGame_QNAME = new QName("http://lobbymanagement.uno.de/", "startGame");
     private final static QName _InitResponse_QNAME = new QName("http://lobbymanagement.uno.de/", "initResponse");
+    private final static QName _ShowParticipatingPlayerResponse_QNAME = new QName("http://lobbymanagement.uno.de/", "showParticipatingPlayerResponse");
     private final static QName _Init_QNAME = new QName("http://lobbymanagement.uno.de/", "init");
     private final static QName _StartGameResponse_QNAME = new QName("http://lobbymanagement.uno.de/", "startGameResponse");
     private final static QName _JoinLobbyGameResponse_QNAME = new QName("http://lobbymanagement.uno.de/", "joinLobbyGameResponse");
@@ -52,6 +54,14 @@ public class ObjectFactory {
      */
     public CreateNewGame createCreateNewGame() {
         return new CreateNewGame();
+    }
+
+    /**
+     * Create an instance of {@link ShowParticipatingPlayerResponse }
+     * 
+     */
+    public ShowParticipatingPlayerResponse createShowParticipatingPlayerResponse() {
+        return new ShowParticipatingPlayerResponse();
     }
 
     /**
@@ -159,6 +169,23 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ShowParticipatingPlayer }
+     * 
+     */
+    public ShowParticipatingPlayer createShowParticipatingPlayer() {
+        return new ShowParticipatingPlayer();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowParticipatingPlayer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://lobbymanagement.uno.de/", name = "showParticipatingPlayer")
+    public JAXBElement<ShowParticipatingPlayer> createShowParticipatingPlayer(ShowParticipatingPlayer value) {
+        return new JAXBElement<ShowParticipatingPlayer>(_ShowParticipatingPlayer_QNAME, ShowParticipatingPlayer.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link JoinLobbyGame }{@code >}}
      * 
      */
@@ -237,6 +264,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://lobbymanagement.uno.de/", name = "initResponse")
     public JAXBElement<InitResponse> createInitResponse(InitResponse value) {
         return new JAXBElement<InitResponse>(_InitResponse_QNAME, InitResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ShowParticipatingPlayerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://lobbymanagement.uno.de/", name = "showParticipatingPlayerResponse")
+    public JAXBElement<ShowParticipatingPlayerResponse> createShowParticipatingPlayerResponse(ShowParticipatingPlayerResponse value) {
+        return new JAXBElement<ShowParticipatingPlayerResponse>(_ShowParticipatingPlayerResponse_QNAME, ShowParticipatingPlayerResponse.class, null, value);
     }
 
     /**

@@ -21,7 +21,8 @@ public class MyTimerTask extends TimerTask{
 	public void run() {
 		game.getNextPlayer().setDisconnected(new Date());
 		log.warning(game.getNextPlayer().getUsername() + " disconnected.");
-		game.checkGameState();
+		
+		game.disconnectedCallback();
 	}
 
 }

@@ -245,7 +245,7 @@ public class GameConnectionManager implements GameConnectionRemote {
 	@WebMethod
 	public boolean isGameFinished(String player) {
 		Player p = (Player)deserialize(player);
-		return getGame(p).isGameFinished();
+		return getGame(p).isGameFinished(p);
 	}
 
 	@Override

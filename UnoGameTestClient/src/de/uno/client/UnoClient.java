@@ -36,7 +36,7 @@ public class UnoClient {
 	private static UserManagement usermanagement;
 	private static Lobby lobbymanager;
 	private static HighScore highscore;
-	private static Player nico,daniel;
+	private static Player nico,daniel,dave;
 	private static boolean drawedMarker = false;
 	
 	public static void main(String[] args) {
@@ -81,16 +81,20 @@ public class UnoClient {
 			
 			nico = new Player("Nico");
 			daniel = new Player("Daniel");
+			dave = new Player("Dave");
 			uno.createNewGame(serialize(nico));
 			uno.addPlayer(serialize(nico), serialize(daniel));
+			uno.addPlayer(serialize(nico), serialize(dave));
 			uno.startGame(serialize(nico));
 			nico.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(nico)))).getCards());
 			daniel.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(daniel)))).getCards());
+			dave.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(dave)))).getCards());
 			
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
+			showCards(dave.getHand(), "Dave");
 			
-			while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
+			/*while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
 				//-------------- Test zum TimeOut --------------------
 				//Thread.sleep(31000);
 				//break;
@@ -111,7 +115,7 @@ public class UnoClient {
 				if(daniel.getHand().getCards().size() == 0){
 					break;
 				}
-			}
+			}*/
 			showCards(nico.getHand(),"Nico");
 			showCards(daniel.getHand(), "Daniel");
 			
