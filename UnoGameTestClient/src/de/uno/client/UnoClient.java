@@ -72,8 +72,16 @@ public class UnoClient {
 			
 			
 			lobbymanager.createNewGame("Nico", true);
-			lobbymanager.createNewGame("Daniel", true);
-
+			lobbymanager.joinLobbyGame("Nico", "Daniel");
+			
+			ArrayList<String> player = new ArrayList();
+			player = (ArrayList<String>) deserialize(lobbymanager.showOpenGames());
+			
+			for(String name:player){
+				System.out.println(name);
+			}
+			System.out.println("<===============================>");
+			
 			System.out.println("Open Games:");
 			ArrayList<String> lobbyGames = (ArrayList<String>) deserialize(lobbymanager.showOpenGames());
 			for(String creatorName : lobbyGames){

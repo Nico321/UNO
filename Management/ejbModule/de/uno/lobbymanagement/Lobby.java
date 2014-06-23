@@ -186,6 +186,7 @@ public class Lobby {
 	public boolean joinLobbyGame(String creatorUsername, String joinUsername){
 		try{
 		User player = userManagement.FindUserByName(joinUsername);
+		log.info("before");
 		possibleGames.get(creatorUsername).addMeToGame(player);
 		log.info("User joined open game from: " + creatorUsername);
 		return true;
@@ -198,7 +199,7 @@ public class Lobby {
 	/**
 	 * Methode zeigt Spieler, die an einem Spiel teilnehmen
 	 * @param creatorUsername Username des Creators
-	 * @return List<String> mit userNames
+	 * @return ArrayList<String> mit userNames
 	 */
 	@WebMethod
 	public String showParticipatingPlayer(String creatorUsername){
