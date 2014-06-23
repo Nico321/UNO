@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import android.app.Application;
+import android.util.Log;
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
@@ -14,22 +15,32 @@ import de.uno.player.Player;
 
 public class GameApplication extends Application{
 	
+	public static final String TAG = GameApplication.class.toString();
+	
+	private HashMap<String, String> playerPositions;
 	//Der Spieler der momentan an der Reihe ist
 	private Player actualPlayer;
 	//Das Spielerobjekt des lokalen Spielers
 	private Player localPlayer;
+	//Integer der den Status des Spiels widerspiegelt
+	private int gameProgress;
 	//Die gewünschte Farbe falls eine Farbwahlkarte gespielt wurde
 	private CardColor wishedColor;
 	//Die Hand des lokane Spielers
 	private Hand localPlayerHand;
-	//Anzahl der Spieler die momentan am Spiel teilnehmen
-	private int playerCount;
 	//Der Kartenstapel
 	private Stack<Card> playedCards;
 	//
+	private boolean isGameFinished = false;
+	
 	private HashMap<String, Integer> gameStatus;
 	//singleton instanz der Spielapplikation
 	private static GameApplication instance;
+	private GameConnectionRemote gameStub ;
+	
+	public static enum PlayerPositions{
+		LEFT,TOP,RIGHT
+	}
 	
 	public Card getLastPlayedCard() {
 		return this.playedCards.pop();
@@ -56,19 +67,23 @@ public class GameApplication extends Application{
 		instance = this;
 		this.playedCards = new Stack<Card>();
 		this.gameStatus = new HashMap<String,Integer>();
+		this.playerPositions = new HashMap<String,String>();
+		this.setActualPlayer(null);
+		this.gameProgress = 0;
+	}
+	
+	public boolean isGameFinished() {
+		return isGameFinished;
+	}
+
+	public void setGameFinished(boolean isGameFinished) {
+		this.isGameFinished = isGameFinished;
 	}
 	
 	public static GameApplication getInstance(){
 		return instance;
 	}
 	
-	public int getPlayerCount() {
-		return playerCount;
-	}
-
-	public void setPlayerCount(int playerCount) {
-		this.playerCount = playerCount;
-	}
 
 	public Player getLocalPlayer() {
 		return localPlayer;
@@ -77,8 +92,6 @@ public class GameApplication extends Application{
 	public void setLocalPlayer(Player localPlayer) {
 		this.localPlayer = localPlayer;
 	}
-
-	private GameConnectionRemote gameStub ;
 
 	public GameConnectionRemote getGameStub() {
 		return gameStub;
@@ -153,6 +166,47 @@ public class GameApplication extends Application{
 
 	public void setLocalPlayerHand(Hand localPlayerHand) {
 		this.localPlayerHand = localPlayerHand;
+	}
+	
+	public HashMap<String, String> getPlayerPositions(){
+		return this.playerPositions;
+	}
+	
+	public void setPlayerPositions(HashMap<String, Integer> playerPostions){
+		int i = 0;
+		for (String playerName : playerPostions.keySet()) {
+			Log.d(TAG, PlayerPositions.values()[i].toString());
+			this.playerPositions.put(playerName, PlayerPositions.values()[i].toString());
+			i++;
+		}
+	}
+	
+	public String getPlayerPosition(String playerName){
+		return this.getPlayerPositions().get(playerName);
+	}
+	
+	public void setPlayerPosition(String playerName, PlayerPositions playerPosition){
+		this.getPlayerPositions().put(playerName, playerPosition.toString());
+	}
+	
+	public int getAmountOfCards(String playerName){
+		return this.gameStatus.get(playerName);
+	}
+	
+	public Stack<Card> getPlayedCards() {
+		return playedCards;
+	}
+
+	public void setPlayedCards(Stack<Card> playedCards) {
+		this.playedCards = playedCards;
+	}
+
+	public void setGameProgress(int i) {
+		this.gameProgress = i;
+	}
+	
+	public int getGameProgress(){
+		return this.gameProgress;
 	}
 	
 	

@@ -3,19 +3,17 @@ package de.uno.android.tasks;
 import java.util.LinkedList;
 
 import android.util.Log;
-import android.webkit.WebView.FindListener;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import de.android.uno.R;
 import de.uno.android.GameActivity;
 import de.uno.android.util.CardMapper;
 import de.uno.android.util.objectSerializer;
+import de.uno.android.views.CardImageButton;
 import de.uno.card.Card;
-import de.uno.card.CardImageButton;
-import de.uno.card.DrawCard;
-import de.uno.player.Player;
 
-public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedList<Card>> {
+public class DrawCardTask extends GetDataFromServerTask<Integer, String, LinkedList<Card>> {
 	
 	
 	public DrawCardTask(GameActivity gameActivity) {
@@ -26,13 +24,13 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 	protected void onPreExecute() {
 		super.onPreExecute();
 		gameActivity.findViewById(R.id.cardScollViewLayout).setClickable(false);
-		//gameActivity.findViewById(R.id.cardStackButton).setClickable(false);
 	}
 	@Override
-	protected LinkedList<Card> doInBackground(Player... player) {
+	protected LinkedList<Card> doInBackground(Integer... quantity) {
 		try{
-		String playerString = objectSerializer.serialize(player[0]);
-		LinkedList<Card> drawedCards = (LinkedList<Card>) objectSerializer.deserialize(gameApp.getGameStub().drawCard(playerString, checkQuantity()).toString());
+		int drawQuantity = quantity[0];
+		String playerString = objectSerializer.serialize(gameApp.getLocalPlayer());
+		LinkedList<Card> drawedCards = (LinkedList<Card>) objectSerializer.deserialize(gameApp.getGameStub().drawCard(playerString, drawQuantity).toString());
 		if(drawedCards != null){
 			gameApp.getLocalPlayer().getHand().addCard(drawedCards);
 		}
@@ -49,15 +47,14 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 		super.onPostExecute(result);
 		LinearLayout cardScrollViewLayout = (LinearLayout) gameActivity.findViewById(R.id.cardScollViewLayout);
 		
+		gameApp.getLocalPlayerHand().addCard(result);
 		//Den rechten Rand der momentanen ganz rechten Karte entfernen
 		CardImageButton tmpCard = (CardImageButton) cardScrollViewLayout.getChildAt(cardScrollViewLayout.getChildCount()-1);
 		tmpCard.alterMargin(0, 0, -80, 0);
 		
 		//Die gezogenen Karten der View hinzufügen
 		for (Card c:result){
-			CardImageButton newCard = new CardImageButton(gameApp.getApplicationContext());
-			newCard.setTag(cardScrollViewLayout.getChildCount() -1);
-			newCard.setOnClickListener(gameActivity);
+			CardImageButton newCard = new CardImageButton(gameActivity,gameActivity,gameApp,c);
 			newCard.setBackgroundDrawable(null);
 			gameActivity.loadBitmap(CardMapper.mapCardToResource(c),gameActivity,newCard,60,90);
 			cardScrollViewLayout.addView(newCard);
@@ -65,22 +62,23 @@ public class DrawCardTask extends GetDataFromServerTask<Player, String, LinkedLi
 		CardImageButton lastCard = (CardImageButton) cardScrollViewLayout.getChildAt(cardScrollViewLayout.getChildCount()-1);
 		lastCard.alterMargin(0, 0, 0, 0);
 		
-		String toastText = "card";
+		String toastText = " card";
 		if(result.size() > 1){
-			toastText = "cards";
+			toastText = " cards";
 		}
 		//Ausgabe dass eine Karte gezogen wurde damit der User ein Feedback erhält
 		Toast.makeText(gameActivity, "You drawed " + result.size() + toastText , Toast.LENGTH_LONG).show();
 		gameActivity.findViewById(R.id.cardScrollView).setClickable(true);
+		
+		//UnoButton deaktivieren
+		ImageButton unoButton = (ImageButton) gameActivity.findViewById(R.id.unoButton);
+		unoButton.setClickable(false);
+		
+		//nächsten Spieler aufrufen
+		GetCurrentPlayerTask gnpt = new GetCurrentPlayerTask(gameActivity);
+		gnpt.execute();
 	}
 
-	/**
-	 * TODO!
-	 * @param none
-	 * @return int
-	 */
-	private int checkQuantity(){
-		return 1;
-	}
+
 
 }

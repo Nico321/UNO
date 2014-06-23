@@ -2,19 +2,15 @@ package de.uno.android.tasks;
 
 
 
-import java.util.concurrent.TimeoutException;
-
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.LinearLayout;
 import de.android.uno.R;
 import de.uno.Hand.Hand;
 import de.uno.android.GameActivity;
-import de.uno.android.GameApplication;
 import de.uno.android.util.CardMapper;
 import de.uno.android.util.objectSerializer;
+import de.uno.android.views.CardImageButton;
 import de.uno.card.Card;
-import de.uno.card.CardImageButton;
 import de.uno.player.Player;
 /**
  * @author Dave Kaufmann
@@ -33,8 +29,7 @@ public class GetHandTask extends GetDataFromServerTask<Player, String, Hand> {
 	@Override
 	protected Hand doInBackground(Player... player) {
 		try {
-			//der zu übergebende Player nach dem der Server sucht
-			String playerString = objectSerializer.serialize(player[0]);
+			String playerString = objectSerializer.serialize(gameApp.getLocalPlayer());
 			Hand hand = (Hand) objectSerializer.deserialize(gameApp.getGameStub().getHand(playerString).toString());
 			return hand;
 		} catch (Exception e) {
@@ -55,17 +50,17 @@ public class GetHandTask extends GetDataFromServerTask<Player, String, Hand> {
 			LinearLayout cardScrollViewLayout = (LinearLayout) gameActivity.findViewById(R.id.cardScollViewLayout);
 			gameApp.setLocalPlayerHand(result);
 			Hand localPlayerHand = gameApp.getLocalPlayerHand();
-			for (int i= 0; i < localPlayerHand.getCards().size(); i++) {
-				CardImageButton imgb = new CardImageButton(gameActivity);
-				imgb.setTag(i);
-				imgb.setOnClickListener(gameActivity);
+			for (Card card : localPlayerHand.getCards()) {
+				CardImageButton imgb = new CardImageButton(gameActivity,gameActivity,gameApp,card);
 				imgb.setBackgroundDrawable(null);
-				gameActivity.loadBitmap(CardMapper.mapCardToResource(localPlayerHand.getCards().get(i)),gameActivity,imgb,60,90);
+				gameActivity.loadBitmap(CardMapper.mapCardToResource(card),gameActivity,imgb,60,90);
 				cardScrollViewLayout.addView(imgb);
 			}
 			
-			CardImageButton lastCard = (CardImageButton) cardScrollViewLayout.getChildAt(cardScrollViewLayout.getChildCount()-1);
-			lastCard.alterMargin(0, 0, 0, 0);
+			if(result.getCards().size() >0){
+				CardImageButton lastCard = (CardImageButton) cardScrollViewLayout.getChildAt(cardScrollViewLayout.getChildCount()-1);
+				lastCard.alterMargin(0, 0, 0, 0);
+			}
 			
 		}	
 	}

@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import biz.source_code.base64Coder.Base64Coder;
 import de.highscore.HighScore;
@@ -18,7 +19,11 @@ import de.uno.card.CardColor;
 import de.uno.card.DrawCard;
 import de.uno.gameconnection.GameConnectionManager;
 import de.uno.gameconnection.GameConnectionManagerService;
+import de.uno.lobbymanagement.Lobby;
+import de.uno.lobbymanagement.LobbyService;
 import de.uno.player.Player;
+import de.uno.usermanagement.UserManagement;
+import de.uno.usermanagement.UserManagementService;
 /**
  *  
  * @author Nico Lindmeyer 737045
@@ -28,63 +33,91 @@ public class UnoClient {
 
 
 	private static GameConnectionManager uno;
+	private static UserManagement usermanagement;
+	private static Lobby lobbymanager;
 	private static HighScore highscore;
-	private static Player dave,nico,sven,schlonz;
+	private static Player nico,daniel,dave;
 	private static boolean drawedMarker = false;
-	private static Hand daveCards;
-	private static Hand nicoCards;
-	private static Hand svenCards;
-	private static Hand schlonzCards;
-	
 	
 	public static void main(String[] args) {
 		try {
+			UserManagementService userService = new UserManagementService();
+			usermanagement = userService.getUserManagementPort();
+			
+			LobbyService lobbyService = new LobbyService();
+			lobbymanager = lobbyService.getLobbyPort();
+			
+			System.out.println("Add User: Daniel & Nico");
+			usermanagement.addUser("Nico", "nico");
+			usermanagement.addUser("Daniel", "daniel");
+			
+			System.out.println("Add Daniel to Nicos friendlist");
+			usermanagement.addUserToFriendlist("Nico", "Daniel");
+			
+			System.out.println("Show Nicos friends: ");
+			String puffer = usermanagement.showFriendList("Nico");
+			List<String> friends = (List<String>) deserialize(puffer);
+						
+			for(String s:friends){
+				System.out.println(s);
+			}
+			
+			if(usermanagement.login("Daniel", "daniel"))
+				System.out.println("Daniel ist eingeloggt!");
+			if(usermanagement.login("Nico", "nico"))
+				System.out.println("Nico ist eingeloggt!");
+			
+			
+			lobbymanager.createNewGame("Nico", true);
+			lobbymanager.joinLobbyGame("Nico", "Dave");
+
+			lobbymanager.startGame("Nico");
+			
 			GameConnectionManagerService service = new GameConnectionManagerService();
 			uno = service.getGameConnectionManagerPort();
 			
 			HighScoreService highscoreService = new HighScoreService();
 			highscore = highscoreService.getHighScorePort();
 			
-			dave = new Player("Dave");
 			nico = new Player("Nico");
-			sven = new Player("Sven");
-			schlonz = new Player("Schlonz");
-			
-			uno.createNewGame(serialize(dave));
-			uno.addPlayer(serialize(dave), serialize(nico));
-			uno.addPlayer(serialize(dave), serialize(sven));
-			uno.addPlayer(serialize(dave), serialize(schlonz));
-			uno.startGame(serialize(dave));
-			dave.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(dave)))).getCards());
+			daniel = new Player("Daniel");
+			//dave = new Player("Dave");
+			uno.createNewGame(serialize(nico));
+			uno.addPlayer(serialize(nico), serialize(daniel));
+			//uno.addPlayer(serialize(nico), serialize(dave));
+			uno.startGame(serialize(nico));
 			nico.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(nico)))).getCards());
-			sven.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(sven)))).getCards());
-			schlonz.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(schlonz)))).getCards());
+			daniel.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(daniel)))).getCards());
+			//dave.getHand().addCard(((Hand) deserialize(uno.getHand(serialize(daniel)))).getCards());
 			
-			daveCards = dave.getHand();
-			nicoCards = nico.getHand();
-			svenCards = sven.getHand();
-			schlonzCards = schlonz.getHand();
-			
-			showCards(dave.getHand(),"Dave");
-			showCards(nico.getHand(), "Nico");
-			showCards(sven.getHand(),"Sven");
-			showCards(schlonz.getHand(), "Schlonz");
-			
-			while(dave.getHand().getCards().size() != 0 && nico.getHand().getCards().size() != 0){
+			showCards(nico.getHand(),"Nico");
+			showCards(daniel.getHand(), "Daniel");
+			//showCards(dave.getHand(), "Dave");
+			/*
+			while(nico.getHand().getCards().size() != 0 && daniel.getHand().getCards().size() != 0){
+				//-------------- Test zum TimeOut --------------------
+				//Thread.sleep(31000);
+				//break;
 				
-				
-				/*
+				//------------- normales Game -----------------------
 				placeCard();
-				if(dave.getHand().getCards().size() == 0){
-					break;
+				
+				if(nico.getHand().getCards().size() == 1){
+					uno.callUno(serialize(nico));
 				}
+				if(daniel.getHand().getCards().size() == 1){
+					uno.callUno(serialize(daniel));
+				}
+				
 				if(nico.getHand().getCards().size() == 0){
 					break;
 				}
-				*/
-			}
-			showCards(dave.getHand(),"Nico");
-			showCards(nico.getHand(), "Daniel");
+				if(daniel.getHand().getCards().size() == 0){
+					break;
+				}
+			}*/
+			showCards(nico.getHand(),"Nico");
+			showCards(daniel.getHand(), "Daniel");
 			
 			Thread.sleep(1000); // Wait for asynchronous method
 			System.out.println("============HighScore==============");
@@ -132,10 +165,10 @@ public class UnoClient {
 	
     private static void placeCard(){
 		Player turnPlayer = null;
-		if(((Player)deserialize(uno.getNextPlayer(serialize(dave)))).equals(dave))
-			turnPlayer = dave;
-		else if (((Player)deserialize(uno.getNextPlayer(serialize(dave)))).equals(nico))
+		if(((Player)deserialize(uno.getNextPlayer(serialize(nico)))).equals(nico))
 			turnPlayer = nico;
+		else if (((Player)deserialize(uno.getNextPlayer(serialize(nico)))).equals(daniel))
+			turnPlayer = daniel;
 		if(((Card)deserialize(uno.getStackCard(serialize(turnPlayer)))).getClass() == DrawCard.class && drawedMarker){
 			LinkedList<Card> drawCard = (LinkedList<Card>) deserialize(uno.drawCard(serialize(turnPlayer), ((DrawCard) deserialize(uno.getStackCard(serialize(turnPlayer)))).getQuantity()));
 			turnPlayer.getHand().addCard(drawCard);

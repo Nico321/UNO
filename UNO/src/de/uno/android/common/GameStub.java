@@ -18,17 +18,15 @@ import de.uno.common.GameConnectionRemote;
 public class GameStub implements GameConnectionRemote {
 	 
 	private static final String NAMESPACE = "http://gameconnection.uno.de/";
-	
-	private static final String URL = "http://192.168.2.106:8080/UnoGame/GameConnectionManager";
-	
+	private static final String URL = "http://192.168.1.101:8080/UnoGame/GameConnectionManager";
 	private static final String TAG = GameStub.class.getName();
 
 	@Override
-	public String getNextPlayer(String player) {
+	public String getCurrentPlayer(String player) {
 		Log.d(TAG, "getNextPlayer called");
 		String METHOD_NAME = "getNextPlayer";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
-		Log.d(TAG, response.toString());
+		Log.d(TAG, response.getName());
 		return response.toString();
 	}
 
@@ -44,16 +42,15 @@ public class GameStub implements GameConnectionRemote {
 	@Override
 	public boolean putCard(String player, String card) {
 		Log.d(TAG,"putCard called with Player:" + player + " Card:" + card);
-		boolean result = false;
 		String METHOD_NAME ="putCard";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player, card);
 		return Boolean.parseBoolean(response.toString());
 	}
 
-	@Override
-	public String getPlayerStatus(String player) {
+	@Override//TODO switch back
+	public String getGameStatus(String player) {
 		Log.d(TAG,"getPlayerStatus called with Player:" + player);
-		String METHOD_NAME = "getPlayerStatus";
+		String METHOD_NAME = "getGameStatus";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return response.toString();
 	}
@@ -97,26 +94,65 @@ public class GameStub implements GameConnectionRemote {
 		Log.d(TAG, "getWishedColor method called with" + "Player: "+ player);
 		String METHOD_NAME ="getWishedColor";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
-		Log.d(TAG, response.toString());
 		return response.toString();
 	}
 
 	@Override
 	public void createNewGame(String player) {
-		Log.d(TAG, "createNewGame method called with" + "Player: "+ player);
+		Log.d(TAG, "createNewGame method called with" + " Player: "+ player);
 		String METHOD_NAME ="createNewGame";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
-		Log.d(TAG, response.toString());
 	}
 
 	@Override
 	public void addPlayer(String creator, String member) {
-		Log.d(TAG, "addPlayer method called with" + "Creator: "+ creator + " member:" + member);
+		Log.d(TAG, "addPlayer method called with" + " Creator: "+ creator + " member:" + member);
 		String METHOD_NAME ="addPlayer";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, creator,member);
-		Log.d(TAG, response.toString());
-		
 	}
+	
+	@Override
+	public int getGameProgress(String player) {
+		Log.d(TAG, "getGameProgress called with" + " Player: "+ player);
+		String METHOD_NAME ="getGameProgress";
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
+		return Integer.valueOf(response.toString());
+	}
+	
+	@Override
+	public boolean callUno(String player) {
+		Log.d(TAG, "callUno called with" + " Player: "+ player);
+		String METHOD_NAME ="callUno";
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
+		return Boolean.parseBoolean(response.toString());
+	}
+	
+
+	@Override
+	public boolean isGameFinished(String player) {
+		Log.d(TAG, "isGameFinished called with" + " Player: "+ player);
+		String METHOD_NAME ="isGameFinished";
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
+		return Boolean.parseBoolean(response.toString());
+	}
+
+	@Override
+	public boolean leaveGame(String player) {
+		Log.d(TAG, "leaveGame called with" + " Player: "+ player);
+		String METHOD_NAME ="leaveGame";
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
+		return Boolean.parseBoolean(response.toString());
+	}
+	
+	@Override
+	public String getWinners(String player) {
+		Log.d(TAG, "getWinners called with" + " Player: "+ player);
+		String METHOD_NAME ="getWinners";
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
+		return response.toString();
+	}
+	
+	
 	/**
 	 * Diese Methode delegiert einen Methodenaufruf an den hinterlegten WebService.
 	 * @param methodName
@@ -152,6 +188,6 @@ public class GameStub implements GameConnectionRemote {
 		return (SoapPrimitive) result;	    
 	   
 	}
-	
+
  
 }

@@ -1,6 +1,7 @@
 package de.uno.android.tasks;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import de.uno.android.GameActivity;
 import de.uno.android.GameApplication;
 
@@ -15,6 +16,10 @@ public abstract class GetDataFromServerTask<Params, Progress, Result>  extends A
 	}
 
 	
-	
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		Log.d(TAG, "Starting" + this.getClass().toString());
+	}
 
 }

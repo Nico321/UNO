@@ -12,6 +12,7 @@ public class DrawCard extends Card
 	private static final long serialVersionUID = 1L;
 	private final int cardValue = 20;
 	private int quantity;
+	private boolean drawed = false;
 	
 	public DrawCard(){
 		super();
@@ -50,6 +51,14 @@ public class DrawCard extends Card
 			return 50;
 		else
 			return cardValue;
+	}
+
+	public boolean isDrawed() {
+		return drawed;
+	}
+
+	public void setDrawed(boolean drawed) {
+		this.drawed = drawed;
 	}
 }
 

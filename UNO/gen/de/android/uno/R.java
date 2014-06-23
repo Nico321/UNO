@@ -43,6 +43,9 @@ containing a value of this type.
          */
         public static final int exampleString=0x7f010000;
     }
+    public static final class color {
+        public static final int white=0x7f070000;
+    }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
 
@@ -118,26 +121,28 @@ containing a value of this type.
         public static final int wooden_table_background_1=0x7f02003c;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000c;
-        public static final int cardScollViewLayout=0x7f08000a;
-        public static final int cardScrollView=0x7f080009;
-        public static final int cardStackButton=0x7f080006;
-        public static final int cardStackView=0x7f080005;
-        public static final int centerLayout=0x7f080002;
-        public static final int container=0x7f080000;
-        public static final int layoutPlayerFour=0x7f080007;
-        public static final int layoutPlayerOne=0x7f080008;
-        public static final int layoutPlayerThree=0x7f080001;
-        public static final int layoutPlayerTwo=0x7f080003;
-        public static final int layoutTableCenter=0x7f080004;
-        public static final int unoButton=0x7f08000b;
+        public static final int action_settings=0x7f09000d;
+        public static final int cardScollViewLayout=0x7f09000b;
+        public static final int cardScrollView=0x7f09000a;
+        public static final int cardStackButton=0x7f090007;
+        public static final int centerLayout=0x7f090002;
+        public static final int container=0x7f090000;
+        public static final int layoutPlayerOne=0x7f090009;
+        public static final int layoutTableCenter=0x7f090004;
+        public static final int left=0x7f090003;
+        public static final int right=0x7f090008;
+        public static final int stackCardView=0x7f090005;
+        public static final int top=0x7f090001;
+        public static final int unoButton=0x7f09000c;
+        public static final int wishedColor=0x7f090006;
     }
     public static final class layout {
         public static final int activity_game=0x7f030000;
+        public static final int choose_color_item=0x7f030001;
     }
     public static final class menu {
-        public static final int game=0x7f070000;
-        public static final int main=0x7f070001;
+        public static final int game=0x7f080000;
+        public static final int main=0x7f080001;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;

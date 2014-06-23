@@ -12,31 +12,31 @@ import de.uno.android.GameActivity;
 public class InitGameTask extends GetDataFromServerTask<Void, Void, Void> {
 	
 	private final WeakReference<ProgressDialog> progressDialogReferences;
+	private final WeakReference<GetStackCardTask> stackCardTaskRef;
+	private final WeakReference<GetGameStatusTask> gameStatusTaskRef;
+	private final WeakReference<GetHandTask> handTaskRef;
+	private final WeakReference<GetCurrentPlayerTask> nextPlayerTaskRef;
 
 	public InitGameTask(GameActivity gameActivity,ProgressDialog mDialog) {
 		super(gameActivity);
 		progressDialogReferences = new WeakReference<ProgressDialog>(mDialog);
+		stackCardTaskRef = new WeakReference<GetStackCardTask>(new GetStackCardTask(gameActivity));
+		gameStatusTaskRef = new WeakReference<GetGameStatusTask>(new GetGameStatusTask(gameActivity));
+		handTaskRef = new WeakReference<GetHandTask>(new GetHandTask(gameActivity));
+		nextPlayerTaskRef = new WeakReference<GetCurrentPlayerTask>(new GetCurrentPlayerTask(gameActivity));
 	}
 	
 	@Override
 	protected void onPreExecute() {
-		super.onPreExecute();
-		progressDialogReferences.get().setMessage("Loading Game...");
-		progressDialogReferences.get().setCancelable(false);
-		progressDialogReferences.get().show();
+		super.onPreExecute();	
 	}
 	
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		GetHandTask getHandTask = new GetHandTask(this.gameActivity);
-		getHandTask.execute(gameApp.getLocalPlayer());
-		
-		GetStackCardTask getStackCardTask = new GetStackCardTask(this.gameActivity);
-		getStackCardTask.execute(gameApp.getLocalPlayer());
-		
-		GetPlayerStatusTask getPlayerStatusTask = new GetPlayerStatusTask(this.gameActivity);
-		getPlayerStatusTask.execute(gameApp.getLocalPlayer());
-		
+		handTaskRef.get().execute();
+		nextPlayerTaskRef.get().execute();
+		gameStatusTaskRef.get().execute();
+		stackCardTaskRef.get().execute();
 		return null;
 	}
 	
@@ -49,6 +49,7 @@ public class InitGameTask extends GetDataFromServerTask<Void, Void, Void> {
 				mDialog.dismiss();
 			}
 		}
+		gameActivity.startPollingService();
 	}
 
 }

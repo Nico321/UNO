@@ -8,10 +8,10 @@ package de.uno.common;
 public interface GameConnectionRemote {
 
 	
-	public String getNextPlayer(String player);
+	public String getCurrentPlayer(String player);
 	public String drawCard(String player, int quantity);
 	public boolean putCard(String player, String card);
-	public String getPlayerStatus(String player);
+	public String getGameStatus(String player);
 	public String getStackCard(String player);
 	public void startGame(String player);
 	public String getHand(String player);
@@ -19,4 +19,9 @@ public interface GameConnectionRemote {
 	public String getWishedColor(String player);
 	public void createNewGame(String player);
 	public void addPlayer(String creator, String member);
+	public int getGameProgress(String player);
+	public boolean callUno(String player);
+	public boolean isGameFinished(String player);
+	public boolean leaveGame(String player);
+	public String getWinners(String playerString);
 }
