@@ -81,12 +81,14 @@ public class Lobby {
 	
 	/**
 	 * Methode um sich alle LobbyGames anzuzeigen
-	 * @return alle Lobby games werden zurï¿½ckgegeben
+	 * @return alle LobbyGames werden zurückgegeben
 	 */
 	@WebMethod
 	public String showOpenGames(){
+		log.info("showOpenGames");
 		ArrayList<String> creatorNames = new ArrayList<String>();
 		for( String lg: possibleGames.keySet()){
+			log.info("LobbyGame Owner: " + possibleGames.keySet());
 			creatorNames.add(lg);
 		}
 		return serialize(creatorNames);

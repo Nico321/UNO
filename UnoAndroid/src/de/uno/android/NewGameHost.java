@@ -16,13 +16,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import de.uno.android.usermanagement.User;
 
 public class NewGameHost extends Activity implements OnClickListener{
 
 	private static final String TAG = NewGameHost.class.getName();
 	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.1.110:8080/Management/Lobby";
+	private static final String URL = "/Management/Lobby";
 	private static final String METHOD_NAME = "createNewGame";
 
 	private ProgressDialog progDailog;
@@ -88,33 +87,11 @@ public class NewGameHost extends Activity implements OnClickListener{
 	        progDailog.show();
 			
 			AsynchronTask runner = new AsynchronTask();
-			runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
+			runner.setKsoapAttributes(NAMESPACE, URL, "startGame");
 			runner.execute(this, activeUsername);
 			
 			
 			
-		}
-		if(v.getId() == R.id.newServerRdybtn){
-			ToggleButton tb = (ToggleButton) findViewById (R.id.newServerRdybtn);
-			if(tb.isChecked()){
-				this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-
-						toast.setText("Bereit!");
-						toast.show();
-					}
-					});
-			}
-			else{
-				this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {						
-						toast.setText("Nicht Bereit!");
-						toast.show();
-					}
-					});
-			}
 		}
 		
 	}
@@ -122,44 +99,33 @@ public class NewGameHost extends Activity implements OnClickListener{
 	public void participatingPlayersCompleted(boolean success, ArrayList<String> participatingPlayers) {
 		if (success){
 			userNames = participatingPlayers;
-			Log.d(TAG, "showOpenGames_success");			
+			Log.d(TAG, "showPlayer in Games - success");			
+			
+			for(String s : participatingPlayers){
+				Log.d("ArrayList-participatingPlayers-Ausgabe", s);
+			}
 			
 			if(participatingPlayers.isEmpty()){
 				Log.d(TAG, "keine offnen Spiele!");
 			}
-
-			if(!(participatingPlayers.isEmpty())){
+			else{
 				Log.d(TAG, "Offene Spiele!");
-				
 			}		
 			
 			Log.d(TAG, "Verarbeitung auf UI-Tread beginnt...");
 			runOnUiThread(new Runnable() {
 			    public void run(){			    	
-			    	Log.d(TAG, "adapter füllen...");
 			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, userNames);		    
-			    	Log.d(TAG, "adapter gefüllt");			    	
-			    	Log.d(TAG, "ListView füllen...");
 			    	ListView lv = (ListView)findViewById(R.id.newServerHostListView);
-			    	Log.d(TAG, "ListView gefüllt");
-			    	lv.setAdapter(adapter);;
-			    	Log.d(TAG, "ListView angezeigt");			    
+			    	lv.setAdapter(adapter);;			    
 			    }		
 			});
 			
 		progDailog.cancel();
-		Log.d("GameLoaded", "Success");
-		
+		Log.d("GameLoaded", "Success");		
 		}
 		else{
 			progDailog.cancel();
-			/*runOnUiThread(new Runnable() {
-			    public void run(){
-			    	toast.setText("Fehler bei Aktualisierung!");
-			    	toast.show();
-			    }
-			});
-			*/
 		}
 
 	}
@@ -172,13 +138,13 @@ public class NewGameHost extends Activity implements OnClickListener{
 			progDailog.cancel();
 			//startbtn.setEnabled(false);
 			
-			toast.setText("Spiel erstellt!");
+			toast.setText("Partie gestartet!");
 			toast.show();
 		}
 		else{
 			Log.d(TAG, "NewServer failed");
 			progDailog.cancel();
-			toast.setText("Spiel erstellen fehlgeschlagen!");
+			toast.setText("Spiel starten fehlgeschlagen!");
 			toast.show();
 		}
 	}

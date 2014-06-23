@@ -25,7 +25,7 @@ public class JoinGame extends Activity implements OnClickListener{
 
 	private static final String TAG = JoinGame.class.getName();
 	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.1.110:8080/Management/Lobby";	 
+	private static final String URL = "/Management/Lobby";	 
 	private static final String METHOD_NAME = "showOpenGames";
 	private Button prevbtn;
 	private ProgressDialog progDailog;
@@ -76,6 +76,7 @@ public class JoinGame extends Activity implements OnClickListener{
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.joinGameAction_refresh) {
+			Log.d(TAG, "joinGameRefresh");
 			refresh = item;
 			progDailog = new ProgressDialog(JoinGame.this);
 	        progDailog.setMessage("Spielsuche...Bitte warten");
@@ -103,6 +104,12 @@ public class JoinGame extends Activity implements OnClickListener{
 			AsynchronTask runner = new AsynchronTask();
 			runner.setKsoapAttributes(NAMESPACE, URL, "joinLobbyGame");
 			runner.execute(this,activeUsername, gameUsername);
+			progDailog = new ProgressDialog(JoinGame.this);
+	        progDailog.setMessage("Spielbeitritt...Bitte warten");
+	        progDailog.setIndeterminate(false);
+	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	        progDailog.setCancelable(true);
+	        progDailog.show();
 			
 		}
 	}
@@ -121,18 +128,16 @@ public class JoinGame extends Activity implements OnClickListener{
 				Log.d(TAG, "Offene Spiele!");
 				
 			}		
+			for(int i = 0;i<userNames.size();i++){
+				userNames.set(i,pGames.get(i) + "s Spiel");
+			}
 			
 			Log.d(TAG, "Verarbeitung auf UI-Tread beginnt...");
 			runOnUiThread(new Runnable() {
 			    public void run(){			    	
-			    	Log.d(TAG, "adapter füllen...");
 			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, userNames);		    
-			    	Log.d(TAG, "adapter gefüllt");			    	
-			    	Log.d(TAG, "ListView füllen...");
-			    	ListView lv = (ListView)findViewById(R.id.newServerHostListView);
-			    	Log.d(TAG, "ListView gefüllt");
-			    	lv.setAdapter(adapter);;
-			    	Log.d(TAG, "ListView angezeigt");			    
+			    	ListView lv = (ListView)findViewById(R.id.joinServerListView);
+			    	lv.setAdapter(adapter);;		    
 			    }		
 			});
 			
@@ -152,11 +157,15 @@ public class JoinGame extends Activity implements OnClickListener{
 	
 	public void joinLobbyGameCompleted(Boolean success){
 		if (success){
+			progDailog.cancel();
+			Log.d(TAG,"JoinGame_success");
 			Intent intent = new Intent(JoinGame.this, NewGamePlayer.class);
+			intent.putExtra("gOwner", gameUsername);
 			startActivity(intent);
 			}
 		
 		else{
+			progDailog.cancel();
 			Log.d(TAG,"JoinGame_failed");
 		}
 	}

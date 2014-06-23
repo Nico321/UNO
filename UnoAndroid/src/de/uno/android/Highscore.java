@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class Highscore extends Activity implements OnClickListener{
 
 	private static final String NAMESPACE = "http://highscore.de/";
-	private static final String URL = "http://192.168.1.110:8080/HighScore/HighScore";	 
+	private static final String URL = "/HighScore/HighScore";	 
 	private static final String METHOD_NAME = "getHighscore";
 	private static final String TAG = Highscore.class.getName();
 	private String activeUsername = null;

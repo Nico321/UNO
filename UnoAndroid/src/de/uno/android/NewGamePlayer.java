@@ -1,14 +1,13 @@
 package de.uno.android;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import de.uno.android.lobbymanagement.LobbyGame;
-import de.uno.android.usermanagement.User;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,11 +19,10 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 
 	private static final String TAG = NewGamePlayer.class.getName();
 	private static final String NAMESPACE = "http://lobbymanagement.uno.de/";
-	private static final String URL = "http://192.168.1.110:8080/Management/Lobby";	 
-	private static final String METHOD_NAME = "showOpenGames";
+	private static final String URL = "/Management/Lobby";	 
+	private static final String METHOD_NAME = "showParticipatingPlayer";
 	private ArrayList<String> pNames = new ArrayList<String>();
 	private ProgressDialog progDailog = null;
-	private MenuItem refresh = null;
 	ArrayList<String> userNames = null;
 	private ListAdapter adapter = null;
 	private String gameOwner = null;
@@ -33,9 +31,9 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.newgameplayer_view);
-		pNames = getIntent().getStringArrayListExtra("playerNames");
-		gameOwner = getIntent().getStringExtra("gameOwner");
-		//refreshPlayer();
+		gameOwner = getIntent().getStringExtra("gOwner");
+		Log.d("Spielbesitzer:",gameOwner);
+		refreshPlayer();
 		
 		
 		
@@ -45,13 +43,6 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.NewGamePlayerAction_refresh) {
-			refresh = item;
-			progDailog = new ProgressDialog(NewGamePlayer.this);
-	        progDailog.setMessage("Mitspieler werden aktualisiert...");
-	        progDailog.setIndeterminate(false);
-	        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	        progDailog.setCancelable(true);
-	        progDailog.show();
 	        refreshPlayer();
 			
 					
@@ -62,13 +53,23 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 	}
 	
 	
-	private void refreshPlayer(){		
+	private void refreshPlayer(){	
+		progDailog = new ProgressDialog(NewGamePlayer.this);
+        progDailog.setMessage("Mitspieler werden aktualisiert...");
+        progDailog.setIndeterminate(false);
+        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDailog.setCancelable(true);
+        progDailog.show();
 		AsynchronTask runner = new AsynchronTask();
 		runner.setKsoapAttributes(NAMESPACE, URL, METHOD_NAME);
-		runner.execute(this);	
+		runner.execute(this, gameOwner);	
 	}
 	
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.newgameplayermenu, menu);	
+		return true;
+	}
 	
 	@Override
 	public void onClick(View v) {
@@ -93,14 +94,9 @@ public class NewGamePlayer extends Activity implements OnClickListener{
 			Log.d(TAG, "Verarbeitung auf UI-Tread beginnt...");
 			runOnUiThread(new Runnable() {
 			    public void run(){			    	
-			    	Log.d(TAG, "adapter füllen...");
 			    	adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, userNames);		    
-			    	Log.d(TAG, "adapter gefüllt");			    	
-			    	Log.d(TAG, "ListView füllen...");
 			    	ListView lv = (ListView)findViewById(R.id.newGamePlayerListView);
-			    	Log.d(TAG, "ListView gefüllt");
-			    	lv.setAdapter(adapter);;
-			    	Log.d(TAG, "ListView angezeigt");			    
+			    	lv.setAdapter(adapter);;		    
 			    }		
 			});
 			

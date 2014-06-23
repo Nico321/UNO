@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.uno.android"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="19" />
+	<uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:allowBackup="true"
+        android:name="AppVariables"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        
+        <activity
+            android:name="info.androidhive.androidsplashscreentimer.SplashScreen"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+ 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="info.androidhive.androidsplashscreentimer.Login"
+            android:label="@string/app_name" >
+        </activity>
+       	<activity android:name="de.uno.android.Login" android:screenOrientation="portrait"></activity>
+       	<activity android:name="de.uno.android.Register" android:screenOrientation="portrait"></activity>
+       	<activity android:name="de.uno.android.MainMenu" android:screenOrientation="portrait"></activity>
+        <activity android:name="de.uno.android.CreateGame" android:screenOrientation="portrait"></activity><activity android:name="de.uno.android.JoinGame" android:screenOrientation="portrait"></activity>  
+        
+        <activity android:name="NewGamePlayer"></activity><activity android:name="de.uno.android.Highscore" android:screenOrientation="portrait"></activity>
+        <activity android:name="de.uno.android.FriendList" android:screenOrientation="portrait"></activity>
+        <activity android:name="NewGameHost"></activity>
+        
+        
+    </application>
+
+</manifest>

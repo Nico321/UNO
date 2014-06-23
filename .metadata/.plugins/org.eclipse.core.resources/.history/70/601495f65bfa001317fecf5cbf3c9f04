@@ -1,0 +1,5 @@
+package de.uno.android.splash;
+
+public class SplashScreen {
+
+}
