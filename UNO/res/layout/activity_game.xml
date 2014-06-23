@@ -135,7 +135,8 @@
                 android:layout_weight="0.2"
                 android:onClick="callUno"
                 android:contentDescription="@string/uno_button"
-                android:src="@android:drawable/btn_star"/>
+                android:src="@drawable/unobutton_selector"
+                android:background="@null"/>
 
         </LinearLayout>
 

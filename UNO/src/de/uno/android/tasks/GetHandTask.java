@@ -33,7 +33,7 @@ public class GetHandTask extends GetDataFromServerTask<Player, String, Hand> {
 			Hand hand = (Hand) objectSerializer.deserialize(gameApp.getGameStub().getHand(playerString).toString());
 			return hand;
 		} catch (Exception e) {
-			Log.d(TAG, e.getMessage());
+			e.printStackTrace();
 			return null;
 		}	
 	}

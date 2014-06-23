@@ -15,7 +15,7 @@ public class InitGameTask extends GetDataFromServerTask<Void, Void, Void> {
 	private final WeakReference<GetStackCardTask> stackCardTaskRef;
 	private final WeakReference<GetGameStatusTask> gameStatusTaskRef;
 	private final WeakReference<GetHandTask> handTaskRef;
-	private final WeakReference<GetCurrentPlayerTask> nextPlayerTaskRef;
+	private final WeakReference<GetCurrentPlayerTask> currentPlayerTaskRef;
 
 	public InitGameTask(GameActivity gameActivity,ProgressDialog mDialog) {
 		super(gameActivity);
@@ -23,7 +23,7 @@ public class InitGameTask extends GetDataFromServerTask<Void, Void, Void> {
 		stackCardTaskRef = new WeakReference<GetStackCardTask>(new GetStackCardTask(gameActivity));
 		gameStatusTaskRef = new WeakReference<GetGameStatusTask>(new GetGameStatusTask(gameActivity));
 		handTaskRef = new WeakReference<GetHandTask>(new GetHandTask(gameActivity));
-		nextPlayerTaskRef = new WeakReference<GetCurrentPlayerTask>(new GetCurrentPlayerTask(gameActivity));
+		currentPlayerTaskRef = new WeakReference<GetCurrentPlayerTask>(new GetCurrentPlayerTask(gameActivity));
 	}
 	
 	@Override
@@ -34,8 +34,8 @@ public class InitGameTask extends GetDataFromServerTask<Void, Void, Void> {
 	@Override
 	protected Void doInBackground(Void... arg0) {
 		handTaskRef.get().execute();
-		nextPlayerTaskRef.get().execute();
 		gameStatusTaskRef.get().execute();
+		currentPlayerTaskRef.get().execute();
 		stackCardTaskRef.get().execute();
 		return null;
 	}

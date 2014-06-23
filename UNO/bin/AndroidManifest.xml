@@ -7,7 +7,11 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
+    <!-- Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    
+    <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="de.uno.android.GameApplication"
@@ -25,11 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-	       android:name="de.uno.android.tasks.GameService"
-	       android:label="GameService" 
-	       android:enabled="true" >
-    	</service>
     </application>
 
 

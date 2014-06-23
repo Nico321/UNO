@@ -58,15 +58,15 @@ public class GameActivity extends Activity{
 		gameApp.setGameProgress(0);
 		ImageButton unoButton = (ImageButton) findViewById(R.id.unoButton);
 		//TODO set back
-		unoButton.setClickable(true);
+		unoButton.setClickable(false);
 
-		Player daniel = new Player("Daniel");
+		Player carsten = new Player("Carsten");
 		Player nico = new Player("Nico");
 		Player dave = new Player("Dave");
 		
-		gameApp.setLocalPlayer(nico);
+		gameApp.setLocalPlayer(dave);
 		initGame();
-		
+	
 	
 	}
 

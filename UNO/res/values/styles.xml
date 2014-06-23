@@ -17,5 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
      <color name="white">#ffffff</color>
+     <color name="lightgreen">#66009900</color>
+     <color name="lightred">#66f5293c</color>
 
 </resources>

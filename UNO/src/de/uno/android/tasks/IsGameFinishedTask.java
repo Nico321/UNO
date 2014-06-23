@@ -61,9 +61,10 @@ public class IsGameFinishedTask extends GetDataFromServerTask<Void, Void, Boolea
             builderSingle.setAdapter(arrayAdapter, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					LeaveGameTask leaveGame = new LeaveGameTask(gameActivity);
+					leaveGame.execute();
 				}
 			});
-            
             builderSingle.setPositiveButton("Spiel Verlassen", new OnClickListener() {	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {

@@ -48,17 +48,18 @@ public class PlayerCardView extends View {
 		this.bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 		
 		for (int i= 0; i < amountCards; i++) {
-			
 			if(this.getContext().getResources().getResourceEntryName(this.getId()).toString().equals("top")){
 				this.matrix.setTranslate(c.getWidth()/3 + distance,10);
 				c.drawBitmap(bitmap, this.matrix, this.paint);
-				distance+=20;
-			}else{
+			}else if(this.getContext().getResources().getResourceEntryName(this.getId()).toString().equals("left")) {
 				this.matrix.setTranslate(c.getWidth() - bitmap.getWidth(), c.getHeight()/3 + distance);
 				c.drawBitmap(bitmap, this.matrix, this.paint);
-				distance+=20;
+			}else if(this.getContext().getResources().getResourceEntryName(this.getId()).toString().equals("right")){
+				this.matrix.setTranslate(c.getWidth() - bitmap.getWidth(), c.getHeight()/3 + distance);
+				c.drawBitmap(bitmap, this.matrix, this.paint);
 			}
-	
+			distance+=(20 - amountCards);
+			if(distance < 10)distance = 10;
 		}
 	}
 

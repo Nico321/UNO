@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import android.app.Application;
 import android.util.Log;
+import de.android.uno.R;
 import de.uno.Hand.Hand;
 import de.uno.card.Card;
 import de.uno.card.CardColor;
@@ -207,6 +208,19 @@ public class GameApplication extends Application{
 	
 	public int getGameProgress(){
 		return this.gameProgress;
+	}
+	
+	public int getPlayerView(String playerName){
+		if(this.getPlayerPosition(playerName).equals(PlayerPositions.LEFT.toString())){
+			return R.id.left;
+		}
+		if(this.getPlayerPosition(playerName).equals(PlayerPositions.TOP.toString())){
+			return R.id.top;
+		}
+		if(this.getPlayerPosition(playerName).equals(PlayerPositions.RIGHT.toString())){
+			return R.id.right;
+		}
+		return 0;
 	}
 	
 	

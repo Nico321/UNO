@@ -33,7 +33,7 @@ public class PutCardTask extends GetDataFromServerTask<Object, Void, Boolean> {
 			cib = (CardImageButton) arg0[2];
 			String playerString = objectSerializer.serialize(player);
 			String cardString = objectSerializer.serialize(card);
-			Log.d(TAG, "Try to put Card " + cardString + " from " + playerString);
+			Log.d(TAG, "Try to put Card " + cardString + " from " + player.toString());
 			 result = gameApp.getGameStub().putCard(playerString, cardString);
 			return result;
 		} catch (Exception e) {
@@ -69,7 +69,7 @@ public class PutCardTask extends GetDataFromServerTask<Object, Void, Boolean> {
 				lastCard.alterMargin(0, 0, 0, 0);
 			}
 			
-			if(gameApp.getLocalPlayerHand().getCards().size() == 0){
+			if(gameApp.getLocalPlayerHand().getCards().size() == 0 && !gameApp.getLocalPlayer().calledUno()){
 				GetHandTask getHand = new GetHandTask(gameActivity);
 				getHand.execute();
 			}

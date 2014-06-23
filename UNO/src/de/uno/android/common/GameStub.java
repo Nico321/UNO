@@ -1,5 +1,6 @@
 package de.uno.android.common;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 import org.ksoap2.HeaderProperty;
@@ -26,7 +27,6 @@ public class GameStub implements GameConnectionRemote {
 		Log.d(TAG, "getNextPlayer called");
 		String METHOD_NAME = "getNextPlayer";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
-		Log.d(TAG, response.getName());
 		return response.toString();
 	}
 
@@ -35,13 +35,12 @@ public class GameStub implements GameConnectionRemote {
 		Log.d(TAG, "drawCard called");
 		String METHOD_NAME = "drawCard";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player, quantity);
-		Log.d(TAG, response.toString());
 		return response.toString();
 	}
 
 	@Override
 	public boolean putCard(String player, String card) {
-		Log.d(TAG,"putCard called with Player:" + player + " Card:" + card);
+		Log.d(TAG,"putCard called");
 		String METHOD_NAME ="putCard";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player, card);
 		return Boolean.parseBoolean(response.toString());
@@ -49,7 +48,7 @@ public class GameStub implements GameConnectionRemote {
 
 	@Override//TODO switch back
 	public String getGameStatus(String player) {
-		Log.d(TAG,"getPlayerStatus called with Player:" + player);
+		Log.d(TAG,"getPlayerStatus called");
 		String METHOD_NAME = "getGameStatus";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return response.toString();
@@ -57,7 +56,7 @@ public class GameStub implements GameConnectionRemote {
 
 	@Override
 	public String getStackCard(String player) {
-		Log.d(TAG,"getStackCard called with Player:" + player);
+		Log.d(TAG,"getStackCard called");
 		String METHOD_NAME ="getStackCard";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return response.toString();
@@ -65,33 +64,29 @@ public class GameStub implements GameConnectionRemote {
 
 	@Override
 	public void startGame(String player) {
-		Log.d(TAG, "startGame method called with" + "Player: "+ player);
+		Log.d(TAG, "startGame method called");
 		String METHOD_NAME ="startGame";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
-		Log.d(TAG, response.toString());
 	}
 
 	@Override
 	public String getHand(String player) {
-		Log.d(TAG, "getHand method called with" + "Player: "+ player);
+		Log.d(TAG, "getHand method called");
 		String METHOD_NAME ="getHand";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
-		Log.d(TAG, response.toString());
-		
 		return response.toString();
 	}
 
 	@Override
 	public void setWishedColor(String player, String wishedColor) {
-		Log.d(TAG, "setWishedColor method called with" + "Player: "+ player + " wishedColor:" + wishedColor);
+		Log.d(TAG, "setWishedColor method called");
 		String METHOD_NAME ="setWishedColor";
-		SoapPrimitive response = executeSoapAction(METHOD_NAME, player,wishedColor);
-		Log.d(TAG, response.toString());	
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, player,wishedColor);	
 	}
 
 	@Override
 	public String getWishedColor(String player) {
-		Log.d(TAG, "getWishedColor method called with" + "Player: "+ player);
+		Log.d(TAG, "getWishedColor method called");
 		String METHOD_NAME ="getWishedColor";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return response.toString();
@@ -99,21 +94,21 @@ public class GameStub implements GameConnectionRemote {
 
 	@Override
 	public void createNewGame(String player) {
-		Log.d(TAG, "createNewGame method called with" + " Player: "+ player);
+		Log.d(TAG, "createNewGame method called");
 		String METHOD_NAME ="createNewGame";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 	}
 
 	@Override
 	public void addPlayer(String creator, String member) {
-		Log.d(TAG, "addPlayer method called with" + " Creator: "+ creator + " member:" + member);
+		Log.d(TAG, "addPlayer method called");
 		String METHOD_NAME ="addPlayer";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, creator,member);
 	}
 	
 	@Override
 	public int getGameProgress(String player) {
-		Log.d(TAG, "getGameProgress called with" + " Player: "+ player);
+		Log.d(TAG, "getGameProgress called");
 		String METHOD_NAME ="getGameProgress";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return Integer.valueOf(response.toString());
@@ -121,7 +116,7 @@ public class GameStub implements GameConnectionRemote {
 	
 	@Override
 	public boolean callUno(String player) {
-		Log.d(TAG, "callUno called with" + " Player: "+ player);
+		Log.d(TAG, "callUno called");
 		String METHOD_NAME ="callUno";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return Boolean.parseBoolean(response.toString());
@@ -130,7 +125,7 @@ public class GameStub implements GameConnectionRemote {
 
 	@Override
 	public boolean isGameFinished(String player) {
-		Log.d(TAG, "isGameFinished called with" + " Player: "+ player);
+		Log.d(TAG, "isGameFinished called");
 		String METHOD_NAME ="isGameFinished";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return Boolean.parseBoolean(response.toString());
@@ -138,7 +133,7 @@ public class GameStub implements GameConnectionRemote {
 
 	@Override
 	public boolean leaveGame(String player) {
-		Log.d(TAG, "leaveGame called with" + " Player: "+ player);
+		Log.d(TAG, "leaveGame called");
 		String METHOD_NAME ="leaveGame";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
 		return Boolean.parseBoolean(response.toString());
@@ -146,9 +141,17 @@ public class GameStub implements GameConnectionRemote {
 	
 	@Override
 	public String getWinners(String player) {
-		Log.d(TAG, "getWinners called with" + " Player: "+ player);
+		Log.d(TAG, "getWinners called");
 		String METHOD_NAME ="getWinners";
 		SoapPrimitive response = executeSoapAction(METHOD_NAME, player);
+		return response.toString();
+	}
+	
+	@Override
+	public String getDisconnectedPlayers(String playerString) {
+		Log.d(TAG, "getDisconnectedPlayers called");
+		String METHOD_NAME ="getDisconnectedPlayers";
+		SoapPrimitive response = executeSoapAction(METHOD_NAME, playerString);
 		return response.toString();
 	}
 	
@@ -158,7 +161,7 @@ public class GameStub implements GameConnectionRemote {
 	 * @param methodName
 	 * @return SoapPrimitive
 	 */
-	private SoapPrimitive executeSoapAction(String methodName, Object... args) {
+	private SoapPrimitive executeSoapAction(String methodName, Object... args){
 		Object result = null;
 	    SoapObject request = new SoapObject(NAMESPACE, methodName);
 	    
@@ -188,6 +191,8 @@ public class GameStub implements GameConnectionRemote {
 		return (SoapPrimitive) result;	    
 	   
 	}
+
+
 
  
 }

@@ -30,12 +30,12 @@ public class GetWishedColorTask extends GetDataFromServerTask<Void, Void, CardCo
 	protected void onPostExecute(CardColor result) {
 		super.onPostExecute(result);
 		if(result!= null){
+			Log.d(TAG,"getWishedColor" + result.toString());
 			gameApp.setWishedColor(result);
 			TextView wishedColor = (TextView) gameActivity.findViewById(R.id.wishedColor);
 			wishedColor.setText(result.toString());
 			
 			Log.d(TAG, "Got " + result.toString());
-			Toast.makeText(gameActivity, result.toString(), Toast.LENGTH_SHORT).show();
 		}
 	}
 

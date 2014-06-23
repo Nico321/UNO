@@ -1,11 +1,10 @@
 package de.uno.android.tasks;
 
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 
 import android.util.Log;
-import de.android.uno.R;
 import de.uno.android.GameActivity;
-import de.uno.android.GameApplication.PlayerPositions;
 import de.uno.android.util.objectSerializer;
 import de.uno.android.views.PlayerCardView;
 import de.uno.player.Player;
@@ -23,7 +22,7 @@ public class GetGameStatusTask extends GetDataFromServerTask<Player, Void, HashM
 			String playerString = objectSerializer.serialize(gameApp.getLocalPlayer());
 			gameStatus = (HashMap<String, Integer>) objectSerializer.deserialize(gameApp.getGameStub().getGameStatus(playerString));
 		} catch (Exception e) {
-			Log.d(TAG, e.getMessage().toString());
+			
 		}
 		return gameStatus;
 	}
@@ -43,24 +42,11 @@ public class GetGameStatusTask extends GetDataFromServerTask<Player, Void, HashM
 			gameApp.setGameStatus(result);
 			//Zeichnen der Karten der anderen Mitspieler
 			for (String player: gameApp.getGameStatus().keySet()) {
-				PlayerCardView playerCardView = (PlayerCardView) gameActivity.findViewById(getPlayerView(player));
+				PlayerCardView playerCardView = (PlayerCardView) gameActivity.findViewById(gameApp.getPlayerView(player));
 				playerCardView.setAmountCards(gameApp.getGameStatus().get(player));
 			}
 		}
 	}
 	
-	
-	private int getPlayerView(String playerName){
-		if(gameApp.getPlayerPosition(playerName).equals(PlayerPositions.LEFT.toString())){
-			return R.id.left;
-		}
-		if(gameApp.getPlayerPosition(playerName).equals(PlayerPositions.TOP.toString())){
-			return R.id.top;
-		}
-		if(gameApp.getPlayerPosition(playerName).equals(PlayerPositions.RIGHT.toString())){
-			return R.id.right;
-		}
-		return 0;
-	}
 	
 }

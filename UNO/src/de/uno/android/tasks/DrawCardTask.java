@@ -61,15 +61,7 @@ public class DrawCardTask extends GetDataFromServerTask<Integer, String, LinkedL
 		}
 		CardImageButton lastCard = (CardImageButton) cardScrollViewLayout.getChildAt(cardScrollViewLayout.getChildCount()-1);
 		lastCard.alterMargin(0, 0, 0, 0);
-		
-		String toastText = " card";
-		if(result.size() > 1){
-			toastText = " cards";
-		}
-		//Ausgabe dass eine Karte gezogen wurde damit der User ein Feedback erhält
-		Toast.makeText(gameActivity, "You drawed " + result.size() + toastText , Toast.LENGTH_LONG).show();
-		gameActivity.findViewById(R.id.cardScrollView).setClickable(true);
-		
+
 		//UnoButton deaktivieren
 		ImageButton unoButton = (ImageButton) gameActivity.findViewById(R.id.unoButton);
 		unoButton.setClickable(false);

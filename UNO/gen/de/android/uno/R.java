@@ -44,6 +44,8 @@ containing a value of this type.
         public static final int exampleString=0x7f010000;
     }
     public static final class color {
+        public static final int lightgreen=0x7f070001;
+        public static final int lightred=0x7f070002;
         public static final int white=0x7f070000;
     }
     public static final class dimen {
@@ -118,7 +120,10 @@ containing a value of this type.
         public static final int rot_plus2=0x7f020039;
         public static final int rot_richtungswechsel=0x7f02003a;
         public static final int rueckseite=0x7f02003b;
-        public static final int wooden_table_background_1=0x7f02003c;
+        public static final int unobutton_pressed=0x7f02003c;
+        public static final int unobutton_selector=0x7f02003d;
+        public static final int unobutton_unpressed=0x7f02003e;
+        public static final int wooden_table_background_1=0x7f02003f;
     }
     public static final class id {
         public static final int action_settings=0x7f09000d;

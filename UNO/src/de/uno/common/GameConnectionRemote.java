@@ -24,4 +24,5 @@ public interface GameConnectionRemote {
 	public boolean isGameFinished(String player);
 	public boolean leaveGame(String player);
 	public String getWinners(String playerString);
+	public String getDisconnectedPlayers(String playerString);
 }
